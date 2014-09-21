@@ -4,144 +4,68 @@
 \alias{Tags}
 \title{Tags}
 \description{
-\code{Tags} are attributes of an artifact, i.e., a class, a name, names of artifact's parts, etc..
-The list of artifact tags vary across artifact's classes.
-To learn more about artifacts visit \link[archivist]{archivist-package}.
+\code{Tags} are attributes of an artifact, i.e., a class, a
+name, names of artifact's parts, etc.. The list of artifact
+tags vary across artifact's classes. To learn more about
+artifacts visit \link[archivist]{archivist-package}.
 }
 \details{
-\code{Tags} are attributes of an artifact. \code{Tags} can be an artifact's \code{name}, \code{class} or \code{archiving date}.
-Furthermore, for various artifact's classes more different \code{Tags} are available and can
-be searched by \link{searchInLocalRepo} or \link{searchInGithubRepo} functions.
+\code{Tags} are attributes of an artifact. \code{Tags} can
+be an artifact's \code{name}, \code{class} or
+\code{archiving date}. Furthermore, for various artifact's
+classes more different \code{Tags} are available and can be
+searched by \link{searchInLocalRepo} or
+\link{searchInGithubRepo} functions.
 
-\code{Tags} are stored in the \link{Repository}. If data is extracted from artifact a special \code{Tag}
-named \code{relationWith} is created, and specifies with which artifact this data is related to.
+\code{Tags} are stored in the \link{Repository}. If data is
+extracted from artifact a special \code{Tag} named
+\code{relationWith} is created, and specifies with which
+artifact this data is related to.
 
-So far supported artifact list is presented below. Objects are divided thematically.
-The newest list is also available on \pkg{archivist} \code{wiki} on
+So far supported artifact list is presented below. Objects
+are divided thematically. The newest list is also available
+on \pkg{archivist} \code{wiki} on
 \href{https://github.com/pbiecek/archivist/wiki/archivist-package---Tags}{{Github}}.
 
 Regression Models
 
-\describe{
-  \item{\code{lm}}{
-  \itemize{
-     \item coefname
-     \item class
-     \item name
-     \item date
-  }
-  }
-  \item{\code{glmnet}}{
-  \itemize{
-     \item date
-     \item name
-     \item class
-  }
-  }
-  \item{\code{survfit}}{
-  \itemize{
-     \item date
-     \item name
-     \item class
-     \item strata
-     \item type
-  }
-  }
-}
-Plots
+\describe{ \item{\code{lm}}{ \itemize{ \item coefname \item
+class \item name \item date } } \item{\code{glmnet}}{
+\itemize{ \item date \item name \item class } }
+\item{\code{survfit}}{ \itemize{ \item date \item name
+\item class \item strata \item type } } } Plots
 
-\describe{
-  \item{\code{ggplot}}{
-  \itemize{
-     \item name
-     \item class
-     \item date
-     \item labelx
-     \item labely
-  }
-  }
-  \item{\code{trellis}}{
-  \itemize{
-     \item date
-     \item name
-     \item class
-  }
-  }
-}
-Results of Agglomeration Methods
+\describe{ \item{\code{ggplot}}{ \itemize{ \item name \item
+class \item date \item labelx \item labely } }
+\item{\code{trellis}}{ \itemize{ \item date \item name
+\item class } } } Results of Agglomeration Methods
 
-\describe{
-\item{\code{twins which is a result of agnes, diana or mona functions}}{
-  \itemize{
-     \item date
-     \item name
-     \item class
-     \item ac
-  }
-  }
-  \item{\code{partition which is a result of pam, clara or fanny functions}}{
-  \itemize{
-     \item date
-     \item name
-     \item class
-     \item objective
-  }
-  }
-  \item{\code{lda}}{
-  \itemize{
-     \item date
-     \item name
-     \item class
-  }
-  }
-  \item{\code{qda}}{
-  \itemize{
-     \item date
-     \item name
-     \item class
-     \item terms
-  }
-  }
-}
-Statistical Tests
+\describe{ \item{\code{twins which is a result of agnes,
+diana or mona functions}}{ \itemize{ \item date \item name
+\item class \item ac } } \item{\code{partition which is a
+result of pam, clara or fanny functions}}{ \itemize{ \item
+date \item name \item class \item objective } }
+\item{\code{lda}}{ \itemize{ \item date \item name \item
+class } } \item{\code{qda}}{ \itemize{ \item date \item
+name \item class \item terms } } } Statistical Tests
 
-\describe{
-  \item{\code{htest}}{
-  \itemize{
-     \item alternative
-     \item method
-     \item date
-     \item name
-     \item class
-  }
-  }
-}
+\describe{ \item{\code{htest}}{ \itemize{ \item alternative
+\item method \item date \item name \item class } } }
 
-When non of above is specified, tags are corresponded by default
+When non of above is specified, tags are corresponded by
+default
 
-\describe{
-  \item{\code{default}}{
-  \itemize{
-     \item name
-     \item class
-     \item date
-  }
-  }
-  \item{\code{data.frame}}{
-  \itemize{
-     \item name
-     \item class
-     \item date
-     \item varname
-  }
-  }
-  }
+\describe{ \item{\code{default}}{ \itemize{ \item name
+\item class \item date } } \item{\code{data.frame}}{
+\itemize{ \item name \item class \item date \item varname }
+} }
 }
 \note{
-One can specify his own \code{Tags} for artifacts by setting artifact's attribute
-before call of the \code{saveToRepo} function like this:
-\code{attr(x, "tags" ) = c( "name1", "name2" )}, where \code{x} is artifact
-and \code{name1, name2} are \code{Tags} specified by an user.
+One can specify his own \code{Tags} for artifacts by
+setting artifact's attribute before call of the
+\code{saveToRepo} function like this: \code{attr(x, "tags"
+) = c( "name1", "name2" )}, where \code{x} is artifact and
+\code{name1, name2} are \code{Tags} specified by an user.
 }
 \examples{
 # examples
@@ -241,7 +165,7 @@ deleteRepo( exampleRepoDir )
 
 # trellis object
 require(stats)
-
+library( lattice)
 ## Tonga Trench Earthquakes
 
 Depth <- equal.count(quakes$depth, number=8, overlap=.1)
@@ -284,7 +208,7 @@ showLocalRepo( exampleRepoDir, "tags" )
 deleteRepo( exampleRepoDir )
 
 # survfit object
-
+library( survival )
 # Create the simplest test data set
 test1 <- list(time=c(4,3,1,1,2,2,3),
               status=c(1,1,1,0,1,1,0),
@@ -298,29 +222,49 @@ saveToRepo( myFit , repoDir=exampleRepoDir )
 showLocalRepo( exampleRepoDir, "tags" )[,-3]
 deleteRepo( exampleRepoDir )
 
+# origin of the artifacts stored as a name - chaining code
+library(dplyr)
+exampleRepoDir <- tempdir()
+createEmptyRepo( repoDir = exampleRepoDir )
+data("hflights", package = "hflights")
+hflights \%>\%
+  group_by(Year, Month, DayofMonth) \%>\%
+  select(Year:DayofMonth, ArrDelay, DepDelay) \%>\%
+  saveToRepo( exampleRepoDir, chain = TRUE ) \%>\%
+  # here the artifact is stored but chaining is not finished
+  summarise(
+    arr = mean(ArrDelay, na.rm = TRUE),
+    dep = mean(DepDelay, na.rm = TRUE)
+  ) \%>\%
+  filter(arr > 30 | dep > 30) \%>\%
+  saveToRepo( exampleRepoDir )
+  # chaining code is finished and after last operation the
+  # artifact is stored
+showLocalRepo( exampleRepoDir, "tags" )[,-3]
+showLocalRepo( exampleRepoDir )
+deleteRepo( exampleRepoDir )
+
 rm( exampleRepoDir )
 }
 }
 \seealso{
-Functions using \code{Tags} are:
- \itemize{
-   \item \link{searchInLocalRepo},
-   \item \link{searchInGithubRepo}.
- }
+Functions using \code{Tags} are: \itemize{ \item
+\link{searchInLocalRepo}, \item \link{searchInGithubRepo}.
+}
 
 Other archivist: \code{\link{Repository}};
-  \code{\link{archivist-package}};
-  \code{\link{copyGithubRepo}},
-  \code{\link{copyLocalRepo}};
-  \code{\link{createEmptyRepo}}; \code{\link{deleteRepo}};
-  \code{\link{loadFromGithubRepo}},
-  \code{\link{loadFromLocalRepo}}; \code{\link{md5hash}};
-  \code{\link{rmFromRepo}}; \code{\link{saveToRepo}};
-  \code{\link{searchInGithubRepo}},
-  \code{\link{searchInLocalRepo}};
-  \code{\link{showGithubRepo}},
-  \code{\link{showLocalRepo}};
-  \code{\link{summaryGithubRepo}},
-  \code{\link{summaryLocalRepo}}
+\code{\link{archivist-package}};
+\code{\link{copyGithubRepo}}, \code{\link{copyLocalRepo}};
+\code{\link{createEmptyRepo}}; \code{\link{deleteRepo}};
+\code{\link{getTagsGithub}}, \code{\link{getTagsLocal}};
+\code{\link{loadFromGithubRepo}},
+\code{\link{loadFromLocalRepo}}; \code{\link{md5hash}};
+\code{\link{rmFromRepo}}; \code{\link{saveToRepo}};
+\code{\link{searchInGithubRepo}},
+\code{\link{searchInLocalRepo}};
+\code{\link{showGithubRepo}}, \code{\link{showLocalRepo}};
+\code{\link{summaryGithubRepo}},
+\code{\link{summaryLocalRepo}};
+\code{\link{tarGithubRepo}}, \code{\link{tarLocalRepo}}
 }
 

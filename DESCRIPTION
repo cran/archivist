@@ -1,5 +1,5 @@
 Package: archivist
-Version: 1.0
+Version: 1.1
 Type: Package
 Title: Tools for storing, restoring and searching for R objects
 Authors@R: c(
@@ -28,9 +28,9 @@ LazyData: yes
 Depends: R (>= 3.0.0), RSQLite, DBI, lubridate, jsonlite
 Imports: RCurl, digest, httr
 BugReports: https://github.com/pbiecek/archivist/issues
-Packaged: 2014-08-30 18:30:21 UTC; pbiecek
+Packaged: 2014-09-21 02:55:31 UTC; pbiecek
 Author: Przemyslaw Biecek [aut, cre],
   Marcin Kosinski [aut]
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
 NeedsCompilation: no
-Date/Publication: 2014-08-30 23:00:41
+Date/Publication: 2014-09-21 07:43:45
