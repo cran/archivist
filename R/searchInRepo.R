@@ -28,6 +28,12 @@
 #' length 2 with \code{dataFrom} and \code{dataTo}; see details. If \code{fixed = FALSE}: A regular expression 
 #' specifying the beginning of a \link{Tags}, which will be used to search artifacts for.
 #' 
+#' @param patterns A vector of queries to repository. If \code{intersect = TRUE} only artifacts that 
+#' match all conditions are returned. If \code{intersect = FALSE} then artifacts that match any contition
+#' are returned.
+#' 
+#' @param intersect A logical value. See \code{patterns} for more details.
+#' 
 #' @param repoDir A character denoting an existing directory in which artifacts will be searched.
 #' 
 #' @param repo Only if working with a Github repository. A character containing a name of a Github repository on which the Repository is archived.
@@ -236,3 +242,32 @@ searchInGithubRepo <- function( pattern, repo, user, branch = "master", repoDirG
   file.remove( Temp )
   return( as.character( md5hashES[, 1] ) ) 
 }
+
+#' @rdname searchInRepo
+#' @export
+multiSearchInLocalRepo <- function( patterns, repoDir, fixed = TRUE, intersect = TRUE, realDBname = TRUE ){
+  stopifnot( is.logical( intersect ) )      
+             
+  md5hs <- lapply(patterns, function(pattern) unique(searchInLocalRepo(pattern, repoDir=repoDir, fixed=fixed, realDBname = realDBname) ))
+  if (intersect) {
+    return(names(which(table(unlist(md5hs)) == length(md5hs))))
+  } 
+  # union
+  unique(unlist(md5hs))
+}
+
+
+
+#' @rdname searchInRepo
+#' @export
+multiSearchInGithubRepo <- function( patterns, repo, user, branch = "master", repoDirGit = FALSE, 
+                                     fixed = TRUE, intersect = TRUE ){
+  stopifnot( is.logical(  intersect ) )
+
+  
+  Temp <- downloadDB( repo, user, branch, repoDirGit )
+  m <- multiSearchInLocalRepo( patterns, repoDir = Temp, fixed=fixed, intersect=intersect, realDBname = FALSE)
+  file.remove( Temp )
+  return( m )
+}
+
