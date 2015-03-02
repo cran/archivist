@@ -14,7 +14,7 @@
 #' of an artifact.
 #'
 #' @param repoDir A character denoting an existing directory in 
-#' which an artifact is stored.
+#' which an artifact is stored. If set to \code{NULL} (by default), uses the \code{repoDir} specified in \link{setLocalRepo}.
 #' 
 #' @param md5hash A character containing \code{md5hash} 
 #' of artifacts which \code{Tag} is desired to be returned.
@@ -22,15 +22,19 @@
 #' @param tag A type of a \link{Tags}. Default \code{tag = "name"}.
 #' 
 #' @param repo Only if working with a Github repository. A character containing a name of a Github repository on which the Repository is archived.
-#' 
+#' By default set to \code{NULL} - see \code{Note}.
 #' @param user Only if working with a Github repository. A character containing a name of a Github user on whose account the \code{repo} is created.
-#' 
+#' By default set to \code{NULL} - see \code{Note}.
 #' @param branch Only if working with a Github repository. A character containing a name of 
 #' Github repository's branch in which Repository is archived. Default \code{branch} is \code{master}.
 #'
 #' @param repoDirGit Only if working with a Github repository. A character containing a name of a directory on Github repository 
 #' on which the Repository is stored. If the Repository is stored in main folder on Github repository, this should be set 
 #' to \code{repoDirGit = FALSE} as default.
+#' 
+#' @note
+#' If \code{repo} and \code{user} are set to \code{NULL} (as default) in Github mode then global parameters
+#' set in \link{setGithubRepo} function are used.
 #' 
 #' @author 
 #' Marcin Kosinski, \email{m.p.kosinski@@gmail.com}
@@ -67,9 +71,11 @@
 #' @family archivist
 #' @rdname getTags
 #' @export
-getTagsLocal <- function( md5hash, repoDir, tag ="name"){
-  stopifnot( is.character( c( md5hash, repoDir, tag ) ) )
-  repoDir <- checkDirectory( repoDir )  
+getTagsLocal <- function( md5hash, repoDir = NULL, tag ="name"){
+  stopifnot( is.character( c( md5hash, tag ) ) )
+  stopifnot( is.character( repoDir ) | is.null( repoDir ) )
+  repoDir <- checkDirectory( repoDir ) 
+  
 
   # sub( pattern = paste0(tag, ":"), replacement = "", x = tagToReturn)
   # there are so many kind of tags (proposed by archivist or by an user)
@@ -80,15 +86,12 @@ getTagsLocal <- function( md5hash, repoDir, tag ="name"){
 #' @family archivist
 #' @rdname getTags
 #' @export
-getTagsGithub <- function( md5hash, user, repo, branch = "master", repoDirGit = FALSE,
+getTagsGithub <- function( md5hash, user = NULL, repo = NULL, branch = "master", repoDirGit = FALSE,
                            tag ="name"){
-  stopifnot( is.character( c( md5hash, user, repo, branch, tag ) ) )
-  stopifnot( is.logical( repoDirGit ) | is.character( repoDirGit ) )
-  if( is.logical( repoDirGit ) ){
-    if ( repoDirGit ){
-      stop( "repoDirGit may be only FALSE or a character. See documentation." )
-    }
-  } 
+  stopifnot( is.character( c( md5hash, branch, tag ) ) )
+
+  GithubCheck( repo, user, repoDirGit ) # implemented in setRepo.R
+  
   # first download database
   Temp <- downloadDB( repo, user, branch, repoDirGit )
   returnTag( md5hash, repoDir = Temp, local = FALSE, tag = tag )
