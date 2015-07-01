@@ -107,6 +107,8 @@
 #' 
 #' @param archiveMiniature A logical value denoting whether to archive a miniature of the \code{artifact}.
 #' 
+#' @param userTags A character vector with tags. These tags will be added to the repository along the artifact.
+#' 
 #' @param repoDir A character denoting an existing directory in which an artifact will be saved.
 #' If set to \code{NULL} (by default), uses the \code{repoDir} specified in \link{setLocalRepo}.
 #' 
@@ -229,16 +231,16 @@
 #' library(dplyr)
 #' 
 #' data("hflights", package = "hflights")
-#' hflights %>%
-#'   group_by(Year, Month, DayofMonth) %>%
-#'   select(Year:DayofMonth, ArrDelay, DepDelay) %>%
-#'   saveToRepo( exampleRepoDir, chain = TRUE ) %>%
+#' hflights %a%
+#'   group_by(Year, Month, DayofMonth) %a%
+#'   select(Year:DayofMonth, ArrDelay, DepDelay) %a%
+#'   saveToRepo( exampleRepoDir, chain = TRUE ) %a%
 #'   # here the artifact is stored but chaining is not finished
 #'   summarise(
 #'     arr = mean(ArrDelay, na.rm = TRUE),
 #'     dep = mean(DepDelay, na.rm = TRUE)
-#'   ) %>%
-#'   filter(arr > 30 | dep > 30) %>%
+#'   ) %a%
+#'   filter(arr > 30 | dep > 30) %a%
 #'   saveToRepo( exampleRepoDir )
 #'   # chaining code is finished and after last operation the 
 #'   # artifact is stored
@@ -255,7 +257,7 @@
 saveToRepo <- function( artifact, repoDir = NULL, archiveData = TRUE, 
                         archiveTags = TRUE, 
                         archiveMiniature = TRUE, force = TRUE, rememberName = TRUE, 
-                        chain = FALSE, ... , silent=FALSE, ascii = TRUE){
+                        chain = FALSE, ... , userTags = c(), silent=FALSE, ascii = FALSE){
   stopifnot( is.logical( c( archiveData, archiveTags, archiveMiniature, 
                                                      chain, rememberName ) ) )
   stopifnot( is.character( repoDir ) | is.null( repoDir ) )
@@ -270,11 +272,11 @@ saveToRepo <- function( artifact, repoDir = NULL, archiveData = TRUE,
                     paste0( "SELECT * from artifact WHERE md5hash ='", md5hash, "'") )[,1] 
   
   if ( length( check ) > 0 & !force ){
-    stop( "This artifact was already archived. If you want to achive it again, use force = TRUE. \n")
+    stop( paste0("Artifact ",md5hash," was already archived. If you want to achive it again, use force = TRUE. \n"))
   } 
   if ( length( check ) > 0 & force & !silent){
     if ( rememberName ){
-      warning( "This artifact was already archived. Another archivisation executed with success.")
+      warning( paste0("Artifact ",md5hash," was already archived. Another archivisation executed with success."))
     }else{
       warning( "This artifact's data was already archived. Another archivisation executed with success.")
     }
@@ -306,8 +308,12 @@ saveToRepo <- function( artifact, repoDir = NULL, archiveData = TRUE,
   # whether to add tags
   if ( archiveTags ) {
     extractedTags <- extractTags( artifact, objectNameX = objectName )
-    userTags <- attr( artifact, "tags" ) 
-    sapply( c( extractedTags, userTags ), addTag, md5hash = md5hash, dir = repoDir )
+    # remove name from tags
+    if (!rememberName) {
+      extractedTags <- extractedTags[!grepl(extractedTags, pattern="^name:")]
+    }
+    derivedTags <- attr( artifact, "tags" ) 
+    sapply( c( extractedTags, userTags, derivedTags), addTag, md5hash = md5hash, dir = repoDir )
     # attr( artifact, "tags" ) are tags specified by an user
   }
   
