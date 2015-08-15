@@ -7,7 +7,7 @@
 saveToRepo(artifact, repoDir = NULL, archiveData = TRUE,
   archiveTags = TRUE, archiveMiniature = TRUE, force = TRUE,
   rememberName = TRUE, chain = FALSE, ..., userTags = c(),
-  silent = FALSE, ascii = FALSE)
+  silent = aoptions("silent"), ascii = FALSE)
 }
 \arguments{
 \item{artifact}{An arbitrary R artifact to be saved. For supported artifacts see details.}
@@ -262,7 +262,7 @@ The list of supported artifacts and their tags is available on \code{wiki} on \p
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
   \code{\link{addTagsRepo}}; \code{\link{ahistory}},
-  \code{\link{print.ahistory}};
+  \code{\link{print.ahistory}}; \code{\link{aoptions}};
   \code{\link{archivist-package}}; \code{\link{aread}};
   \code{\link{asearch}}; \code{\link{cache}};
   \code{\link{copyGithubRepo}},

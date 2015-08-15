@@ -4,13 +4,15 @@
 \alias{createEmptyRepo}
 \title{Create an Empty Repository in a Given Directory}
 \usage{
-createEmptyRepo(repoDir, force = TRUE)
+createEmptyRepo(repoDir, force = TRUE, default = FALSE)
 }
 \arguments{
 \item{repoDir}{A character that specifies the directory for the Repository to be made.}
 
 \item{force}{If \code{force = TRUE} function call forces to create \code{repoDir} directory if
 it did not exist. Default set to \code{force = TRUE}.}
+
+\item{default}{If \code{default = TRUE} then \code{repoDir} is set as default local repository.}
 }
 \description{
 \code{createEmptyRepo} creates an empty \link{Repository} in a given directory in which archived artifacts will be stored.
@@ -67,7 +69,7 @@ Marcin Kosinski, \email{m.p.kosinski@gmail.com}
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
   \code{\link{addTagsRepo}}; \code{\link{ahistory}},
-  \code{\link{print.ahistory}};
+  \code{\link{print.ahistory}}; \code{\link{aoptions}};
   \code{\link{archivist-package}}; \code{\link{aread}};
   \code{\link{asearch}}; \code{\link{cache}};
   \code{\link{copyGithubRepo}},
