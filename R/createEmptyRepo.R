@@ -55,8 +55,8 @@
 #' 
 #' # removing an example Repositories
 #' 
-#' deleteRepo( exampleRepoDir )
-#' deleteRepo( "xyzdd234" )
+#' deleteRepo( exampleRepoDir, TRUE)
+#' deleteRepo( "xyzdd234", TRUE)
 #' 
 #' rm( exampleRepoDir )
 #' }
@@ -156,7 +156,7 @@ downloadDB <- function( repo, user, branch, repoDirGit ){
    }else{
      URLdb <- paste0( get( ".GithubURL", envir = .ArchivistEnv) , user, "/", repo, "/", branch, "/", repoDirGit, "/backpack.db") 
    }
-   db <- getBinaryURL( URLdb, ssl.verifypeer = FALSE )
+   db <- getBinaryURL( URLdb )
    Temp2 <- tempfile()
    file.create( Temp2 )
    writeBin( db, Temp2 )
@@ -166,11 +166,11 @@ downloadDB <- function( repo, user, branch, repoDirGit ){
 checkDirectory <- function( directory ){
   # check if global repository was specified by setLocalRepo
   if ( is.null(directory) ){
-    
-    directory <- get(  ".repoDir", envir = .ArchivistEnv )    
+
+    directory <- aoptions("repoDir")
+
   }else{
-  
-  
+
   # check if repoDir has "/" at the end and add it if not
     if ( !grepl("/$", x = directory , perl=TRUE) ){
     directory <- paste0(  directory, "/"  )

@@ -56,8 +56,8 @@ createEmptyRepo( "xyzdd234", force = TRUE )
 
 # removing an example Repositories
 
-deleteRepo( exampleRepoDir )
-deleteRepo( "xyzdd234" )
+deleteRepo( exampleRepoDir, TRUE)
+deleteRepo( "xyzdd234", TRUE)
 
 rm( exampleRepoDir )
 }
@@ -81,9 +81,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{multiSearchInLocalRepo}},
   \code{\link{searchInGithubRepo}},
   \code{\link{searchInLocalRepo}};
-  \code{\link{rmFromRepo}}; \code{\link{saveSetToRepo}};
-  \code{\link{saveToRepo}}; \code{\link{setGithubRepo}},
-  \code{\link{setLocalRepo}};
+  \code{\link{rmFromRepo}}; \code{\link{saveToRepo}};
+  \code{\link{setGithubRepo}}, \code{\link{setLocalRepo}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};

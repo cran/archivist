@@ -46,7 +46,7 @@
 #' \dontrun{
 #'
 #' 
-#' # creating example Repository - that examples will work
+#' # creating example Repository 
 #' 
 #' exampleRepoDir <- tempdir()
 #' hashes <- searchInGithubRepo( pattern="name", user="pbiecek", repo="archivist", fixed=FALSE )
@@ -68,7 +68,7 @@
 #' copyGithubRepo(repoTo = dir , md5hashes = "ff575c261c949d073b2895b05d1097c3",
 #'               user="MarcinKosinski", repo="Museum", 
 #'               branch="master", repoDirGit="ex2")
-#' deleteRepo( dir )
+#' deleteRepo( dir, TRUE)
 #' 
 #' }
 #' 
@@ -182,7 +182,7 @@ cloneGithubFile <- function( file, repo, user, branch, to, repoDirGit ){
       file <- paste0( "gallery/", strsplit(file, "gallery/")[[1]][2] )
     }
     
-    fileFromGithub <- getBinaryURL( URLfile, ssl.verifypeer = FALSE )
+    fileFromGithub <- getBinaryURL( URLfile )
     
     file.create( paste0( to, file ) )
     writeBin( fileFromGithub, paste0( to, file ) )

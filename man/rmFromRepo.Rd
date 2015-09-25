@@ -203,7 +203,7 @@ summaryLocalRepo( repoDir = exampleRepoDir )
 
 # removing an example Repository
 
-deleteRepo( exampleRepoDir )
+deleteRepo( exampleRepoDir, TRUE)
 
 
 ######
@@ -295,8 +295,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{multiSearchInLocalRepo}},
   \code{\link{searchInGithubRepo}},
   \code{\link{searchInLocalRepo}};
-  \code{\link{saveSetToRepo}}; \code{\link{saveToRepo}};
-  \code{\link{setGithubRepo}}, \code{\link{setLocalRepo}};
+  \code{\link{saveToRepo}}; \code{\link{setGithubRepo}},
+  \code{\link{setLocalRepo}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};

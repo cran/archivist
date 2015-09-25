@@ -4,10 +4,12 @@
 \alias{deleteRepo}
 \title{Delete an Existing Repository from Given Directory}
 \usage{
-deleteRepo(repoDir)
+deleteRepo(repoDir, deleteRoot = FALSE)
 }
 \arguments{
 \item{repoDir}{A character that specifies the directory for the Repository to be deleted.}
+
+\item{deleteRoot}{A logical value that specifies if the repository root directory shall be deleted.}
 }
 \description{
 \code{deleteRepo} deletes an existing \link{Repository} from a given directory, so all artifacts from \code{gallery} folder are
@@ -95,11 +97,11 @@ showLocalRepo( method = "tags", repoDir = exampleRepoDir )
 
 # let's get information about that Repository
 
-summaryLocalRepo( repodir = exampleRepoDir )
+summaryLocalRepo( repoDir = exampleRepoDir )
 
 # now let's delete the Repository
 
-delete( repoDir = exampleRepoDir )
+deleteRepo( repoDir = exampleRepoDir)
 
 rm( exampleRepoDir )
 }
@@ -124,9 +126,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{multiSearchInLocalRepo}},
   \code{\link{searchInGithubRepo}},
   \code{\link{searchInLocalRepo}};
-  \code{\link{rmFromRepo}}; \code{\link{saveSetToRepo}};
-  \code{\link{saveToRepo}}; \code{\link{setGithubRepo}},
-  \code{\link{setLocalRepo}};
+  \code{\link{rmFromRepo}}; \code{\link{saveToRepo}};
+  \code{\link{setGithubRepo}}, \code{\link{setLocalRepo}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};

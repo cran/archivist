@@ -53,7 +53,7 @@ set in \link{setGithubRepo} function are used.
 \dontrun{
 
 
-# creating example Repository - that examples will work
+# creating example Repository
 
 exampleRepoDir <- tempdir()
 hashes <- searchInGithubRepo( pattern="name", user="pbiecek", repo="archivist", fixed=FALSE )
@@ -75,7 +75,7 @@ createEmptyRepo( dir )
 copyGithubRepo(repoTo = dir , md5hashes = "ff575c261c949d073b2895b05d1097c3",
               user="MarcinKosinski", repo="Museum",
               branch="master", repoDirGit="ex2")
-deleteRepo( dir )
+deleteRepo( dir, TRUE)
 
 }
 }
@@ -97,9 +97,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{multiSearchInLocalRepo}},
   \code{\link{searchInGithubRepo}},
   \code{\link{searchInLocalRepo}};
-  \code{\link{rmFromRepo}}; \code{\link{saveSetToRepo}};
-  \code{\link{saveToRepo}}; \code{\link{setGithubRepo}},
-  \code{\link{setLocalRepo}};
+  \code{\link{rmFromRepo}}; \code{\link{saveToRepo}};
+  \code{\link{setGithubRepo}}, \code{\link{setLocalRepo}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};

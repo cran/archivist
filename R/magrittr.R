@@ -1,7 +1,7 @@
 ##    code copied from http://cran.r-project.org/web/packages/magrittr/
 ##    package binaries - version 1.0.1
 ##
-#' @title magrittr - a forward-pipe operator for R
+#' @title magrittr - a Forward-Pipe Operator for R
 #'
 #' @description
 #' An extended pipe operator \link[magrittr]{\%>\%} from magrittr package version 1.0.1.
@@ -111,7 +111,7 @@
     }
     # here saveToRepo res
     # if no local repository is set then rise a warning
-    if (!exists( ".repoDir", envir = .ArchivistEnv )) {
+    if (!exists( "repoDir", envir = .ArchivistEnv )) {
       warning("Default local repo is not set. Resuts are not archivised.")
     } else {
       # for the output save both RHS as an object
