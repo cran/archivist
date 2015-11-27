@@ -29,7 +29,7 @@ It may be useful for objects that can be changed externally (like queries to dat
 \details{
 \code{cache} function stores all results of function calls in local \link{Repository}
 specified by the \code{cacheRepo} argument.
-The md5 hash of \code{FUN} and it's arguments is added as an tag to the repository.
+The md5 hash of \code{FUN} and it's arguments is added as an Tag to the repository.
 Note that cache is a good solution if objects are not that big but calculations are time consuming.
 If objects are big and calculations are easy, then disk input-output operations may take more time
 than calculations itself.
@@ -37,7 +37,8 @@ than calculations itself.
 \examples{
 # objects preparation
 \dontrun{
-cacheRepo <- tempdir()
+library(lubridate)
+cacheRepo <- tempfile()
 createEmptyRepo( cacheRepo )
 fun <- function(n) {replicate(n, summary(lm(Sepal.Length~Species, iris))$r.squared)}
 system.time( res <- cache(cacheRepo, fun, 1000) )
@@ -66,11 +67,16 @@ For more detailed information check the \pkg{archivist} package
 
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
-  \code{\link{addTagsRepo}}; \code{\link{ahistory}},
-  \code{\link{print.ahistory}}; \code{\link{aoptions}};
-  \code{\link{archivist-package}}; \code{\link{aread}};
-  \code{\link{asearch}}; \code{\link{copyGithubRepo}},
+  \code{\link{addTagsRepo}}; \code{\link{agithub}},
+  \code{\link{archivist-github-integration}};
+  \code{\link{ahistory}}; \code{\link{aoptions}};
+  \code{\link{archive}}; \code{\link{archivist-package}};
+  \code{\link{aread}}; \code{\link{asearch}};
+  \code{\link{cloneGithubRepo}};
+  \code{\link{copyGithubRepo}},
   \code{\link{copyLocalRepo}};
+  \code{\link{createEmptyGithubRepo}},
+  \code{\link{createEmptyLocalRepo}},
   \code{\link{createEmptyRepo}}; \code{\link{deleteRepo}};
   \code{\link{getTagsGithub}}, \code{\link{getTagsLocal}};
   \code{\link{loadFromGithubRepo}},
@@ -84,6 +90,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};
+  \code{\link{splitTagsGithub}},
+  \code{\link{splitTagsLocal}};
   \code{\link{summaryGithubRepo}},
   \code{\link{summaryLocalRepo}};
   \code{\link{zipGithubRepo}}, \code{\link{zipLocalRepo}}

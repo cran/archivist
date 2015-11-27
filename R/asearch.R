@@ -3,12 +3,12 @@
 #' @title Read Artifacts Given as a List of Tags
 #'
 #' @description
-#' \code{asearch} searches for artifacts that contain all specified Tags 
+#' \code{asearch} searches for artifacts that contain all specified \link{Tags}
 #' and reads all of them from a Github \link{Repository}. It's a wrapper around 
 #' \link{multiSearchInGithubRepo} and \link{loadFromGithubRepo}.
 #' 
 #' @details
-#' Function \code{asearch} reads all artifacts that contain given list of tags
+#' Function \code{asearch} reads all artifacts that contain given list of \code{Tags}
 #' from GitHub Repository.
 #' It uses the function \link{loadFromGithubRepo} and
 #' \link{multiSearchInGithubRepo} but has shorter name and
@@ -20,8 +20,8 @@
 #' 
 #' NULL in this case search will be performed in the default repo.
 #' 
-#' @param patterns  A character vector of tags. Only artifacts that 
-#' contain all tags are returned.  
+#' @param patterns  A character vector of \code{Tags}. Only artifacts that 
+#' contain all Tags are returned.  
 #' 
 #' @return This function returns list of artifacts (by value).
 #' 
@@ -30,16 +30,18 @@
 #' 
 #' @examples
 #' \dontrun{
-#' # read the object
 #' asearch("pbiecek/graphGallery", 
-#'            patterns = list("class:lm", 
-#'                 "varname:Species")))
+#'         patterns = c("class:lm"))
+#' 
+#' asearch("pbiecek/graphGallery", 
+#'         patterns = c("class:gg",
+#'                      "labelx:Sepal.Length"))
 #' }
 #' @family archivist
 #' @rdname asearch
 #' @export
 asearch <- function( patterns, repo = NULL){
-  stopifnot( is.character( repo ) | is.null(repo) )
+  stopifnot( (is.character( repo ) & length( repo ) == 1) | is.null( repo ) )
   stopifnot( is.character( patterns ) )
 
   res <- list()

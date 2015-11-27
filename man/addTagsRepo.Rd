@@ -7,18 +7,22 @@
 addTagsRepo(md5hashes, repoDir = NULL, FUN = NULL, tags = NULL, ...)
 }
 \arguments{
-\item{md5hashes}{To which corresponding artifacts should \code{Tags} be added.}
+\item{md5hashes}{a character vector of \code{md5hashes} specifying to which
+corresponding artifacts new \code{Tags} should be added. See \code{Note}
+to get to know about the length of \code{tags} and \code{md5hashes} parameters.}
 
-\item{repoDir}{A character that specifies the directory of the Repository into which
-new \code{Tags} will be added. If set to \code{NULL} (by default), uses the \code{repoDir} specified in \link{setLocalRepo}.}
+\item{repoDir}{A character that specifies the directory of the Repository to which
+new \code{Tags} will be added. If it is set to \code{NULL} (by default),
+it uses the \code{repoDir} specified in \link{setLocalRepo}.}
 
-\item{FUN}{A function that evaluates on the artifacts for which \code{md5hashes} are given and generates
-\code{Tags} as a result that will be added to the local Repository. Can be specified only one of: \code{FUN}
-or \code{tags}.}
+\item{FUN}{A function which is evaluated on the artifacts for which \code{md5hashes}
+are given. The result of this function evaluation are \code{Tags} which will
+be added to the local Repository.}
 
-\item{tags}{A character vector that specifies what tag should be added to which artifact that
-corresponds to given \code{md5hash}. Can be specified only one of: \code{FUN}
-or \code{tags}. Should have length 1 or the same as length of \code{md5hashes} param.}
+\item{tags}{A character vector which specifies what kind of Tags should be added to
+artifacts corresponding to given \code{md5hashes}. See \code{Note} to get to know about
+the length of \code{tags} and \code{md5hashes} parameters.
+One can specify either \code{FUN} or \code{tags}.}
 
 \item{...}{Other arguments that will be passed to FUN.}
 }
@@ -26,34 +30,62 @@ or \code{tags}. Should have length 1 or the same as length of \code{md5hashes} p
 \code{addTagsRepo} adds new \link{Tags} to the existing \link{Repository}.
 }
 \details{
-The \code{addTagsRepo} function adds new tags to artifacts that are already stored in repository.
- One can add new \code{tags} explicitly with \code{tags} argument, or by passing a
- function that extracts \code{tags} from selected artifacts specified by passing their \link{md5hash}.
-To learn more about artifacts visit \link[archivist]{archivist-package}.
-
-\code{Tags} are attributes of an artifact. \code{Tags} can be an artifact's \code{name}, \code{class} or \code{archiving date}.
-Furthermore, for various artifact's classes more different \code{Tags} are available and can
-be searched in \link{searchInLocalRepo} or \link{searchInGithubRepo} functions.
+\code{addTagsRepo} function adds new Tags to artifacts that are already stored
+in the repository. One can add new \code{Tags} either explicitly with \code{tags} parameter
+or by passing a function which extracts \code{Tags} from selected artifacts
+corresponding to \code{md5hashes}. To learn more about artifacts visit
+\link[archivist]{archivist-package}.
+}
+\note{
+One should remember that \code{length(tags)} modulo \code{length(md5hashes)}
+must be equal to 0 or \code{length(md5hashes)} modulo \code{length(tags)}
+must be equal to 0.
 }
 \examples{
 \dontrun{
 
-# Takes all objects of lm class from repository,
-# extracts R2 for them and stores as R2: tags
+## We Take all artifacts of lm class from repository,
+## extract R^2 for them and store as R^2:number Tags
 
-exampleRepoDir <- tempdir()
+# Creating empty repository
+exampleRepoDir <- tempfile()
 createEmptyRepo(exampleRepoDir, force=TRUE)
+
+# Saving lm artifacts into repository
 m1 <- lm(Sepal.Length~Species, iris)
 saveToRepo(m1, exampleRepoDir)
-m1 <- lm(Sepal.Width~Species, iris)
-saveToRepo(m1, exampleRepoDir)
+m2 <- lm(Sepal.Width~Species, iris)
+saveToRepo(m2, exampleRepoDir)
+
+# We may see what kind of Tags are related to "m1" artifact corresponding to
+# "9e66edd297c2f291446f3503c01d443a" md5hash
+getTagsLocal("9e66edd297c2f291446f3503c01d443a", exampleRepoDir, "")
+
+# We may see what kind of Tags are related to "m2" artifact corresponding to
+# "da1bcaf68752c146903f700c1a458438" md5hash
 getTagsLocal("da1bcaf68752c146903f700c1a458438", exampleRepoDir, "")
+
+# We Take all objects of lm class from repository
 md5hashes <- searchInLocalRepo(repoDir=exampleRepoDir, "class:lm")
+
+# Adding new tag "test" explicitly
 addTagsRepo(md5hashes, exampleRepoDir, tags = "test")
-addTagsRepo(md5hashes, exampleRepoDir, function(x) paste0("R2:",summary(x)$r.square))
+
+# Adding new tag "R^2: " using FUN parameter
+addTagsRepo(md5hashes, exampleRepoDir, function(x) paste0("R^2:",summary(x)$r.square))
+
+# And now: Tags related to "m1" artifact are
+getTagsLocal("9e66edd297c2f291446f3503c01d443a", exampleRepoDir, "")
+
+# And now: Tags related to "m2" artifact are
 getTagsLocal("da1bcaf68752c146903f700c1a458438", exampleRepoDir, "")
-showLocalRepo(exampleRepoDir)
-deleteRepo(exampleRepoDir)
+
+# One more look at our Repo
+showLocalRepo(exampleRepoDir, method = "tags")
+
+# Deleting example repository
+deleteRepo(exampleRepoDir, deleteRoot=TRUE)
+rm(exampleRepoDir)
 }
 }
 \author{
@@ -63,11 +95,16 @@ Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
 \seealso{
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
-  \code{\link{ahistory}}, \code{\link{print.ahistory}};
-  \code{\link{aoptions}}; \code{\link{archivist-package}};
+  \code{\link{agithub}},
+  \code{\link{archivist-github-integration}};
+  \code{\link{ahistory}}; \code{\link{aoptions}};
+  \code{\link{archive}}; \code{\link{archivist-package}};
   \code{\link{aread}}; \code{\link{asearch}};
-  \code{\link{cache}}; \code{\link{copyGithubRepo}},
+  \code{\link{cache}}; \code{\link{cloneGithubRepo}};
+  \code{\link{copyGithubRepo}},
   \code{\link{copyLocalRepo}};
+  \code{\link{createEmptyGithubRepo}},
+  \code{\link{createEmptyLocalRepo}},
   \code{\link{createEmptyRepo}}; \code{\link{deleteRepo}};
   \code{\link{getTagsGithub}}, \code{\link{getTagsLocal}};
   \code{\link{loadFromGithubRepo}},
@@ -81,6 +118,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};
+  \code{\link{splitTagsGithub}},
+  \code{\link{splitTagsLocal}};
   \code{\link{summaryGithubRepo}},
   \code{\link{summaryLocalRepo}};
   \code{\link{zipGithubRepo}}, \code{\link{zipLocalRepo}}

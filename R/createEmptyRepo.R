@@ -1,47 +1,69 @@
 ##    archivist package for R
 ##
-#' @title Create an Empty Repository in a Given Directory
+#' @title Create an Empty Repository
 #'
 #' @description
-#' \code{createEmptyRepo} creates an empty \link{Repository} in a given directory in which archived artifacts will be stored.
+#' \code{createEmptyLocalRepo} creates an empty \link{Repository} in the given directory in which archived artifacts will be stored.
+#' \code{createEmptyGithubRepo} creates a new GitHub repository with an empty \pkg{archivist}-like \link{Repository} and
+#' also creates a local \code{Repository} with \code{createEmptyLocalRepo} which is git-synchronized with
+#' new GitHub repository. \code{createEmptyRepo} is a wrapper around \code{createEmptyLocalRepo} and \code{createEmptyGithubRepo}
+#'  functions and by default triggers \code{createEmptyLocalRepo} to maintain consistency with the previous \pkg{archivist} versions (<1.8.6.0)
+#'  where there was only \code{createEmptyRepo} which created local \code{Repository}. To learn more about
+#'  \code{Archivist Integration With GitHub API} visit \link{archivist-github-integration} (\link{agithub}).
 #' 
 #' 
 #' @details
 #' At least one Repository must be initialized before using other functions from the \pkg{archivist} package. 
-#' When working in groups, it is highly recommended to create a Repository on a shared Dropbox/Git folder.
+#' While working in groups, it is highly recommended to create a Repository on a shared Dropbox/Git folder.
 #' 
-#' All artifacts desired to be archived are going to be saved in the local Repository, which is an SQLite 
+#' All artifacts which are desired to be archived are going to be saved in the local Repository, which is an SQLite 
 #' database stored in a file named \code{backpack}. 
-#' After calling \code{saveToRepo} function, every artifact will be archived in a \code{md5hash.rda} file. 
+#' After calling \code{saveToRepo} function, each artifact will be archived in a \code{md5hash.rda} file. 
 #' This file will be saved in a folder (under \code{repoDir} directory) named 
-#' \code{gallery}. For every artifact, \code{md5hash} is a unique string of length 32 that comes out as a result of 
+#' \code{gallery}. For every artifact, \code{md5hash} is a unique string of length 32 that is produced by
 #' \link[digest]{digest} function, which uses a cryptographical MD5 hash algorithm.
 #' 
 #' To learn more about artifacts visit \link[archivist]{archivist-package}.
 #' 
 #' Created \code{backpack} database is a useful and fundamental tool for remembering artifact's 
-#' \code{name}, \code{class}, \code{archiving date} etc. (that are remembered as \link{Tags}),
+#' \code{name}, \code{class}, \code{archiving date} etc. (the so called \link{Tags})
 #' or for keeping artifact's \code{md5hash}.
 #' 
 #' Besides the \code{backpack} database, \code{gallery} folder is created in which all 
 #' artifacts will be archived.
 #' 
-#' After every \code{saveToRepo} call the database is refreshed, so an artifact is available 
+#' After every \code{saveToRepo} call the database is refreshed. As a result, the artifact is available 
 #' immediately in \code{backpack.db} database for other collaborators.
 #' 
-#' @param repoDir A character that specifies the directory for the Repository to be made.
+#' @param type A character. Whether to use \code{Local} or \code{Github} version while using \code{createEmptyRepo} wrapper.
 #' 
-#' @param force If \code{force = TRUE} function call forces to create \code{repoDir} directory if
-#' it did not exist. Default set to \code{force = TRUE}.
+#' @param repoDir A character that specifies the directory for the Repository which is to be made.
+#' 
+#' @param force If \code{force = TRUE} and \code{repoDir} parameter specifies the directory that doesn't exist,
+#' then function call will force to create new \code{repoDir} directory.
+#' Default set to \code{force = TRUE}.
 #' 
 #' @param default If \code{default = TRUE} then \code{repoDir} is set as default local repository.
+#' 
+#' @param repoName While working with a Github repository. A character denoting new GitHub repository name. White spaces will be substitued with a dash.
+#' @param github_token While working with a Github repository. An OAuth GitHub Token created with the \link{oauth2.0_token} function. See \link{archivist-github-integration}.
+#' Can be set globally with \code{aoptions("github_token", github_token)}.
+#' @param repoDescription While working with a Github repository. A character specifing the new GitHub repository description.
+#' @param user.name While working with a Github repository. A character denoting GitHub user name. Can be set globally with \code{aoptions("user.name", user.name)}.
+#'  See \link{archivist-github-integration}.
+#' @param user.password While working with a Github repository. A character denoting GitHub user password. Can be set globally with \code{aoptions("user.password", user.password)}.
+#' See \link{archivist-github-integration}.
+#' @param readmeDescription While working with a Github repository. A character of the content of \code{README.md} file. By default a description of \link{Repository}.
+#' Can be set globally with \code{aoptions("readmeDescription", readmeDescription)}. For no \code{README.md} file 
+#' set \code{aoptions("readmeDescription", NULL)}.
+#' @param response A logical value. Should the GitHub API response should be returned.
 #' 
 #' @author 
 #' Marcin Kosinski, \email{m.p.kosinski@@gmail.com}
 #'
 #' @examples
 #' \dontrun{
-#' exampleRepoDir <- tempdir()
+#' exampleRepoDir <- tempfile()
 #' createEmptyRepo( repoDir = exampleRepoDir )
 #'
 #' # check the state of an empty Repository
@@ -51,30 +73,125 @@
 #' 
 #' # creating a Repository in non existing directory
 #' 
-#' createEmptyRepo( "xyzdd234", force = TRUE )
+#' createEmptyLocalRepo( "xyzdd234") # force = TRUE is default argument
+#'
+#' # creating a default local Repository in non existing directory
 #' 
-#' # removing an example Repositories
+#' createEmptyRepo("def", default = TRUE) 
+#' data(iris)
+#' saveToRepo(iris) # We don't have to specify repoDir parameter
+#' showLocalRepo() # because repoDir="def" is default 
+#'
+#'  # removing an example Repositories
 #' 
 #' deleteRepo( exampleRepoDir, TRUE)
 #' deleteRepo( "xyzdd234", TRUE)
+#' deleteRepo("def", TRUE)
 #' 
 #' rm( exampleRepoDir )
+#' 
+#' ## GitHub version
+#' 
+#' library(httr)
+#' myapp <- oauth_app("github",
+#'                    key = app_key,
+#'                    secret = app_secret)
+#' github_token <- oauth2.0_token(oauth_endpoints("github"),
+#'                                 myapp,
+#'                                 scope = "public_repo")
+#' aoptions("github_token", github_token)
+#' aoptions("user.name", user.name)
+#' aoptions("user.password", user.password)
+#' 
+#' createEmptyGithubRepo("Museum")
+#' createEmptyGithubRepo("Museum-Extras", response = TRUE)
+#' createEmptyGithubRepo("Gallery", readmeDescription = NULL)
+#' createEmptyGithubRepo("Landfill", 
+#'         repoDescription = "My models and stuff") 
+#'         
+#'         
+#'         
+#' # empty Github Repository creation
+#' 
+#' library(httr)
+#' myapp <- oauth_app("github",
+#'                    key = '1fab1e77d27079c0717d',
+#'                    secret = 'c1284ed206b4a7f5f0bca508a6df5919e7fbf799')
+#' github_token <- oauth2.0_token(oauth_endpoints("github"),
+#'                                myapp,
+#'                                scope = "public_repo")
+#' # setting options                              
+#' aoptions("github_token", github_token)
+#' aoptions("user.name", 'MarcinKosinski')
+#' aoptions("user.password", 'sobieskiego77')
+#' 
+#' createEmptyGithubRepo("archive-test4")
+#' setGithubRepo(aoptions("user.name"), "archive-test4")
+#' ## artifact's archiving
+#' przyklad <- 1:100
+#' 
+#' # archiving
+#' archive(przyklad) -> md5hash_path
+#' 
+#' ## proof that artifact is really archived
+#' showGithubRepo() # uses options from setGithubRepo
+#' # let's remove przyklad
+#' rm(przyklad)
+#' # and load it back from md5hash_path
+#' aread(md5hash_path)
+#' 
+#' 
+#' # clone example
+#' unlink("archive-test", recursive = TRUE)
+#' cloneGithubRepo('https://github.com/MarcinKosinski/archive-test')
+#' setGithubRepo(aoptions("user.name"), "archive-test")
+#' data(iris)
+#' archive(iris)
+#' showGithubRepo()
+#' 
 #' }
 #' @family archivist
 #' @rdname createEmptyRepo
 #' @export
-createEmptyRepo <- function( repoDir, force = TRUE, default = FALSE){
-  stopifnot( is.character( repoDir ) )
+createEmptyRepo <- function( repoDir, force = TRUE, default = FALSE,
+                             repoName,
+                             github_token = aoptions("github_token"), 
+                             user.name = aoptions("user.name"),
+                             #user.email = aoptions("user.email"),
+                             user.password = aoptions("user.password"),
+                             repoDescription = aoptions("repoDescription"),
+                             readmeDescription = aoptions("readmeDescription"),
+                             response = aoptions("response"),
+                             type = "local"){
+  stopifnot(is.character(type) & length(type) ==1 & type %in% c("local", "github"))
+  if (type == "local") {
+    createEmptyLocalRepo(repoDir = repoDir, force = force, default = default)
+  } else {
+    createEmptyGithubRepo(repoName = repoName,
+                          github_token = github_token,
+                          user.name = user.name,
+                          user.password = user.password,
+                          repoDescription = repoDescription,
+                          readmeDescription = readmeDescription,
+                          response = response)
+  }
+  
+}
+
+#' @rdname createEmptyRepo
+#' @export
+createEmptyLocalRepo <- function( repoDir, force = TRUE, default = FALSE ){
+  stopifnot( is.character( repoDir ), length( repoDir ) == 1 )
   
   if ( !file.exists( repoDir ) & !force ) 
     stop( paste0("Directory ", repoDir, " does not exist. Try with force=TRUE.") )
   if ( !file.exists( repoDir ) & force ){
     cat( paste0("Directory ", repoDir, " did not exist. Forced to create a new directory.") )
-    repoDir <- checkDirectory( repoDir )
+    repoDir <- checkDirectory( repoDir, create = TRUE )
     dir.create( repoDir )
   }
   
-  repoDir <- checkDirectory( repoDir )
+  repoDir <- checkDirectory( repoDir, create = TRUE )
   
   # create connection
   backpack <- getConnectionToDB( repoDir, realDBname = TRUE )
@@ -100,15 +217,102 @@ createEmptyRepo <- function( repoDir, force = TRUE, default = FALSE){
   
   dbDisconnect( backpack )
   
-  if (default) {
-    setLocalRepo(repoDir)
-  }
-   
   # if gallery folder does not exist - make it
   if ( !file.exists( file.path( repoDir, "gallery" ) ) ){
     dir.create( file.path( repoDir, "gallery" ), showWarnings = FALSE)
   }
+  
+  if (default) {
+    setLocalRepo(repoDir)
+  }
+   
 }
+
+#' @rdname createEmptyRepo
+#' @export
+createEmptyGithubRepo <- function(repoName,
+                                  github_token = aoptions("github_token"), 
+                                  user.name = aoptions("user.name"),
+                                  #user.email = aoptions("user.email"),
+                                  user.password = aoptions("user.password"),
+                                  repoDescription = aoptions("repoDescription"),
+                                  readmeDescription = aoptions("readmeDescription"),
+                                  response = aoptions("response")){
+  stopifnot(is.character(repoName) & length(repoName) ==1)
+  stopifnot(is.character(repoDescription) & length(repoDescription) ==1)
+  #stopifnot(any(class(github_token) %in% "Token"))
+  stopifnot(is.character(user.name) & length(user.name)==1)
+  #stopifnot(is.character(user.email) & length(user.email)==1)
+  stopifnot(is.character(user.password) & length(user.password)==1)
+  stopifnot((is.character(readmeDescription) & length(readmeDescription)==1) |
+              is.null(readmeDescription))
+  stopifnot(is.logical(response) & length(response) ==1)
+  
+  repoName <- gsub(pattern = " ", "-", repoName)
+  
+  # httr imports are in archivist-package.R file
+  # creating an empty GitHub Repository
+  POST(url = "https://api.github.com/user/repos",
+       encode = "json",
+       body = list(
+         name = jsonlite::unbox(repoName),
+         description = jsonlite::unbox(repoDescription)
+       ),
+       config = httr::config(token = github_token)
+  ) -> resp
+  
+  
+  # git2r imports are in the archivist-package.R
+  path <- repoName
+  dir.create(path)
+  
+  # initialize local git repository
+  # git init
+  repo <- init(path)
+  
+  ## Create and configure a user
+  # git config - added to Note section
+  #git2r::config(repo, ...) # if about to use, the add to archivist-package.R
+  
+  # archivist-like Repository creation
+  createEmptyRepo(repoDir = path)
+  file.create(file.path(path, "gallery", ".gitkeep"))
+  # git add
+  if (!is.null(readmeDescription)){
+    file.create(file.path(path, "README.md"))
+    writeLines(aoptions("readmeDescription"), file.path(path, "README.md"))
+    add(repo, c("backpack.db", "gallery/", "README.md"))
+  } else {
+    add(repo, c("backpack.db", "gallery/"))
+  }
+  
+  # git commit
+  new_commit <- commit(repo, "archivist Repository creation.")
+  
+  # association of the local and GitHub git repository
+  # git add remote
+  remote_add(repo,
+             #"upstream2",
+             'origin',
+             file.path("https://github.com", user.name, paste0(repoName, ".git")))
+  
+  # GitHub authorization
+  # to perform pull and push operations
+  cred <- git2r::cred_user_pass(user.name,
+                         user.password)
+  
+  # push archivist-like Repository to GitHub repository
+  push(repo,
+       #name = "upstream2",
+       refspec = "refs/heads/master",
+       credentials = cred)
+  
+  if (response){
+    return(resp)
+  }
+}
+
+
 
 addArtifact <- function( md5hash, name, dir ){
   # creates connection and driver
@@ -128,7 +332,7 @@ addTag <- function( tag, md5hash, createdDate = now(), dir ){
 # and they do not name this file as backpack.db in repoDir directory
 getConnectionToDB <- function( repoDir, realDBname ){
     if ( realDBname ){
-      conn <- dbConnect( get( "sqlite", envir = .ArchivistEnv ), paste0( repoDir, "backpack.db" ) )
+      conn <- dbConnect( get( "sqlite", envir = .ArchivistEnv ), file.path( repoDir, "backpack.db" ) )
     }else{
       conn <- dbConnect( get( "sqlite", envir = .ArchivistEnv ), repoDir )
     }
@@ -137,8 +341,8 @@ getConnectionToDB <- function( repoDir, realDBname ){
   
 executeSingleQuery <- function( dir, query, realDBname = TRUE ) {
   conn <- getConnectionToDB( dir, realDBname )
+  on.exit( dbDisconnect( conn ) )
   res <- dbGetQuery( conn, query )
-  dbDisconnect( conn )
   return( res )
 }
 
@@ -149,32 +353,62 @@ readSingleTable <- function( dir, table, realDBname = TRUE ){
   return( tabs )
 }
 
-# for Github version funtion tha require to load database
+# for Github version function that requires to load database
 downloadDB <- function( repo, user, branch, repoDirGit ){
    if( is.logical( repoDirGit ) ){
-     URLdb <- paste0( get( ".GithubURL", envir = .ArchivistEnv) , user, "/", repo, "/", branch, "/backpack.db") 
+     URLdb <- file.path( get( ".GithubURL", envir = .ArchivistEnv) ,
+                         user, repo, branch, "backpack.db") 
    }else{
-     URLdb <- paste0( get( ".GithubURL", envir = .ArchivistEnv) , user, "/", repo, "/", branch, "/", repoDirGit, "/backpack.db") 
+     URLdb <- file.path( get( ".GithubURL", envir = .ArchivistEnv) ,
+                         user, repo, branch, repoDirGit, "backpack.db") 
    }
-   db <- getBinaryURL( URLdb )
-   Temp2 <- tempfile()
-   file.create( Temp2 )
-   writeBin( db, Temp2 )
-   return( Temp2 )
+   if (url.exists(URLdb)){
+     db <- getBinaryURL( URLdb )
+     Temp2 <- tempfile()
+     file.create( Temp2 )
+     writeBin( db, Temp2 )
+     return( Temp2 )
+   } else {
+     stop(paste0("Such a repo: ", repo, " or user ", user, " or branch ", branch, " does not exist on GitHub",
+                 "or there is no archivist-like Repository on this repo."))
+   }
+     
 }
 
-checkDirectory <- function( directory ){
+checkDirectory <- function( directory, create = FALSE ){
   # check if global repository was specified by setLocalRepo
   if ( is.null(directory) ){
 
     directory <- aoptions("repoDir")
-
-  }else{
-
+  }
+  # check whether it is second call of checkDirectory 
+  # (e.g CreatEmptyRepo + default = TRUE)
+#   if ( grepl("/$", x = directory , perl=TRUE) ){
+#     directory <- gsub(pattern = ".$", replacement = "",
+#                       x = directory, perl = TRUE)
+#   }
+  # check property of directory
+  if ( !create ){
+    # check whether repository exists
+    if ( !file.exists( directory ) ){
+      stop( paste0( "There is no such repository as ", directory ) )
+    }
+    # check if repository is proper (has backpack.db and gallery)
+    if ( !all( c("backpack.db", "gallery") %in% list.files(directory) ) ){
+      stop( paste0( directory, " is not a proper repository. There is neither backpack.db nor gallery." ) )
+    }
+  }
   # check if repoDir has "/" at the end and add it if not
-    if ( !grepl("/$", x = directory , perl=TRUE) ){
-    directory <- paste0(  directory, "/"  )
-  }
-  }
+#   if ( !grepl("/$", x = directory , perl=TRUE) ){
+#     directory <- paste0(  directory, "/"  )
+#   }
   return( directory )
 }
+
+# checkDirectory2 <- function( directory ){
+#   check if repoDir has "/" at the end and add it if not
+#   if ( !grepl("/$", x = directory , perl=TRUE) ){
+#     directory <- paste0(  directory, "/"  )
+#   }
+#   return( directory )
+# }

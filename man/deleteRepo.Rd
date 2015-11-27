@@ -2,26 +2,33 @@
 % Please edit documentation in R/deleteRepo.R
 \name{deleteRepo}
 \alias{deleteRepo}
-\title{Delete an Existing Repository from Given Directory}
+\title{Delete the Existing Repository from the Given Directory}
 \usage{
 deleteRepo(repoDir, deleteRoot = FALSE)
 }
 \arguments{
-\item{repoDir}{A character that specifies the directory for the Repository to be deleted.}
+\item{repoDir}{A character that specifies the directory for the Repository
+which is to be deleted.}
 
-\item{deleteRoot}{A logical value that specifies if the repository root directory shall be deleted.}
+\item{deleteRoot}{A logical value that specifies if the repository root directory
+should be deleted.}
 }
 \description{
-\code{deleteRepo} deletes an existing \link{Repository} from a given directory, so all artifacts from \code{gallery} folder are
-removed and database \code{backpack.db} is deleted.
+\code{deleteRepo} deletes the existing \link{Repository} from the given directory.
+As a result all artifacts from \code{gallery} folder are removed and database \code{backpack.db}
+is deleted.
 }
-\details{
-\code{deleteRepo} deletes an existing \link{Repository} from a given directory, so all artifacts from \code{gallery} folder are
-removed and database \code{backpack.db} is deleted.
+\note{
+Remember that using \code{tempfile()} instead of \code{tempdir()}
+in examples section is crucial. \code{tempdir()} is existing directory
+in which R works so calling \code{deleteRepo(exampleRepoDir, deleteRoot=TRUE)}
+removes important R files. You can find out more information about this problem at
+\href{http://stackoverflow.com/questions/22325820/unlink-function-causing-an-error-for-consequent-and-plot-functions}{stackoverflow}
+webpage.
 }
 \examples{
-# objects preparation
 \dontrun{
+# objects preparation
 # data.frame object
 data(iris)
 
@@ -74,11 +81,11 @@ bk=rnorm(100)
 glmnet1=glmnet(zk,bk)
 
 
-# creating example Repository - that examples will work
+# creating example Repository - on which examples will work
 
 # save examples
 
-exampleRepoDir <- tempdir()
+exampleRepoDir <- tempfile()
 createEmptyRepo( repoDir = exampleRepoDir )
 saveToRepo( myplot123, repoDir=exampleRepoDir )
 saveToRepo( iris, repoDir=exampleRepoDir )
@@ -90,7 +97,7 @@ saveToRepo( qda1, repoDir=exampleRepoDir )
 saveToRepo( glmnet1, repoDir=exampleRepoDir )
 
 
-# let's see how the Repository look like: show
+# let's see how the Repository looks like: show
 
 showLocalRepo( method = "md5hashes", repoDir = exampleRepoDir )
 showLocalRepo( method = "tags", repoDir = exampleRepoDir )
@@ -99,11 +106,35 @@ showLocalRepo( method = "tags", repoDir = exampleRepoDir )
 
 summaryLocalRepo( repoDir = exampleRepoDir )
 
-# now let's delete the Repository
+# now let's delete the Repository without it's root
 
 deleteRepo( repoDir = exampleRepoDir)
 
 rm( exampleRepoDir )
+
+## Using deleteRoot = TRUE argument
+
+# First we create default Repository on our computer
+createEmptyRepo( repoDir = "defRepo", force = TRUE, default = TRUE )
+saveToRepo( myplot123)
+saveToRepo( iris)
+saveToRepo( model)
+
+# Let's see how the Repository looks like: show
+
+showLocalRepo( method = "md5hashes")
+showLocalRepo( method = "tags")
+
+# Let's get information about that Repository
+
+summaryLocalRepo()
+
+# Now let's delete the Repository and it's root folder by using
+# deleteRoot = TRUE argument
+
+deleteRepo(repoDir = "defRepo", deleteRoot = TRUE)
+# defRepo was completely deleted indeed! We may notice it on our computer.
+
 }
 }
 \author{
@@ -112,12 +143,16 @@ Marcin Kosinski, \email{m.p.kosinski@gmail.com}
 \seealso{
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
-  \code{\link{addTagsRepo}}; \code{\link{ahistory}},
-  \code{\link{print.ahistory}}; \code{\link{aoptions}};
-  \code{\link{archivist-package}}; \code{\link{aread}};
-  \code{\link{asearch}}; \code{\link{cache}};
+  \code{\link{addTagsRepo}}; \code{\link{agithub}},
+  \code{\link{archivist-github-integration}};
+  \code{\link{ahistory}}; \code{\link{aoptions}};
+  \code{\link{archive}}; \code{\link{archivist-package}};
+  \code{\link{aread}}; \code{\link{asearch}};
+  \code{\link{cache}}; \code{\link{cloneGithubRepo}};
   \code{\link{copyGithubRepo}},
   \code{\link{copyLocalRepo}};
+  \code{\link{createEmptyGithubRepo}},
+  \code{\link{createEmptyLocalRepo}},
   \code{\link{createEmptyRepo}};
   \code{\link{getTagsGithub}}, \code{\link{getTagsLocal}};
   \code{\link{loadFromGithubRepo}},
@@ -131,6 +166,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};
+  \code{\link{splitTagsGithub}},
+  \code{\link{splitTagsLocal}};
   \code{\link{summaryGithubRepo}},
   \code{\link{summaryLocalRepo}};
   \code{\link{zipGithubRepo}}, \code{\link{zipLocalRepo}}

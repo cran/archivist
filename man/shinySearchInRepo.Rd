@@ -20,23 +20,23 @@ If set to \code{NULL} (by default), uses the \code{repoDir} specified in \link{s
 To create an application one needs to point the name of artifacts repository.
 The application is generated on the fly. Right now two controllers are exposed.
 A text input field and a slider. Tags that are typed into text field are used for searching in repository.
-Object that have same tags are then presented on right panel.
+Object that have same Tags are then presented on right panel.
 These object might be also downloaded just by click.
 To learn more about artifacts visit \link[archivist]{archivist-package}.
 }
 \details{
 \code{shinySearchInLocalRepo} searches for artifacts in a Repository using their's \code{Tag}
 (e.g., \code{name}, \code{class} or \code{archiving date}). \code{Tags} are submitted in a
-text input in a shiny application. Many tags may be specified, they should be comma separated.
-User can specify more tags when artifact is created, tags like phase, project, author etc.
+text input in a shiny application. Many Tags may be specified, they should be comma separated.
+User can specify more Tags when artifact is created, Tags like phase, project, author etc.
 
-In the search query one can add tags started with sort: or sort:-
+In the search query one can add Tags started with sort: or sort:-
 then miniatures will be sorted accordingly.
-For exaple sort:class will sort along class tag, while sort:-class backward.
+For exaple sort:class will sort along class Tag, while sort:-class backward.
 sort:createdDate will sort along createdDate and sort:-createdDate backward.
 
 \code{Tags}, submitted in the text field, should be given according to the
-format: \code{"TagType:TagTypeValue"} - see examples.
+format: \code{"TagKey:TagValue"} - see examples.
 }
 \section{shiny}{
 
@@ -56,12 +56,16 @@ Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
 \seealso{
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
-  \code{\link{addTagsRepo}}; \code{\link{ahistory}},
-  \code{\link{print.ahistory}}; \code{\link{aoptions}};
-  \code{\link{archivist-package}}; \code{\link{aread}};
-  \code{\link{asearch}}; \code{\link{cache}};
+  \code{\link{addTagsRepo}}; \code{\link{agithub}},
+  \code{\link{archivist-github-integration}};
+  \code{\link{ahistory}}; \code{\link{aoptions}};
+  \code{\link{archive}}; \code{\link{archivist-package}};
+  \code{\link{aread}}; \code{\link{asearch}};
+  \code{\link{cache}}; \code{\link{cloneGithubRepo}};
   \code{\link{copyGithubRepo}},
   \code{\link{copyLocalRepo}};
+  \code{\link{createEmptyGithubRepo}},
+  \code{\link{createEmptyLocalRepo}},
   \code{\link{createEmptyRepo}}; \code{\link{deleteRepo}};
   \code{\link{getTagsGithub}}, \code{\link{getTagsLocal}};
   \code{\link{loadFromGithubRepo}},
@@ -74,6 +78,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{setGithubRepo}}, \code{\link{setLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};
+  \code{\link{splitTagsGithub}},
+  \code{\link{splitTagsLocal}};
   \code{\link{summaryGithubRepo}},
   \code{\link{summaryLocalRepo}};
   \code{\link{zipGithubRepo}}, \code{\link{zipLocalRepo}}

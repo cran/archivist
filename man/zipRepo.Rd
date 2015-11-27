@@ -14,43 +14,39 @@ zipGithubRepo(repoTo = getwd(), user = NULL, repo = NULL,
 \item{repoDir}{A character that specifies the directory of the Repository which
 will be zipped. If set to \code{NULL} (by default), uses the \code{repoDir} specified in \link{setLocalRepo}.}
 
-\item{repoTo}{A character that specifies the directory in which
+\item{repoTo}{A character that specifies the directory in which there
 will be created zip archive from \code{Repository} stored in \code{repoDir} or Github directory.
-By default set to working directory (\code{getwd()})/}
+By default set to working directory (\code{getwd()}).}
 
-\item{zipname}{A character that specifies name of zipped repository.
+\item{zipname}{A character that specifies name of the zipped repository.
 It is assumed that this file does not exist or does not contain backpack.db file.
 An attempt to override will produce an error.}
 
-\item{user}{Only if working with a Github repository. A character containing a name of a Github user on whose account the \code{repo} is created.
+\item{user}{While working with the Github repository. A character containing
+a name of the Github user on whose account the \code{repo} is created.
 By default set to \code{NULL} - see \code{Note}.}
 
-\item{repo}{Only if working with a Github repository. A character containing a name of a Github repository on which the Repository to be zipped is archived.
+\item{repo}{While working with the Github repository. A character containing
+a name of the Github repository on which the Repository, which is to be zipped, is archived.
 By default set to \code{NULL} - see \code{Note}.}
 
-\item{branch}{Only if working with a Github repository. A character containing a name of
-Github repository's branch in which Repository to be zipped is archived. Default \code{branch} is \code{master}.}
+\item{branch}{While working with the Github repository. A character containing a name of the
+Github repository's branch on which Repository, which is to be zipped, is archived.
+Default \code{branch} is \code{master}.}
 
-\item{repoDirGit}{Only if working with a Github repository. A character containing a name of a directory on Github repository
-on which the Repository to be zipped is stored. If the Repository is stored in main folder on Github repository, this should be set
-to \code{repoDirGit = FALSE} as default.}
+\item{repoDirGit}{While working with a Github repository. A character containing a name of
+a directory on Github repository on which the Repository, which is to be zipped, is stored.
+If the Repository is stored in the main folder on the Github repository, this should be set
+to FALSE as default.}
 }
 \description{
-\code{zipLocalRepo} and \code{zipGithubRepo} create a zip archive from an existing \link{Repository}.
-
-
-
-If the function does not work, it might be a reason of Rtools that are not installed.
-To solve this problem follow those \href{http://cran.r-project.org/web/packages/openxlsx/vignettes/Introduction.pdf}{Instructions.}
-}
-\details{
-\code{zipLocalRepo} and \code{zipGithubRepo} create a zip archive from an existing \link{Repository}.
-\code{zipLocalRepo} zips local \code{Repository}, \code{zipGithubRepo} zips \code{Repository}
-stored on Github.
+\code{zipLocalRepo} and \code{zipGithubRepo} create a zip archive from an
+existing \link{Repository}. \code{zipLocalRepo} zips local \code{Repository},
+\code{zipGithubRepo} zips \code{Repository} stored on Github.
 }
 \note{
-If the function does not work, it might be a reason of Rtools that are not installed.
-To solve this problem follow those \href{http://cran.r-project.org/web/packages/openxlsx/vignettes/Introduction.pdf}{Instructions.}
+The function might not work if \code{Rtools} are not installed.
+To solve this problem follow these \href{http://cran.r-project.org/web/packages/openxlsx/vignettes/Introduction.pdf}{Instructions.}
 
 If \code{repo} and \code{user} are set to \code{NULL} (as default) in Github mode then global parameters
 set in \link{setGithubRepo} function are used.
@@ -75,7 +71,7 @@ model <- lm(Sepal.Length~ Sepal.Width + Petal.Length + Petal.Width, data= iris)
 
 # Local version
 
-exampleRepoDir <- tempdir()
+exampleRepoDir <- tempfile()
 createEmptyRepo( repoDir = exampleRepoDir )
 saveToRepo( myplot123, repoDir=exampleRepoDir )
 saveToRepo( iris, repoDir=exampleRepoDir )
@@ -104,12 +100,16 @@ Marcin Kosinski, \email{m.p.kosinski@gmail.com}, Przemyslaw Biecek
 \seealso{
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
-  \code{\link{addTagsRepo}}; \code{\link{ahistory}},
-  \code{\link{print.ahistory}}; \code{\link{aoptions}};
-  \code{\link{archivist-package}}; \code{\link{aread}};
-  \code{\link{asearch}}; \code{\link{cache}};
+  \code{\link{addTagsRepo}}; \code{\link{agithub}},
+  \code{\link{archivist-github-integration}};
+  \code{\link{ahistory}}; \code{\link{aoptions}};
+  \code{\link{archive}}; \code{\link{archivist-package}};
+  \code{\link{aread}}; \code{\link{asearch}};
+  \code{\link{cache}}; \code{\link{cloneGithubRepo}};
   \code{\link{copyGithubRepo}},
   \code{\link{copyLocalRepo}};
+  \code{\link{createEmptyGithubRepo}},
+  \code{\link{createEmptyLocalRepo}},
   \code{\link{createEmptyRepo}}; \code{\link{deleteRepo}};
   \code{\link{getTagsGithub}}, \code{\link{getTagsLocal}};
   \code{\link{loadFromGithubRepo}},
@@ -123,17 +123,23 @@ Other archivist: \code{\link{Repository}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};
+  \code{\link{splitTagsGithub}},
+  \code{\link{splitTagsLocal}};
   \code{\link{summaryGithubRepo}},
   \code{\link{summaryLocalRepo}}
 
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
-  \code{\link{addTagsRepo}}; \code{\link{ahistory}},
-  \code{\link{print.ahistory}}; \code{\link{aoptions}};
-  \code{\link{archivist-package}}; \code{\link{aread}};
-  \code{\link{asearch}}; \code{\link{cache}};
+  \code{\link{addTagsRepo}}; \code{\link{agithub}},
+  \code{\link{archivist-github-integration}};
+  \code{\link{ahistory}}; \code{\link{aoptions}};
+  \code{\link{archive}}; \code{\link{archivist-package}};
+  \code{\link{aread}}; \code{\link{asearch}};
+  \code{\link{cache}}; \code{\link{cloneGithubRepo}};
   \code{\link{copyGithubRepo}},
   \code{\link{copyLocalRepo}};
+  \code{\link{createEmptyGithubRepo}},
+  \code{\link{createEmptyLocalRepo}},
   \code{\link{createEmptyRepo}}; \code{\link{deleteRepo}};
   \code{\link{getTagsGithub}}, \code{\link{getTagsLocal}};
   \code{\link{loadFromGithubRepo}},
@@ -147,6 +153,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};
+  \code{\link{splitTagsGithub}},
+  \code{\link{splitTagsLocal}};
   \code{\link{summaryGithubRepo}},
   \code{\link{summaryLocalRepo}}
 }

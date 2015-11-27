@@ -7,8 +7,8 @@
 asearch(patterns, repo = NULL)
 }
 \arguments{
-\item{patterns}{A character vector of tags. Only artifacts that
-contain all tags are returned.}
+\item{patterns}{A character vector of \code{Tags}. Only artifacts that
+contain all Tags are returned.}
 
 \item{repo}{One of following:
 
@@ -20,12 +20,12 @@ NULL in this case search will be performed in the default repo.}
 This function returns list of artifacts (by value).
 }
 \description{
-\code{asearch} searches for artifacts that contain all specified Tags
+\code{asearch} searches for artifacts that contain all specified \link{Tags}
 and reads all of them from a Github \link{Repository}. It's a wrapper around
 \link{multiSearchInGithubRepo} and \link{loadFromGithubRepo}.
 }
 \details{
-Function \code{asearch} reads all artifacts that contain given list of tags
+Function \code{asearch} reads all artifacts that contain given list of \code{Tags}
 from GitHub Repository.
 It uses the function \link{loadFromGithubRepo} and
 \link{multiSearchInGithubRepo} but has shorter name and
@@ -33,10 +33,12 @@ different paramter's specification.
 }
 \examples{
 \dontrun{
-# read the object
 asearch("pbiecek/graphGallery",
-           patterns = list("class:lm",
-                "varname:Species")))
+        patterns = c("class:lm"))
+
+asearch("pbiecek/graphGallery",
+        patterns = c("class:gg",
+                     "labelx:Sepal.Length"))
 }
 }
 \author{
@@ -45,11 +47,16 @@ Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
 \seealso{
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
-  \code{\link{addTagsRepo}}; \code{\link{ahistory}},
-  \code{\link{print.ahistory}}; \code{\link{aoptions}};
-  \code{\link{archivist-package}}; \code{\link{aread}};
-  \code{\link{cache}}; \code{\link{copyGithubRepo}},
+  \code{\link{addTagsRepo}}; \code{\link{agithub}},
+  \code{\link{archivist-github-integration}};
+  \code{\link{ahistory}}; \code{\link{aoptions}};
+  \code{\link{archive}}; \code{\link{archivist-package}};
+  \code{\link{aread}}; \code{\link{cache}};
+  \code{\link{cloneGithubRepo}};
+  \code{\link{copyGithubRepo}},
   \code{\link{copyLocalRepo}};
+  \code{\link{createEmptyGithubRepo}},
+  \code{\link{createEmptyLocalRepo}},
   \code{\link{createEmptyRepo}}; \code{\link{deleteRepo}};
   \code{\link{getTagsGithub}}, \code{\link{getTagsLocal}};
   \code{\link{loadFromGithubRepo}},
@@ -63,6 +70,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};
+  \code{\link{splitTagsGithub}},
+  \code{\link{splitTagsLocal}};
   \code{\link{summaryGithubRepo}},
   \code{\link{summaryLocalRepo}};
   \code{\link{zipGithubRepo}}, \code{\link{zipLocalRepo}}

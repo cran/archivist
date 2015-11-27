@@ -7,7 +7,7 @@
 aoptions(key, value = NULL)
 }
 \arguments{
-\item{key}{Name of the parameter.}
+\item{key}{A character denoting name of the parameter.}
 
 \item{value}{New value for the 'key' parameter.}
 }
@@ -19,18 +19,78 @@ The function \code{aoptions} sets and gets default options
 for other \code{archivist} functions.
 }
 \details{
-The function \code{aoptions} with two arguments sets default values
-of arguments for other \code{archivist} functions (stored in an internal environment).
-The function \code{aoptions} with one argument returns value of given parameter.
-It is used for setting default values for parameters in archivist functions.
-Currently works for arguments: silent
+The function \code{aoptions} with two parameters sets default \code{value}
+of \code{key} parameter for other \code{archivist} functions. The function
+\code{aoptions} with one parameter returns value (stored in an internal environment))
+of the given \code{key} parameter.
 }
 \examples{
-# objects preparation
 \dontrun{
-# turn off warnings in saveToRepo()
-aoptions("silent", FALSE)
-aoptions("silent")
+# data.frame object
+# data(iris)
+
+# Creating example repository - on which examples will work
+exampleRepoDir <- tempfile()
+createEmptyRepo(repoDir = exampleRepoDir)
+
+## EXAMPLE 1 : TURN OFF warnings in saveToRepo() using aoptions() function
+aoptions(key = "silent", value = TRUE)
+iris1 <- saveToRepo(iris, exampleRepoDir)
+iris2 <- saveToRepo(iris, exampleRepoDir)
+# Note that there is no warning. Normally a user receives ani information
+# about another archivisation of the same artifact.
+
+# deleting example repoDir
+deleteRepo(exampleRepoDir, deleteRoot = TRUE)
+rm(exampleRepoDir)
+
+## EXAMPLE 2 : SET default local repository using aoptions() function.
+
+# creating example repository
+exampleRepoDir <- tempfile()
+createEmptyRepo(exampleRepoDir)
+
+# "repodDir" parameter in each archivist function will be default and set to exampleRepoDir.
+aoptions(key = "repoDir", value = exampleRepoDir)
+
+data(iris)
+data(swiss)
+# From this moment repoDir parameter may be ommitted in the following functions
+saveToRepo(iris)
+saveToRepo(swiss)
+showLocalRepo()
+showLocalRepo(method = "tags")
+zipLocalRepo()
+file.remove(file.path(getwd(), "repository.zip"))
+iris2 <- loadFromLocalRepo( "ff575c2" , value = TRUE)
+searchInLocalRepo("name:i", fixed = F)
+getTagsLocal("ff575c261c949d073b2895b05d1097c3")
+rmFromRepo("4c43f")
+showLocalRepo()
+summaryLocalRepo()
+
+# REMEMBER that in deleteRepo you MUST specify repoDir parameter!
+# deleteRepo doesn't take setLocalRepo's settings into consideration
+deleteRepo( exampleRepoDir, deleteRoot = TRUE)
+rm( exampleRepoDir )
+
+## Github options
+showGithubRepo('archivist', 'pbiecek')
+aoptions('user', 'pbiecek')
+aoptions('repo', 'archivist')
+loadFromGithubRepo("ff575c261c", value = TRUE) -> iris123
+
+showGithubRepo('Museum', 'MarcinKosinski', repoDirGit = 'ex1')
+aoptions('repo', 'Museum')
+aoptions('user', 'MarcinKosinski')
+aoptions('repoDirGit', 'ex1')
+aoptions('branch', 'master')
+showGithubRepo()
+showGithubRepo(repoDirGit = 'ex2')
+
+aoptions('repoDirGit')
+
+
 }
 }
 \author{
@@ -39,12 +99,16 @@ Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
 \seealso{
 Other archivist: \code{\link{Repository}};
   \code{\link{Tags}}; \code{\link{\%a\%}};
-  \code{\link{addTagsRepo}}; \code{\link{ahistory}},
-  \code{\link{print.ahistory}};
+  \code{\link{addTagsRepo}}; \code{\link{agithub}},
+  \code{\link{archivist-github-integration}};
+  \code{\link{ahistory}}; \code{\link{archive}};
   \code{\link{archivist-package}}; \code{\link{aread}};
   \code{\link{asearch}}; \code{\link{cache}};
+  \code{\link{cloneGithubRepo}};
   \code{\link{copyGithubRepo}},
   \code{\link{copyLocalRepo}};
+  \code{\link{createEmptyGithubRepo}},
+  \code{\link{createEmptyLocalRepo}},
   \code{\link{createEmptyRepo}}; \code{\link{deleteRepo}};
   \code{\link{getTagsGithub}}, \code{\link{getTagsLocal}};
   \code{\link{loadFromGithubRepo}},
@@ -58,6 +122,8 @@ Other archivist: \code{\link{Repository}};
   \code{\link{shinySearchInLocalRepo}};
   \code{\link{showGithubRepo}},
   \code{\link{showLocalRepo}};
+  \code{\link{splitTagsGithub}},
+  \code{\link{splitTagsLocal}};
   \code{\link{summaryGithubRepo}},
   \code{\link{summaryLocalRepo}};
   \code{\link{zipGithubRepo}}, \code{\link{zipLocalRepo}}

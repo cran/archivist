@@ -7,35 +7,52 @@
 #' An extended pipe operator \link[magrittr]{\%>\%} from magrittr package version 1.0.1.
 #' Enables archiving artifacts with their chaining code - see examples and vignettes.
 #' 
-#' The extension works as following, the result of %a% operator is archived together 
-#' with lhs (as an artifact) and rhs (as a tag). This allows to present a history of
-#' an artifact. This option works only if a default repo is set.
+#' @param lhs An artifact that will be used as an argument of \code{rhs} by 
+#' \code{\%a\%} operator.
 #' 
-#' @param lhs A dataset and function to apply to it.
-#' @param rhs A dataset and function to apply to it.
+#' @param rhs A function call using \code{lhs} as an argument by
+#' \code{\%a\%} operator.
 #' 
+#' @details
+#' The extension works as follows, the result of \code{\%a\%} operator is archived together 
+#' with lhs (as an artifact) and rhs (as a Tag). This allows to present a history of
+#' an artifact. This option works only if a default repository is set.
+#'
 #' @examples 
 #' \dontrun{
-#' iris %a% summary()
-#' 
-#' # Archiving artifacts with their chaining code
 #' 
 #' library(dplyr)
-#' exampleRepoDir <- getwd()
-#' createEmptyRepo( exampleRepoDir )
 #' 
+#' ## Usage of %a% operator without setting default repository
+#' # We will receive sepcial warning
+#' iris %a% summary()
+#' 
+#' ## Archiving artifacts with their chaining code
+#' # Creating empty repository
+#' exampleRepoDir <- tempfile()
+#' createEmptyRepo( exampleRepoDir, default = TRUE ) # Remember to set repo to default
+#' 
+#' # Start using %a% operator
 #' data("hflights", package = "hflights")
 #' hflights %a%
 #'   group_by(Year, Month, DayofMonth) %a%
 #'   select(Year:DayofMonth, ArrDelay, DepDelay) %a%
-#'   summarise(
-#'     arr = mean(ArrDelay, na.rm = TRUE),
-#'     dep = mean(DepDelay, na.rm = TRUE)
-#'   ) %a%
-#'   filter(arr > 30 | dep > 30) %a%
-#'   saveToRepo( exampleRepoDir )
-#' showLocalRepo(getwd())
+#'   summarise(arr = mean(ArrDelay, na.rm = TRUE),
+#'             dep = mean(DepDelay, na.rm = TRUE)) %a%
+#'   filter(arr > 30 | dep > 30)
+#'   
+#' # Let's check how Tags of subsequent artifacts look like
+#' showLocalRepo()
+#' getTagsLocal("a8ce013a8e66df222be278122423dc60", tag = "") #1
+#' getTagsLocal("9d91fe67fd51f3bfdc9db0a596b12b38", tag = "") #2
+#' getTagsLocal("617ded4953ac986524a1c24703363980", tag = "") #3
+#' getTagsLocal("3f1ac0a27485be5d52e1b0a41d165abc", tag = "") #4
+#' getTagsLocal("0cb04315482de73d7f5a1081953236f8", tag = "") #5
+#' getTagsLocal("5629bc43e36d219b613076b17c665eda", tag = "") #6
 #' 
+#' # Deleting existing repository
+#' deleteRepo(exampleRepoDir, deleteRoot = TRUE)
+#' rm(exampleRepoDir) 
 #' }
 #' @family archivist
 #' @rdname magrittr
@@ -90,7 +107,7 @@
       if (is.symbol(rhs)) {
         
         if (!exists(deparse(rhs), parent.frame(), mode = "function"))
-          stop("RHS appears to be a function name, but it cannot be found.")
+          stop("RHS appears to be a function name, but it can not be found.")
         e <- call(as.character(rhs), as.name(nm)) # (1)
         
       } else {
@@ -112,7 +129,7 @@
     # here saveToRepo res
     # if no local repository is set then rise a warning
     if (!exists( "repoDir", envir = .ArchivistEnv )) {
-      warning("Default local repo is not set. Resuts are not archivised.")
+      warning("Default local repo is not set. Results are not archived.")
     } else {
       # for the output save both RHS as an object
       # and LHS as an instruction
