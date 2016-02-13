@@ -1,14 +1,15 @@
 test_that("setLocalRepo sets repo", {
-  createEmptyRepo("tmp_archivist")
+  createLocalRepo("tmp_archivist")
   setLocalRepo(repoDir = "tmp_archivist")
   expect_equal(aoptions("repoDir"), "tmp_archivist")
   
-  setGithubRepo("MarcinKosinski", "archivist", "master", "clone123")
+  setRemoteRepo(user = "MarcinKosinski", repo = "archivist", branch = "master", subdir = "clone123")
   expect_equal(aoptions("user"), "MarcinKosinski")
   expect_equal(aoptions("repo"), "archivist")
   expect_equal(aoptions("branch"), "master")
-  expect_equal(aoptions("repoDirGit"), "clone123")
-  deleteRepo("tmp_archivist", deleteRoot = TRUE)
+  expect_equal(aoptions("subdir"), "clone123")
+  deleteLocalRepo("tmp_archivist", deleteRoot = TRUE)
+  aoptions("subdir", "/")
 })
 
 test_that(".ArchivistEnv exists", {

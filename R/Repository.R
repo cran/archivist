@@ -42,43 +42,43 @@
 #'  \item \link{asearch},
 #'  \item \link{cache},
 #'  \item \link{getTagsLocal},
-#'  \item \link{getTagsGithub},
+#'  \item \link{getTagsRemote},
+#'  \item \link{splitTagsLocal},
+#'  \item \link{splitTagsRemote},
 #'  \item \link{loadFromLocalRepo}, 
-#'  \item \link{loadFromGithubRepo},
-#'  \item \link{multiSearchInLocalRepo},
-#'  \item \link{multiSearchInGithubRepo},
-#'  \item \link{rmFromRepo},
+#'  \item \link{loadFromRemoteRepo},
+#'  \item \link{rmFromLocalRepo},
 #'  \item \link{saveToRepo},
 #'  \item \link{searchInLocalRepo},
-#'  \item \link{searchInGithubRepo}, 
+#'  \item \link{searchInRemoteRepo}, 
 #'  \item \link{shinySearchInLocalRepo},
 #'  \item \link{showLocalRepo},
-#'  \item \link{showGithubRepo},
+#'  \item \link{showRemoteRepo},
 #'  \item \link{summaryLocalRepo},
-#'  \item \link{summaryGithubRepo}.  
+#'  \item \link{summaryRemoteRepo}.  
 #'  }
 #' Function creating \code{Repository} is:
 #' \itemize{
-#'  \item \link{createEmptyRepo}.
+#'  \item \link{createLocalRepo}.
 #' }
 #' Function deleting \code{Repository} is:
 #' \itemize{
-#'  \item \link{deleteRepo}.
+#'  \item \link{deleteLocalRepo}.
 #' }
 #' Functions coping \code{Repository} are:
 #' \itemize{
 #'  \item \link{copyLocalRepo},
-#'  \item \link{copyGithubRepo}.
+#'  \item \link{copyRemoteRepo}.
 #' }
 #' Functions creating a zip archive from an existing \code{Repository} are:
 #' \itemize{
 #'  \item \link{zipLocalRepo},
-#'  \item \link{zipGithubRepo}.
+#'  \item \link{zipRemoteRepo}.
 #' }
 #' Functions setting global path to the \code{Repository} are:
 #' \itemize{
 #'  \item \link{setLocalRepo},
-#'  \item \link{setGithubRepo}.
+#'  \item \link{setRemoteRepo}.
 #' }
 #' Learn more about \code{Repository} at \pkg{archivist} \code{wiki} webpage on 
 #' \href{https://github.com/pbiecek/archivist/wiki/archivist-package-Repository}{Github}.

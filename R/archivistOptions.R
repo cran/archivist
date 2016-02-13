@@ -19,6 +19,9 @@
 #' 
 #' @param value New value for the 'key' parameter.
 #' 
+#' @param unset Set to \code{TRUE} if want to set parameter to \code{NULL}, 
+#' i.e. when unsetting Repository \code{aoptions('repoDir', NULL, T)}.
+#' 
 #' @author 
 #' Przemyslaw Biecek, \email{przemyslaw.biecek@@gmail.com}
 #'
@@ -27,26 +30,12 @@
 #' # data.frame object
 #' # data(iris)
 #'
-#' # Creating example repository - on which examples will work
-#' exampleRepoDir <- tempfile()
-#' createEmptyRepo(repoDir = exampleRepoDir)
 #' 
-#' ## EXAMPLE 1 : TURN OFF warnings in saveToRepo() using aoptions() function
-#' aoptions(key = "silent", value = TRUE)
-#' iris1 <- saveToRepo(iris, exampleRepoDir)
-#' iris2 <- saveToRepo(iris, exampleRepoDir)
-#' # Note that there is no warning. Normally a user receives ani information
-#' # about another archivisation of the same artifact.
-#' 
-#' # deleting example repoDir
-#' deleteRepo(exampleRepoDir, deleteRoot = TRUE)
-#' rm(exampleRepoDir)
-#' 
-#' ## EXAMPLE 2 : SET default local repository using aoptions() function.
+#' ## EXAMPLE 1 : SET default local repository using aoptions() function.
 #' 
 #' # creating example repository
 #' exampleRepoDir <- tempfile()
-#' createEmptyRepo(exampleRepoDir)
+#' createLocalRepo(exampleRepoDir)
 #' 
 #' # "repodDir" parameter in each archivist function will be default and set to exampleRepoDir.
 #' aoptions(key = "repoDir", value = exampleRepoDir)
@@ -54,8 +43,8 @@
 #' data(iris)
 #' data(swiss)
 #' # From this moment repoDir parameter may be ommitted in the following functions
-#' saveToRepo(iris)
-#' saveToRepo(swiss) 
+#' saveToLocalRepo(iris)
+#' saveToLocalRepo(swiss) 
 #' showLocalRepo()
 #' showLocalRepo(method = "tags")
 #' zipLocalRepo()
@@ -63,40 +52,49 @@
 #' iris2 <- loadFromLocalRepo( "ff575c2" , value = TRUE)
 #' searchInLocalRepo("name:i", fixed = F)
 #' getTagsLocal("ff575c261c949d073b2895b05d1097c3")
-#' rmFromRepo("4c43f")
+#' rmFromLocalRepo("4c43f")
 #' showLocalRepo()
 #' summaryLocalRepo()
 #' 
 #' # REMEMBER that in deleteRepo you MUST specify repoDir parameter!
-#' # deleteRepo doesn't take setLocalRepo's settings into consideration
-#' deleteRepo( exampleRepoDir, deleteRoot = TRUE)
+#' # deleteLocalRepo doesn't take setLocalRepo's settings into consideration
+#' deleteLocalRepo( exampleRepoDir, deleteRoot = TRUE)
 #' rm( exampleRepoDir )
 #' 
-#' ## Github options
-#' showGithubRepo('archivist', 'pbiecek')
-#' aoptions('user', 'pbiecek')
-#' aoptions('repo', 'archivist')
-#' loadFromGithubRepo("ff575c261c", value = TRUE) -> iris123
+#' ## EXAMPLE 2 : SET default Github repository using aoptions() function.
+#' aoptions(key = "user", value = "pbiecek")
+#' aoptions(key = "repo", value = "archivist")
 #' 
-#' showGithubRepo('Museum', 'MarcinKosinski', repoDirGit = 'ex1')
+#' # From this moment user and repo parameters may be ommitted in the following functions:
+#' showRemoteRepo() 
+#' loadFromRemoteRepo( "ff575c261c949d073b2895b05d1097c3")
+#' this <- loadFromRemoteRepo( "ff", value = T)
+#' file.remove(file.path(getwd(), "repository.zip")) # We can remove this zip file
+#' searchInRemoteRepo( "name:", fixed= FALSE)
+#' getTagsGithub("ff575c261c949d073b2895b05d1097c3")
+#' summaryRemoteRepo( )
+#' searchInRemoteRepo( pattern=c("varname:Sepal.Width", "class:lm", "name:myplot123"), 
+#'                          intersect = FALSE ) 
+#' ## EXAMPLE 3 : SET default Github repository using aoptions() function.
+#' showRemoteRepo('Museum', 'MarcinKosinski', subdir = 'ex1')
 #' aoptions('repo', 'Museum')
 #' aoptions('user', 'MarcinKosinski')
-#' aoptions('repoDirGit', 'ex1')
+#' aoptions('subdir', 'ex1')
 #' aoptions('branch', 'master')
-#' showGithubRepo()
-#' showGithubRepo(repoDirGit = 'ex2')
+#' showRemoteRepo()
+#' showRemoteRepo(subdir = 'ex2')
 #' 
-#' aoptions('repoDirGit')
-#' 
-#' 
+#' aoptions('subdir')
 #' }
 #' 
 #' @family archivist
 #' @rdname archivistOptions
 #' @export
-aoptions <- function(key, value=NULL) {
+aoptions <- function(key, value=NULL, unset = FALSE) {
+  
   stopifnot( is.character( key ) )
-  if (!is.null(value)) {
+  stopifnot( is.logical( unset ) )
+  if (unset | !is.null(value)) {
     .ArchivistEnv[[key]] <- value
   }
   .ArchivistEnv[[key]]

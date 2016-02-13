@@ -21,26 +21,24 @@
 #' \itemize{
 #'  \item \link{addTagsRepo},
 #'  \item \link{copyLocalRepo}, 
-#'  \item \link{copyGithubRepo},
+#'  \item \link{copyRemoteRepo},
 #'  \item \link{loadFromLocalRepo}, 
-#'  \item \link{loadFromGithubRepo},
-#'  \item \link{getTagsGithub},
+#'  \item \link{loadFromRemoteRepo},
+#'  \item \link{getTagsRemote},
 #'  \item \link{getTagsLocal},
-#'  \item \link{rmFromRepo}.
+#'  \item \link{rmFromLocalRepo}.
 #' }
 #' Functions returning \code{md5hash} as a value are:
 #'\itemize{  
-#'  \item \link{saveToRepo},
+#'  \item \link{saveToLocalRepo},
 #'  \item \link{searchInLocalRepo},
-#'  \item \link{searchInGithubRepo},
-#'  \item \link{shinySearchInLocalRepo},
-#'  \item \link{multiSearchInLocalRepo},
-#'  \item \link{multiSearchInGithubRepo}.
+#'  \item \link{searchInRemoteRepo},
+#'  \item \link{shinySearchInLocalRepo}.
 #' }
 #' Functions returning \code{md5hashes} as a \code{data.frame} are:
 #' \itemize{
 #'  \item \link{showLocalRepo},
-#'  \item \link{showGithubRepo}.
+#'  \item \link{showRemoteRepo}.
 #' }
 #' 
 #' Learn more about \code{md5hashes} at \pkg{archivist} \code{wiki} webpage on 

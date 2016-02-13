@@ -3,17 +3,17 @@
 #' @title View the List of Artifacts from the Repository 
 #'
 #' @description
-#' \code{showLocalRepo} and \code{showGithubRepo} functions produce the \code{data.frame} of the artifacts from
+#' \code{showLocalRepo} and \code{showRemoteRepo} functions produce the \code{data.frame} of the artifacts from
 #' the \link{Repository} saved in a given \code{repoDir} (directory). \code{showLocalRepo}
-#' shows the artifacts from the \code{Repository} that exists on the user's computer whereas \code{showGithubRepo}
-#' shows the artifacts of the \code{Repository} existing on the Github repository.
+#' shows the artifacts from the \code{Repository} that exists on the user's computer whereas \code{showRemoteRepo}
+#' shows the artifacts of the \code{Repository} existing on the remote repository.
 #' To learn more about artifacts visit \link[archivist]{archivist-package}.
 #' 
 #' @details
-#' \code{showLocalRepo} and \code{showGithubRepo} functions produce the \code{data.frame} of the artifacts from
+#' \code{showLocalRepo} and \code{showRemoteRepo} functions produce the \code{data.frame} of the artifacts from
 #' a \link{Repository} saved in a given \code{repoDir} (directory). \code{showLocalRepo}
-#' shows the artifacts from the \code{Repository} that exists on the user's computer whereas \code{showGithubRepo}
-#' shows the artifacts of the \code{Repository} existing on the Github repository.
+#' shows the artifacts from the \code{Repository} that exists on the user's computer whereas \code{showRemoteRepo}
+#' shows the artifacts of the \code{Repository} existing on the remote repository.
 #' 
 #' Both functions show the current state of a \code{Repository}, inter alia, all archived artifacts can
 #' be seen with their unique \link{md5hash} or a \code{data.frame} with archived \link{Tags} can 
@@ -22,21 +22,22 @@
 #' @param method A character specifying a method to be used to show the Repository. Available methods: 
 #' \code{md5hashes} (default), \code{tags} and \code{sets} - see \href{https://github.com/pbiecek/archivist2}{archivist2::saveSetToRepo}.
 #' 
+#' @param repoType A character containing a type of the remote repository. Currently it can be 'github' or 'bitbucket'.
+#' 
 #' @param repoDir A character denoting an existing directory of the Repository for which metadata will be returned.
-#' If it is set to \code{NULL} (by default), it will use the \code{repoDir} specified in \link{setLocalRepo}.
 #' 
-#' @param repo While working with the Github repository. A character containing a name of the Github repository on which the Repository is stored.
+#' @param repo While working with the Remote repository. A character containing a name of the Remote repository on which the Repository is stored.
 #' By default set to \code{NULL} - see \code{Note}.
 #' 
-#' @param user While working with the Github repository. A character containing a name of the Github user on whose account the \code{repo} is created.
+#' @param user While working with the Remote repository. A character containing a name of the Remote user on whose account the \code{repo} is created.
 #' By default set to \code{NULL} - see \code{Note}.
 #'
-#' @param branch While working with the Github repository. A character containing a name of 
-#' the Github Repository's branch on which the Repository is stored. Default \code{branch} is \code{master}.
+#' @param branch While working with the Remote repository. A character containing a name of 
+#' the Remote Repository's branch on which the Repository is stored. Default \code{branch} is \code{master}.
 #'
-#' @param repoDirGit While working with the Github repository. A character containing a name of a directory on the Github repository 
-#' on which the Repository is stored. If the Repository is stored in the main folder of the Github repository, this should be set 
-#' to \code{repoDirGit = FALSE} as default.
+#' @param subdir While working with the Remote repository. A character containing a name of a directory on the Remote repository 
+#' on which the Repository is stored. If the Repository is stored in the main folder of the Remote repository, this should be set 
+#' to \code{subdir = "/"} as default.
 #' 
 #' @return
 #' 
@@ -53,8 +54,8 @@
 #' 
 #' 
 #' @note
-#' If \code{repo} and \code{user} are set to \code{NULL} (as default) in the Github mode then global parameters
-#' set in \link{setGithubRepo} function are used.
+#' If \code{repo} and \code{user} are set to \code{NULL} (as default) in the Remote mode then global parameters
+#' set in \link{setRemoteRepo} (or via \link{aoptions}) function are used.
 #' 
 #' @author 
 #' Marcin Kosinski , \email{m.p.kosinski@@gmail.com}
@@ -62,139 +63,49 @@
 #' @examples
 #' \dontrun{
 #' # objects preparation
-#' 
-#' # data.frame object
-#' data(iris)
-#' 
-#' # ggplot/gg object
-#' library(ggplot2)
-#' df <- data.frame(gp = factor(rep(letters[1:3], each = 10)),y = rnorm(30))
-#' library(plyr)
-#' ds <- ddply(df, .(gp), summarise, mean = mean(y), sd = sd(y))
-#' myplot123 <- ggplot(df, aes(x = gp, y = y)) +
-#'   geom_point() +  geom_point(data = ds, aes(y = mean),
-#'                colour = 'red', size = 3)
-#'                
-#' # lm object                
-#' model <- lm(Sepal.Length~ Sepal.Width + Petal.Length + Petal.Width, data= iris)
-#' 
-#' 
-#' # lda object
-#' library(MASS)
 #'
-#' Iris <- data.frame(rbind(iris3[,,1], iris3[,,2], iris3[,,3]),
-#'                   Sp = rep(c("s","c","v"), rep(50,3)))
-#' train <- c(8,83,115,118,146,82,76,9,70,139,85,59,78,143,68,
-#'            134,148,12,141,101,144,114,41,95,61,128,2,42,37,
-#'            29,77,20,44,98,74,32,27,11,49,52,111,55,48,33,38,
-#'            113,126,24,104,3,66,81,31,39,26,123,18,108,73,50,
-#'            56,54,65,135,84,112,131,60,102,14,120,117,53,138,5)
-#' lda1 <- lda(Sp ~ ., Iris, prior = c(1,1,1)/3, subset = train)
-#'
-#' # qda object
-#' tr <- c(7,38,47,43,20,37,44,22,46,49,50,19,4,32,12,29,27,34,2,1,17,13,3,35,36)
-#' train <- rbind(iris3[tr,,1], iris3[tr,,2], iris3[tr,,3])
-#' cl <- factor(c(rep("s",25), rep("c",25), rep("v",25)))
-#' qda1 <- qda(train, cl)
-#'
-#' # glmnet object
-#' library( glmnet )
-#'
-#' zk=matrix(rnorm(100*20),100,20)
-#' bk=rnorm(100)
-#' glmnet1=glmnet(zk,bk)
-#'
-#' # creating example Repository - on which examples will work
-#' 
-#' exampleRepoDir <- tempfile()
-#' createEmptyRepo(repoDir = exampleRepoDir)
-#' saveToRepo(myplot123, repoDir=exampleRepoDir)
-#' saveToRepo(iris, repoDir=exampleRepoDir)
-#' saveToRepo(model, repoDir=exampleRepoDir)
-#'
-#' # show examples
-#'
-#' showLocalRepo(method = "md5hashes", repoDir = exampleRepoDir)
-#' showLocalRepo(method = "tags", repoDir = exampleRepoDir)
-#' 
-#' # let's add more artifacts
-#'
-#' saveToRepo(glmnet1, repoDir=exampleRepoDir)
-#' saveToRepo(lda1, repoDir=exampleRepoDir)
-#' (qda1Md5hash <- saveToRepo(qda1, repoDir=exampleRepoDir))
-#' 
-#' # show now
-#' 
-#' showLocalRepo(method = "md5hashes", repoDir = exampleRepoDir)
-#' showLocalRepo(method = "tags", repoDir = exampleRepoDir)
-#' 
-#' # what if we remove an artifact
-#' 
-#' rmFromRepo(qda1Md5hash, repoDir = exampleRepoDir)
-#'
-#' # show now
-#' 
-#' showLocalRepo(method = "md5hashes", repoDir = exampleRepoDir)
-#' showLocalRepo(method = "tags", repoDir = exampleRepoDir)
-#' 
-#' # GitHub version
-#' 
-#' showGithubRepo(method = "md5hashes", user = "pbiecek", repo = "archivist")
-#' showGithubRepo(method = "tags", user = "pbiecek", repo = "archivist", branch = "master")
+#' showLocalRepo(method = "md5hashes", 
+#'    repoDir = system.file("graphGallery", package = "archivist"))
+#' showLocalRepo(method = "tags", 
+#'    repoDir = system.file("graphGallery", package = "archivist"))
 #' 
 #' 
+#' # Remote version
 #' 
-#' # sets method
-#' setLocalRepo( exampleRepoDir )
-#' library(ggplot2)
-#' library(ggthemes)
+#' showRemoteRepo(method = "md5hashes", user = "pbiecek", repo = "archivist")
+#' showRemoteRepo(method = "tags", user = "pbiecek", repo = "archivist", branch = "master")
 #' 
-#' data(iris)
+#' # many archivist-like Repositories on one Remote repository
 #' 
-#' plotArtifact <- ggplot( iris, aes(x = Sepal.Length, y = Species)) +
-#'   geom_point()+
-#'   theme_wsj()
-#' 
-#' plotData <- iris
-#' plotFunctions <- list( ggplot, geom_point, theme_wsj)
-#' 
-#' # removing an example Repository
-#'   
-#' deleteRepo( exampleRepoDir, TRUE )
-#'   
-#' rm( exampleRepoDir )
-#' 
-#' # many archivist-like Repositories on one Github repository
-#' 
-#' showGithubRepo( user="MarcinKosinski", repo="Museum", branch="master",
-#' repoDirGit="ex1")
-#' showGithubRepo( user="MarcinKosinski", repo="Museum", branch="master",
-#'                 repoDirGit="ex2")
+#' showRemoteRepo( user="MarcinKosinski", repo="Museum", branch="master",
+#'                 subdir="ex1")
+#' showRemoteRepo( user="MarcinKosinski", repo="Museum", branch="master",
+#'                 subdir="ex2")
 #'                 
-#' ## Github options
-#' showGithubRepo('archivist', 'pbiecek')
+#' ## Remote options
+#' showRemoteRepo('archivist', 'pbiecek')
 #' aoptions('user', 'pbiecek')
 #' aoptions('repo', 'archivist')
-#' loadFromGithubRepo("ff575c261c", value = TRUE) -> iris123
+#' loadFromRemoteRepo("ff575c261c", value = TRUE) -> iris123
 #' 
-#' showGithubRepo('Museum', 'MarcinKosinski', repoDirGit = 'ex1')
+#' showRemoteRepo('Museum', 'MarcinKosinski', subdir = 'ex1')
 #' aoptions('repo', 'Museum')
 #' aoptions('user', 'MarcinKosinski')
-#' aoptions('repoDirGit', 'ex1')
+#' aoptions('subdir', 'ex1')
 #' aoptions('branch', 'master')
-#' showGithubRepo()
-#' showGithubRepo(repoDirGit = 'ex2')
+#' showRemoteRepo()
+#' showRemoteRepo(subdir = 'ex2')
 #' 
-#' aoptions('repoDirGit')
+#' aoptions('subdir')
 #'
 #' 
 #' }
 #' @family archivist
 #' @rdname showRepo
 #' @export
-showLocalRepo <- function( repoDir = NULL, method = "md5hashes" ){
+showLocalRepo <- function( repoDir = aoptions("repoDir"), method = "md5hashes"){
   stopifnot( is.character( method ), length( method ) == 1 )
-  stopifnot( ( is.character( repoDir ) & length( repoDir ) == 1 ) | is.null( repoDir ) )
+  stopifnot( is.character( repoDir ) & length( repoDir ) == 1 )
   
   repoDir <- checkDirectory( repoDir )
   
@@ -204,15 +115,16 @@ showLocalRepo <- function( repoDir = NULL, method = "md5hashes" ){
 
 #' @rdname showRepo
 #' @export
-showGithubRepo <- function( repo = NULL, user = NULL, branch = "master", repoDirGit = FALSE,
+showRemoteRepo <- function( repo = aoptions("repo"), user = aoptions("user"), branch = aoptions("branch"), subdir = aoptions("subdir"),
+                            repoType = aoptions("repoType"),
                             method = "md5hashes" ){
   stopifnot( is.character( c( method, branch ) ), length( method ) == 1, length( branch ) == 1  )
   
-  
-  GithubCheck( repo, user, repoDirGit ) # implemented in setRepo.R
+  RemoteRepoCheck( repo, user, branch, subdir, repoType) # implemented in setRepo.R
   
   # database is needed to be downloaded
-  Temp <- downloadDB( repo, user, branch, repoDirGit )
+  remoteHook <- getRemoteHook(repo=repo, user=user, branch=branch, subdir=subdir, repoType=repoType)
+  Temp <- downloadDB( remoteHook )
   
   showRepo( method = method, dir = Temp, local = FALSE )
 }
@@ -221,13 +133,13 @@ showGithubRepo <- function( repo = NULL, user = NULL, branch = "master", repoDir
 showRepo <- function( method, local = TRUE, dir ){
   
   if ( method == "md5hashes" )
-    value <- readSingleTable( dir, "artifact", realDBname = local )
+    value <- readSingleTable( dir, "artifact" )
   
   if ( method == "tags" )
-    value <- readSingleTable( dir, "tag", realDBname = local )
+    value <- readSingleTable( dir, "tag" )
   
   if ( method == "sets" ){
-    value <- readSingleTable( dir, "tag", realDBname = local ) 
+    value <- readSingleTable( dir, "tag" ) 
       onlySetsNumber <- grep( "set", value$tag )
       onlySetsHashes <- value[onlySetsNumber, "artifact"]
     value <- value[ value$artifact %in% onlySetsHashes, ]

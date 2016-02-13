@@ -4,12 +4,12 @@
 #'
 #' @description
 #' \code{loadFromLocalRepo} loads an artifact from a local \link{Repository} into the workspace.
-#' \code{loadFromGithubRepo} loads an artifact from a Github \link{Repository} into the workspace.
+#' \code{loadFromRemoteRepo} loads an artifact from a github / git / mercurial \link{Repository} into the workspace.
 #' To learn more about artifacts visit \link[archivist]{archivist-package}.
 #' 
 #' @details
-#' Functions \code{loadFromLocalRepo} and \code{loadFromGithubRepo} load artifacts from the archivist Repositories 
-#' stored in a local folder or on Github. Both of them take \code{md5hash} as a
+#' Functions \code{loadFromLocalRepo} and \code{loadFromRemoteRepo} load artifacts from the archivist Repositories 
+#' stored in a local folder or on git. Both of them take \code{md5hash} as a
 #' parameter, which is a result of \link{saveToRepo} function.
 #' For each artifact, \code{md5hash} is a unique string of length 32 that is produced by
 #' \link[digest]{digest} function, which uses a cryptographical MD5 hash algorithm. For more information see \link{md5hash}.
@@ -18,10 +18,10 @@
 #' For example, \code{a09dd} instead of \code{a09ddjdkf9kj33dcjdnfjgos9jd9jkcv}. All artifacts with the same \code{md5hash} 
 #' abbreviation will be loaded from \link{Repository}.
 #' 
-#' Note that \code{user} and \code{repo} should be used only when working with a Github repository and should be omitted in the local mode. 
-#' \code{repoDir} should only be used when working on a local Repository and should be omitted in the Github mode.
+#' Note that \code{user} and \code{repo} should be used only when working with a git repository and should be omitted in the local mode. 
+#' \code{repoDir} should only be used when working on a local Repository and should be omitted in the git mode.
 #' 
-#' One may notice that \code{loadFromGithubRepo} and \code{loadFromLocalRepo} load artifacts to the Global
+#' One may notice that \code{loadFromRemoteRepo} and \code{loadFromLocalRepo} load artifacts to the Global
 #' Environment with their original names. Alternatively,
 #' a parameter \code{value = TRUE} can be specified so that these functions may return artifacts as a value. As a result loaded artifacts
 #' can be attributed to new names. Note that, when an abbreviation of \code{md5hash} was given then a list of artifacts corresponding to this
@@ -30,24 +30,30 @@
 #' @note
 #' You can specify one \code{md5hash} (or its abbreviation) per function call. 
 #' 
-#' If \code{repo} and \code{user} are set to \code{NULL} (as default) in Github mode then global parameters
-#' set in \link{setGithubRepo} function are used.
+#' If \code{repo} and \code{user} are set to \code{NULL} (as default) in Remote mode then global parameters
+#' set in \link{setRemoteRepo} function are used.
+#' 
+#' You should remember while using \code{loadFromRepo} wrapper that \code{repoDir} is
+#' a parameter used only in \code{loadFromLocalRepo} while \code{repo}, \code{user},
+#' \code{branch} and \code{subdir} are used only in \code{loadFromRemoteRepo}. When you mix those
+#' parameters you will receive an error message.
+#' 
+#' @param repoType A character containing a type of the remote repository. Currently it can be 'Remote' or 'bitbucket'.
 #' 
 #' @param repoDir A character denoting an existing directory from which an artifact will be loaded.
-#' If it is set to \code{NULL} (by default), it will use the \code{repoDir} specified in \link{setLocalRepo}.
 #' 
 #' @param md5hash A character assigned to the artifact through the use of a cryptographical hash function with MD5 algorithm, or it's abbreviation.
 #' 
-#' @param repo While working with a Github repository. A character containing a name of a Github repository on which the Repository is archived.
+#' @param repo While working with a Remote repository. A character containing a name of a Remote repository on which the Repository is archived.
 #' By default set to \code{NULL} - see \code{Note}.
-#' @param user While working with a Github repository. A character containing a name of a Github user on whose account the \code{repo} is created.
+#' @param user While working with a Remote repository. A character containing a name of a Remote user on whose account the \code{repo} is created.
 #' By default set to \code{NULL} - see \code{Note}. 
-#' @param branch While working with a Github repository. A character containing a name of 
-#' Github Repository's branch on which the Repository is archived. Default \code{branch} is \code{master}.
+#' @param branch While working with a Remote repository. A character containing a name of 
+#' Remote Repository's branch on which the Repository is archived. Default \code{branch} is \code{master}.
 #' 
-#' @param repoDirGit While working with a Github repository. A character containing a name of a directory on Github repository 
-#' on which the Repository is stored. If the Repository is stored in main folder on Github repository, this should be set 
-#' to \code{repoDirGit = FALSE} as default.
+#' @param subdir While working with a Remote repository. A character containing a name of a directory on Remote repository 
+#' on which the Repository is stored. If the Repository is stored in main folder on Remote repository, this should be set 
+#' to \code{subdir = "/"} as default.
 #' 
 #' @param value If \code{FALSE} (default) then artifacts are loaded into the Global Environment with their original names, 
 #' if \code{TRUE} then artifacts are returned as a list of values (if there is more than one artifact)
@@ -61,118 +67,42 @@
 #' \dontrun{
 #' # objects preparation
 #' 
-#' # data.frame object
+#' #' exampleRepoDir <- tempfile()
+#' createLocalRepo(repoDir = exampleRepoDir)
 #' data(iris)
-#' 
-#' # ggplot/gg object
-#' library(ggplot2)
-#' df <- data.frame(gp = factor(rep(letters[1:3], each = 10)),y = rnorm(30))
-#' library(plyr)
-#' ds <- ddply(df, .(gp), summarise, mean = mean(y), sd = sd(y))
-#' myplot123 <- ggplot(df, aes(x = gp, y = y)) +
-#'   geom_point() +  geom_point(data = ds, aes(y = mean),
-#'                              colour = 'red', size = 3)
-#' 
-#' # lm object
-#' model <- lm(Sepal.Length~ Sepal.Width + Petal.Length + Petal.Width, data= iris)
-#' model2 <- lm(Sepal.Length~ Sepal.Width + Petal.Width, data= iris)
-#' model3 <- lm(Sepal.Length~ Sepal.Width, data= iris)
-#' 
-#' # agnes (twins) object
-#' library(cluster)
-#' data(votes.repub)
-#' agn1 <- agnes(votes.repub, metric = "manhattan", stand = TRUE)
-#' 
-#' # fanny (partition) object
-#' x <- rbind(cbind(rnorm(10, 0, 0.5), rnorm(10, 0, 0.5)),
-#'            cbind(rnorm(15, 5, 0.5), rnorm(15, 5, 0.5)),
-#'            cbind(rnorm( 3,3.2,0.5), rnorm( 3,3.2,0.5)))
-#' fannyx <- fanny(x, 2)
-#' 
-#' # creating example Repository - on which examples will work
-#' 
-#' exampleRepoDir <- tempfile()
-#' createEmptyRepo(repoDir = exampleRepoDir)
-#' myplo123Md5hash <- saveToRepo(myplot123, repoDir=exampleRepoDir)
-#' irisMd5hash <- saveToRepo(iris, repoDir=exampleRepoDir)
-#' modelMd5hash  <- saveToRepo(model, repoDir=exampleRepoDir)
-#' agn1Md5hash <- saveToRepo(agn1, repoDir=exampleRepoDir)
-#' fannyxMd5hash <- saveToRepo(fannyx, repoDir=exampleRepoDir)
-#' 
-#' # let's see how the Repository looks like: show
-#' 
+#' saveToLocalRepo(iris, repoDir=exampleRepoDir, archiveSessionInfo = TRUE)
 #' showLocalRepo(method = "md5hashes", repoDir = exampleRepoDir)
 #' showLocalRepo(method = "tags", repoDir = exampleRepoDir)
 #' 
-#' # let's see how the Repository looks like: summary
+#' loadFromLocalRepo(md5hash = '600bda83cb840947976bd1ce3a11879d',
+#'   repoDir = system.file("graphGallery", package = "archivist"), value = TRUE) -> pl
+#' deleteLocalRepo(exampleRepoDir, TRUE)
+#' rm(exampleRepoDir)
 #' 
-#' summaryLocalRepo( exampleRepoDir )
-#' 
-#' # load examples
-#' 
-#' # first let's remove objects from Global Environment
-#' rm(myplot123)
-#' rm(iris)
-#' rm(agn1)
-#' 
-#' # if those objects were archivised, they can be loaded
-#' # from Repository, when knowing their md5hash
-#' 
-#' loadFromLocalRepo(myplo123Md5hash, repoDir = exampleRepoDir)
-#' loadFromLocalRepo(irisMd5hash, repoDir = exampleRepoDir)
-#' 
-#' 
-#' # if one doesn't remember the object's md5hash but
-#' # remembers the object's name, this object can still be
-#' # loaded.
-#' 
-#' agnesHash <- searchInLocalRepo( "name:agn1", repoDir = exampleRepoDir)
-#' loadFromLocalRepo(agnesHash, repoDir = exampleRepoDir)
-#' 
-#' # one can check that object has his own unique md5hash
-#' agnesHash == agn1Md5hash
-#' 
-#' # object can be loadad as a value
-#' 
-#' newData <- loadFromLocalRepo(irisMd5hash, repoDir = exampleRepoDir, value = TRUE)
-#' 
-#' # object can be also loaded from it's abbreviation
-#' # modelMd5hash <- saveToRepo( model , repoDir=exampleRepoDir)
-#' rm( model )
-#' # "cd6557c6163a6f9800f308f343e75e72"
-#' # so example abbreviation might be : "cd6557c"
-#' loadFromLocalRepo("cd6557c", repoDir = exampleRepoDir)
-#' 
-#' # and can be loaded as a value from it's abbreviation
-#' newModel  <- loadFromLocalRepo("cd6557c", repoDir = exampleRepoDir, value = TRUE)
-#' # note that "model" was not deleted
-
-#' # removing an example Repository
-#' deleteRepo( exampleRepoDir, TRUE)
 #' 
 #' #
-#' #GitHub Version
+#' #Remote Version
 #' #
 #' 
 #' # check the state of the Repository
-#' summaryGithubRepo( user="pbiecek", repo="archivist" )
-#' showGithubRepo( user="pbiecek", repo="archivist" )
-#' showGithubRepo( user="pbiecek", repo="archivist", method = "tags" )
+#' summaryRemoteRepo( user="pbiecek", repo="archivist" )
+#' showRemoteRepo( user="pbiecek", repo="archivist" )
+#' showRemoteRepo( user="pbiecek", repo="archivist", method = "tags" )
 #' 
 #' rm( model )
 #' rm( myplot123 )
 #' rm( qda1 )
-#' (VARmd5hash <- searchInGithubRepo( "varname:Sepal.Width", 
+#' (VARmd5hash <- searchInRemoteRepo( "varname:Sepal.Width", 
 #'                    user="pbiecek", repo="archivist" ))
-#' (NAMEmd5hash <- searchInGithubRepo( "name:qda1", 
+#' (NAMEmd5hash <- searchInRemoteRepo( "name:qda1", 
 #'                    user="pbiecek", repo="archivist", branch="master" ))
-#' (CLASSmd5hash <- searchInGithubRepo( "class:ggplot", 
+#' (CLASSmd5hash <- searchInRemoteRepo( "class:ggplot", 
 #'                    user="pbiecek", repo="archivist", branch="master" ))
 #' 
 #' 
-#' loadFromGithubRepo( "ff575c261c", user="pbiecek", repo="archivist")
-#' NewObjects <- loadFromGithubRepo( NAMEmd5hash, user="pbiecek", repo="archivist", value = TRUE )
-#' loadFromGithubRepo( CLASSmd5hash, user="pbiecek", repo="archivist")
+#' loadFromRemoteRepo( "ff575c261c", user="pbiecek", repo="archivist")
+#' NewObjects <- loadFromRemoteRepo( NAMEmd5hash, user="pbiecek", repo="archivist", value = TRUE )
+#' loadFromRemoteRepo( CLASSmd5hash, user="pbiecek", repo="archivist")
 #' 
 #' 
 #' ## Loading artifacts from the repository which is built in the archivist package 
@@ -181,7 +111,7 @@
 #' # Creating an example Repository - on which artifacts loaded from the
 #' # archivist package repository will be saved
 #' exampleRepoDir <- tempfile()
-#' createEmptyRepo(repoDir = exampleRepoDir)
+#' createLocalRepo(repoDir = exampleRepoDir)
 #' 
 #' # Directory of the archivist package repository
 #' repo_archivist <- system.file("graphGallery", package = "archivist") 
@@ -210,26 +140,41 @@
 #' 
 #' # removing an example Repository
 #' 
-#' deleteRepo( exampleRepoDir, TRUE)
+#' deleteLocalRepo( exampleRepoDir, TRUE)
 #' 
 #' rm( exampleRepoDir )
 #' 
-#' # many archivist-like Repositories on one Github repository
+#' # many archivist-like Repositories on one Remote repository
 #' 
-#' loadFromGithubRepo( "ff575c261c949d073b2895b05d1097c3", 
-#' user="MarcinKosinski", repo="Museum", branch="master", repoDirGit="ex2")
+#' loadFromRemoteRepo( "ff575c261c949d073b2895b05d1097c3", 
+#' user="MarcinKosinski", repo="Museum", branch="master", subdir="ex2")
 #' 
 #' 
-#' loadFromGithubRepo( "ff575c261c949d073b2895b05d1097c3", 
+#' loadFromRemoteRepo( "ff575c261c949d073b2895b05d1097c3", 
 #'                     user="MarcinKosinski", repo="Museum", branch="master",
-#'                     repoDirGit="ex1")
+#'                     subdir="ex1")
+#'                     
+#' #github
+#' loadFromRemoteRepo(md5hash = "08dc0b66975cded92b5cd8291ebdc955", 
+#'                repo = "graphGallery", user = "pbiecek", 
+#'                repoType = "github", value = TRUE)
+#'            
+#' #git
+#' loadFromRemoteRepo(md5hash = "08dc0b66975cded92b5cd8291ebdc955", 
+#'                repo = "graphGalleryGit", user = "pbiecek", 
+#'                repoType = "bitbucket", value = TRUE)
+#' 
+#' # mercurial               
+#' loadFromRemoteRepo(md5hash = "08dc0b66975cded92b5cd8291ebdc955", 
+#'                repo = "graphGalleryM", user = "pbiecek", 
+#'                repoType = "bitbucket", value = TRUE)
 #' }
 #' @family archivist
 #' @rdname loadFromRepo
 #' @export
-loadFromLocalRepo <- function( md5hash, repoDir = NULL, value = FALSE ){
+loadFromLocalRepo <- function( md5hash, repoDir = aoptions('repoDir'), value = FALSE ){
   stopifnot( is.character( md5hash ), length( md5hash ) == 1 )
-  stopifnot( (is.character( repoDir ) & length( repoDir ) == 1) | is.null( repoDir ) )
+  stopifnot( is.character( repoDir ) & length( repoDir ) == 1) 
   stopifnot( is.logical( value ) )
   
   repoDir <- checkDirectory( repoDir )
@@ -264,39 +209,34 @@ loadFromLocalRepo <- function( md5hash, repoDir = NULL, value = FALSE ){
 
 #' @rdname loadFromRepo
 #' @export
-loadFromGithubRepo <- function( md5hash, repo = NULL, user = NULL, branch = "master", repoDirGit = FALSE, value = FALSE ){
+loadFromRemoteRepo <- function( md5hash, repo = aoptions("repo"), user = aoptions("user"), branch = aoptions("branch"), subdir = aoptions("subdir"),
+                                repoType = aoptions("repoType"), value = FALSE ){
   stopifnot( is.character( c( md5hash, branch ) ), length( md5hash ) == 1, length( branch ) == 1 )
   stopifnot( is.logical( value ) )
   
-  GithubCheck( repo, user, repoDirGit ) # implemented in setRepo.R
+  RemoteRepoCheck( repo, user, branch, subdir, repoType) # implemented in setRepo.R
   
+  remoteHook <- getRemoteHook(repo=repo, user=user, branch=branch, subdir=subdir, repoType=repoType)
   
   # what if abbreviation was given
   if ( nchar( md5hash ) < 32 ){
     # database is needed to be downloaded
-    Temp <- downloadDB( repo, user, branch, repoDirGit )
+    Temp <- downloadDB( remoteHook )
       
-    md5hashList <- executeSingleQuery( dir = Temp, realDBname = FALSE,
+    md5hashList <- executeSingleQuery( dir = Temp, 
                                        paste0( "SELECT DISTINCT artifact FROM tag WHERE artifact LIKE '",md5hash,"%'" ) )
     md5hash <- as.character( md5hashList[, 1] )
     
-    file.remove( Temp )
+    unlink( Temp, recursive = TRUE, force = TRUE)
   }
       
   # load artifacts from Repository
   if ( !value ){
     
     # sapply and replicate because of abbreviation mode can find more than 1 md5hash
-    if( is.character( repoDirGit )){
     tmpobjectS <- lapply( md5hash, function(x){
-      getBinaryURL( file.path( get( x = ".GithubURL", envir = .ArchivistEnv), user, repo,
-                            branch, repoDirGit, "gallery", paste0(x, ".rda") ) )  } )
-    }
-    if( is.logical( repoDirGit )){
-      tmpobjectS <- lapply( md5hash, function(x){
-        getBinaryURL( file.path( get( x = ".GithubURL", envir = .ArchivistEnv), user, repo,
-                              branch, "gallery", paste0(x, ".rda") ) )  } )  
-    }
+      getBinaryURL( file.path( remoteHook, "gallery", paste0(x, ".rda") ) )  } )  
+
     tfS <- replicate( length( md5hash ), tempfile() )
         
     for (i in seq_along( tfS )){
@@ -309,16 +249,9 @@ loadFromGithubRepo <- function( md5hash, repo = NULL, user = NULL, branch = "mas
     # returns objects as value
 
     # sapply and replicate because of abbreviation mode can find more than 1 md5hash
-    if( is.character( repoDirGit )){
-      tmpobjectS <- lapply( md5hash, function(x){
-        getBinaryURL( file.path( get( x = ".GithubURL", envir = .ArchivistEnv), user, repo,
-                              branch, repoDirGit, "gallery", paste0(x, ".rda") ) )  } )
-    }
-    if( is.logical( repoDirGit )){
-      tmpobjectS <- lapply( md5hash, function(x){
-        getBinaryURL( file.path( get( x = ".GithubURL", envir = .ArchivistEnv), user, repo,
-                              branch, "gallery", paste0(x, ".rda") ) )  } )  
-    }
+    tmpobjectS <- lapply( md5hash, function(x){
+        getBinaryURL( file.path( remoteHook, "gallery", paste0(x, ".rda") ) )  } )  
+
     tfS <- replicate( length( md5hash ), tempfile() )
     
     for (i in seq_along(tmpobjectS)){
@@ -338,3 +271,4 @@ loadFromGithubRepo <- function( md5hash, repo = NULL, user = NULL, branch = "mas
   }
 }
 }
+
