@@ -1,5 +1,5 @@
-d7ab5449741517edc4bb7db9ac7ac6d2 *DESCRIPTION
-d80f44fbd4d5f05c06714797563f4ba5 *NAMESPACE
+45ce213869cb59b6491129edee9bdf3a *DESCRIPTION
+1f4ec8b368d0068bc722ca6a1f0e9e2a *NAMESPACE
 8dec54105bf3e22664d92b48535663db *NEWS.md
 df174b0dd1252129eb6d1e717299297b *R/Repository.R
 1467a520ee54fefc3c7fc3bfe62127e4 *R/Tags.R
@@ -15,9 +15,9 @@ ac09dd8349bcd8a62c90cb7559dcb582 *R/aread.R
 43f6928e0de33d576d3d026bc24bb9b7 *R/atags.R
 6e213c5158f3b2092f13017f3f7ad9a5 *R/cache.R
 50d8ed0b90882f41f850819342e1d287 *R/copyToRepo.R
-f34e73d41bbb64d4c32eb80f226321ae *R/createEmptyRepo.R
+be21eca9724f4d17e48ec303a866ac07 *R/createEmptyRepo.R
 c59726154e2adce6a86aec7fda98820f *R/createMDGallery.R
-8cd5b020b54c608b88a40fe918cc1913 *R/deleteRepo.R
+47b1b32076d9bb7d972b17103037907b *R/deleteRepo.R
 0da43917873a979feaab883130f667ac *R/extractData.R
 da6214105c8a890942e54d290b1f97da *R/extractMiniature.R
 b4685e4f7569d23cf7361576237bdf10 *R/extractTags.R
@@ -26,7 +26,7 @@ b4685e4f7569d23cf7361576237bdf10 *R/extractTags.R
 52259bc8f62ff4130ab7e6358ca24484 *R/loadFromRepo.R
 d716e53e034bb21ac878023ad795fe4c *R/magrittr.R
 e68830b70b254aa37f82eec9fb167627 *R/md5hash.R
-1ad6e20032045fa5f8340d4679d198fd *R/rmFromRepo.R
+a687fafe35486509bee5b8a30ee885b0 *R/rmFromRepo.R
 249554b549ecdd9009964a84e1536933 *R/saveToRepo.R
 17b03af4a59050d634f22e46652e2d2d *R/searchInRepo.R
 ca6961192f27dd33378b7baece0134e3 *R/setRepo.R
@@ -35,7 +35,7 @@ bfd4bffed55aa03943d892605bd07166 *R/shinySearchInLocalRepo.R
 74b2dc6ff8ca31f2d464bf226ab12619 *R/splitTags.R
 9b6566da5efda4d8cf144a3958cf7332 *R/summaryRepo.R
 6035c600761a72a4e7412ebf4276a9e7 *R/zipRepo.R
-36fe45e7821c64ab8de9732812daaac0 *R/zzz.R
+936a3c8adff520848883e5f32a498382 *R/zzz.R
 87d6a06f27129cade719eeb7b7bed292 *demo/00Index
 f88c17a1a0683595c8ebadc6eb67fdac *demo/archivist_jss.r
 8654271957fdb8b34093900efdbfde69 *inst/CITATION
@@ -80,14 +80,14 @@ cd1395e8fedb452b820f1dfd6daa2aaa *man/asearch.Rd
 b04093da19e942c28d897f6308c8bf96 *man/copyToRepo.Rd
 c28790777cbe4efcdad45edd07a8ae7b *man/createEmptyRepo.Rd
 c6a6c6f77e19dfd7255a55c3107c4acb *man/createMDGallery.Rd
-bf6c1b4d756700df8bec6c8b1071c14f *man/deleteLocalRepo.Rd
+dc2423684f10053a46c35f38cabef32c *man/deleteLocalRepo.Rd
 4e8cad7611ce1a344be838d551cf14e8 *man/getRemoteHook.Rd
 b062fdf8613033debd53c756b96c82ad *man/getTags.Rd
 766630675224ec603f036077224b8340 *man/loadFromRepo.Rd
 a40fbf2af6665b1e6331cc4a7b5af336 *man/magrittr.Rd
 1423f98fdc83cad02488c32dd9298407 *man/md5hash.Rd
 211dcb2b17352ee919b6d10745402d92 *man/pipe.Rd
-08b9881a2d954f8f42e41be7152523e5 *man/rmFromLocalRepo.Rd
+e0c16fe73232fa15abd2cb5a2aafd26e *man/rmFromLocalRepo.Rd
 50fae28958871b12fd26532a4286f267 *man/saveToRepo.Rd
 0f8d1399eebaf04f77a1b0ca56472013 *man/searchInRepo.Rd
 c6e1a0997b1539f746413fe36e132e6a *man/setRepo.Rd
