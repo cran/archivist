@@ -1,5 +1,5 @@
 Package: archivist
-Version: 2.0.2
+Version: 2.0.3
 Type: Package
 Title: Tools for Storing, Restoring and Searching for R Objects
 Authors@R: c(
@@ -33,9 +33,9 @@ Suggests: shiny, dplyr, testthat, ggplot2, devtools, knitr
 BugReports: https://github.com/pbiecek/archivist/issues
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-03-04 21:59:14 UTC; pbiecek
+Packaged: 2016-03-07 20:03:05 UTC; pbiecek
 Author: Przemyslaw Biecek [aut, cre],
   Marcin Kosinski [aut],
   Witold Chodor [ctb]
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
-Date/Publication: 2016-03-05 00:12:40
+Date/Publication: 2016-03-08 00:16:09

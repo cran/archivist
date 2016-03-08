@@ -1,5 +1,5 @@
-7173fee9f0b159f0abcde0caf100d637 *DESCRIPTION
-4e127951102ce537713bc401deecabf2 *NAMESPACE
+8de1e5a79dac038883c3f5ecea54e04c *DESCRIPTION
+36a848a4bbeeba4e5ffb39f0e4bf51bf *NAMESPACE
 e7e08eaaad4c91a24a1d83410f6082ea *NEWS.md
 df174b0dd1252129eb6d1e717299297b *R/Repository.R
 1467a520ee54fefc3c7fc3bfe62127e4 *R/Tags.R
@@ -7,7 +7,7 @@ df174b0dd1252129eb6d1e717299297b *R/Repository.R
 4bccd3ca7e61e8aed7f5511d036a4611 *R/addTagsRepo.R
 71be64a33618e4bdaf97929d468f166b *R/ahistory.R
 98002e7f7b10dd60d818f334b7bd750b *R/alink.R
-8bdae01da086c0adcc1d9fffb88f501d *R/archivist-package.R
+040b2401b5f1750b28a3d748689c98f3 *R/archivist-package.R
 12859d848e0ec35de6ae045fde76eaab *R/archivistOptions.R
 1e78f6a15338826ac0b2c1a26a6301cb *R/aread.R
 698b8ac53f3f35e36347528714ab5ad0 *R/asearch.R
@@ -26,7 +26,7 @@ b4685e4f7569d23cf7361576237bdf10 *R/extractTags.R
 779387008a89f0bdb2f5ab38bbab32df *R/loadFromRepo.R
 d716e53e034bb21ac878023ad795fe4c *R/magrittr.R
 e68830b70b254aa37f82eec9fb167627 *R/md5hash.R
-0a1d742348dfcaf4cff7ad91e344a94c *R/restoreLibraries.R
+8a7940d04775558486390cb7eb657609 *R/restoreLibraries.R
 a687fafe35486509bee5b8a30ee885b0 *R/rmFromRepo.R
 9d60b032a0284709c55cea9d9624fbd5 *R/saveToRepo.R
 17b03af4a59050d634f22e46652e2d2d *R/searchInRepo.R
