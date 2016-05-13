@@ -28,6 +28,7 @@
 #' @param addTags Logical, whether to add artfiact's \link{Tags} to the \code{output}.
 #'
 #' @param addMiniature Logical, whether to add artfiact's \code{miniature/plots} to the \code{output}.
+#' @param maxTags Integer. The maximal length of chunks output when describing \code{Tags} of artifact.
 #'
 #' @details
 #'
@@ -40,6 +41,8 @@
 #' @note
 #' If \code{repo} and \code{user} are set to \code{NULL} (as default) in the Remote mode then global parameters
 #' set in \link{setRemoteRepo} (or via \link{aoptions}) function are used.
+#' 
+#' Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 #'
 #' @author
 #' Marcin Kosinski, \email{m.p.kosinski@@gmail.com}
@@ -59,7 +62,7 @@
 #' @export
 createMDGallery <- function(output, repo = aoptions("repo"), user = aoptions("user"), branch = aoptions("branch"), subdir = aoptions("subdir"),
                                   repoType = aoptions("repoType"),
-                                addTags = FALSE, addMiniature = FALSE){
+                                addTags = FALSE, addMiniature = FALSE, maxTags = 100){
   stopifnot(is.logical(c(addTags, addMiniature)) & length(addTags) == 1 & length(addMiniature) == 1 )
 
   RemoteRepoCheck( repo, user, branch, subdir, repoType) # implemented in setRepo.R
@@ -112,7 +115,7 @@ createMDGallery <- function(output, repo = aoptions("repo"), user = aoptions("us
     }
     if (addTags) {
       cat("```{R} \n")
-      cat(md5hashList$tag[md5hashList$artifact == md5], sep = "\n")
+      cat(md5hashList$tag[md5hashList$artifact == md5][1:maxTags], sep = "\n")
       cat("``` \n")
     }
 

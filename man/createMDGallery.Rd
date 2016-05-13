@@ -6,7 +6,8 @@
 \usage{
 createMDGallery(output, repo = aoptions("repo"), user = aoptions("user"),
   branch = aoptions("branch"), subdir = aoptions("subdir"),
-  repoType = aoptions("repoType"), addTags = FALSE, addMiniature = FALSE)
+  repoType = aoptions("repoType"), addTags = FALSE, addMiniature = FALSE,
+  maxTags = 100)
 }
 \arguments{
 \item{output}{A name of the file in which artifacts should be summarized.}
@@ -29,6 +30,8 @@ to \code{subdir = "/"} as default.}
 \item{addTags}{Logical, whether to add artfiact's \link{Tags} to the \code{output}.}
 
 \item{addMiniature}{Logical, whether to add artfiact's \code{miniature/plots} to the \code{output}.}
+
+\item{maxTags}{Integer. The maximal length of chunks output when describing \code{Tags} of artifact.}
 }
 \description{
 \code{createMDGallery} creates a summary for each artifact from \link{Repository} stored on a GitHub.
@@ -42,6 +45,8 @@ To learn more about artifacts visit \link[archivist]{archivist-package}.
 \note{
 If \code{repo} and \code{user} are set to \code{NULL} (as default) in the Remote mode then global parameters
 set in \link{setRemoteRepo} (or via \link{aoptions}) function are used.
+
+Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
 \examples{
 \dontrun{

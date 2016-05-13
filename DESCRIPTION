@@ -1,5 +1,5 @@
 Package: archivist
-Version: 2.0.3
+Version: 2.0.4
 Type: Package
 Title: Tools for Storing, Restoring and Searching for R Objects
 Authors@R: c(
@@ -30,12 +30,13 @@ LazyData: yes
 Depends: R (>= 3.2.0)
 Imports: RCurl, digest, httr, DBI, lubridate, RSQLite, magrittr
 Suggests: shiny, dplyr, testthat, ggplot2, devtools, knitr
+Enhances: archivist.github
 BugReports: https://github.com/pbiecek/archivist/issues
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-03-07 20:03:05 UTC; pbiecek
+Packaged: 2016-05-12 17:57:33 UTC; pbiecek
 Author: Przemyslaw Biecek [aut, cre],
   Marcin Kosinski [aut],
   Witold Chodor [ctb]
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
-Date/Publication: 2016-03-08 00:16:09
+Date/Publication: 2016-05-13 00:46:52
