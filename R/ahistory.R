@@ -43,6 +43,10 @@
 #' 
 #' Marcin Kosinski, \email{m.p.kosinski@@gmail.com}
 #' 
+#' @section Demonstration:
+#'  
+#' This function is well explained on this \href{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github}{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github} blog post.
+#' 
 #' @examples
 #' 
 #' createLocalRepo("ahistory_check", default = TRUE)
@@ -70,12 +74,27 @@
 ahistory <- function(artifact = NULL, md5hash = NULL, repoDir = aoptions('repoDir'), format = "regular", alink = FALSE, ...) {
   # if artifact is set then calculate md5hash for it
   if (!is.null(artifact)) 
-    md5hash = digest(artifact)
+    md5hash <- digest(artifact)
   if (is.null(md5hash)) 
     stop("Either artifact or md5hash has to be set")
   
   stopifnot(length(format) == 1 & format %in% c("regular", "kable"))
+  elements <- strsplit(md5hash, "/")[[1]]
   
+  if (length(elements) >= 3){
+    md5hash <- tail(elements,1)
+    subdir <- ifelse(length(elements) > 3, paste(elements[3:(length(elements)-1)], collapse="/"), "/")
+
+    RemoteRepoCheck( repo = elements[2], user = elements[1], 
+                     branch = "master", subdir = subdir,
+                                       repoType = aoptions("repoType")) # implemented in setRepo.R
+    
+    remoteHook <- getRemoteHook(repo = elements[2], user = elements[1], branch = "master", subdir = subdir)
+    Temp <- downloadDB( remoteHook )
+    on.exit( unlink( Temp, recursive = TRUE, force = TRUE))
+    repoDir <- Temp
+  }
+
   res_names <- c()
   res_md5 <- md5hash
   ind <- 1

@@ -25,6 +25,11 @@ an artifact. This option works only if a default repository is set.
 \note{
 Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
+\section{Demonstration}{
+
+
+This function is well explained on this \href{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github}{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github} blog post.
+}
 \examples{
 \dontrun{
 
@@ -69,8 +74,8 @@ Other archivist: \code{\link{Repository}},
   \code{\link{ahistory}}, \code{\link{alink}},
   \code{\link{aoptions}}, \code{\link{archivist-package}},
   \code{\link{aread}}, \code{\link{asearch}},
-  \code{\link{asession}}, \code{\link{cache}},
-  \code{\link{copyLocalRepo}},
+  \code{\link{asession}}, \code{\link{atrace}},
+  \code{\link{cache}}, \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
   \code{\link{createMDGallery}},
   \code{\link{deleteLocalRepo}},

@@ -51,6 +51,11 @@ they are set globally, because \code{repo} is a substring of \code{repoDir} and 
 
 Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
+\section{Demonstration}{
+
+ 
+This function is well explained on this \href{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github}{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github} blog post.
+}
 \examples{
 
 createLocalRepo("ahistory_check", default = TRUE)
@@ -84,8 +89,8 @@ Other archivist: \code{\link{Repository}},
   \code{\link{aformat}}, \code{\link{alink}},
   \code{\link{aoptions}}, \code{\link{archivist-package}},
   \code{\link{aread}}, \code{\link{asearch}},
-  \code{\link{asession}}, \code{\link{cache}},
-  \code{\link{copyLocalRepo}},
+  \code{\link{asession}}, \code{\link{atrace}},
+  \code{\link{cache}}, \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
   \code{\link{createMDGallery}},
   \code{\link{deleteLocalRepo}},
