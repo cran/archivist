@@ -1,5 +1,5 @@
 Package: archivist
-Version: 2.1.1
+Version: 2.1.2
 Type: Package
 Title: Tools for Storing, Restoring and Searching for R Objects
 Authors@R: c(
@@ -35,9 +35,9 @@ URL: https://pbiecek.github.io/archivist/
 BugReports: https://github.com/pbiecek/archivist/issues
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-11-18 18:24:49 UTC; pbiecek
+Packaged: 2016-12-31 16:19:18 UTC; pbiecek
 Author: Przemyslaw Biecek [aut, cre],
   Marcin Kosinski [aut],
   Witold Chodor [ctb]
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
-Date/Publication: 2016-11-18 22:24:51
+Date/Publication: 2016-12-31 18:45:14
