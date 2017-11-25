@@ -1,4 +1,4 @@
-##    code copied from http://cran.r-project.org/web/packages/magrittr/
+##    code copied from https://cran.r-project.org/package=magrittr
 ##    package binaries - version 1.0.1
 ##
 #' @title magrittr - a Forward-Pipe Operator for R
@@ -18,8 +18,7 @@
 #' with lhs (as an artifact) and rhs (as a Tag). This allows to present a history of
 #' an artifact. This option works only if a default repository is set.
 #'
-#' @note 
-#' Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+#' @template roxlate-contact
 #'
 #' @section Demonstration:
 #' 

@@ -1,3 +1,20 @@
+archivist 2.2
+----------------------------------------------------------------
+* Two new functions `asearchLocal()` and `areadLocal()` that work as `asearch()` and `aread()` for selected local repositories ([#298](https://github.com/pbiecek/archivist/issues/298)).
+* parameter `force` has now different meaning in `createLocalRepo()`. As suggested in ([#319](https://github.com/pbiecek/archivist/issues/319)) and ([#318](https://github.com/pbiecek/archivist/issues/318)) if forces to override existing backpack.db file.
+* Updated CITATION
+
+archivist 2.1.4
+----------------------------------------------------------------
+* `dbExecute()` is used instead of `dbGetQuery()` as is recommended in latest version of `DBI` package ([#316](https://github.com/pbiecek/archivist/issues/316)).
+* Function `removeTagsRepo()` is added. It allows to remove specific tags from specific objects. Note that you cannot specify tags via regular expressions (to avoid some accidental deletes). You can always use `getLocalTags()` to get list of available tags.
+* More databases can be used to keep artifacts metadata (previously only SQLite was supported). Find more examples and descriptions in `createPostgresRepo()` and `setPostgresRepo()`. Note, that it's still an experimental feature.
+* Updated CITATION
+
+archivist 2.1.3
+----------------------------------------------------------------
+* It is possible to archive tags specified by a user without defualt tags [[#309](https://github.com/pbiecek/archivist/issues/309)]
+
 archivist 2.1.2
 ----------------------------------------------------------------
 * GG-plots in the package's repository are now created with ggplot2 v2.2

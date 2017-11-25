@@ -32,9 +32,14 @@ but has shorter name and different parameter's specification.
 }
 \note{
 Remember that if you want to use local repository you should set it to default.
-
-Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
+\section{Contact}{
+
+ 
+Bug reports and feature requests can be sent to 
+\href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+}
+
 \examples{
 \dontrun{
 ### default LOCAL version
@@ -113,8 +118,12 @@ asearch("pbiecek/graphGallery",
                      "labelx:Sepal.Length")) -> ggplots_objects_v2
 }
 }
-\author{
-Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
+\references{
+Biecek P and Kosinski M (2017). "archivist: An R Package for Managing,
+Recording and Restoring Data Analysis Results." _Journal of Statistical
+Software_, *82*(11), pp. 1-28. doi: 10.18637/jss.v082.i11 (URL:
+http://doi.org/10.18637/jss.v082.i11).
+URL https://github.com/pbiecek/archivist
 }
 \seealso{
 Other archivist: \code{\link{Repository}},
@@ -122,15 +131,18 @@ Other archivist: \code{\link{Repository}},
   \code{\link{addHooksToPrint}}, \code{\link{addTagsRepo}},
   \code{\link{aformat}}, \code{\link{ahistory}},
   \code{\link{alink}}, \code{\link{aoptions}},
-  \code{\link{archivist-package}}, \code{\link{aread}},
-  \code{\link{asession}}, \code{\link{atrace}},
-  \code{\link{cache}}, \code{\link{copyLocalRepo}},
+  \code{\link{archivist-package}},
+  \code{\link{areadLocal}}, \code{\link{aread}},
+  \code{\link{asearchLocal}}, \code{\link{asession}},
+  \code{\link{atrace}}, \code{\link{cache}},
+  \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
   \code{\link{createMDGallery}},
   \code{\link{deleteLocalRepo}},
   \code{\link{getRemoteHook}}, \code{\link{getTagsLocal}},
   \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
-  \code{\link{restoreLibs}}, \code{\link{rmFromLocalRepo}},
+  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
+  \code{\link{rmFromLocalRepo}},
   \code{\link{saveToLocalRepo}},
   \code{\link{searchInLocalRepo}},
   \code{\link{setLocalRepo}},
@@ -140,4 +152,7 @@ Other archivist: \code{\link{Repository}},
   \code{\link{summaryLocalRepo}},
   \code{\link{zipLocalRepo}}
 }
-
+\author{
+Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
+}
+\concept{archivist}

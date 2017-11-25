@@ -30,13 +30,13 @@
 #' For more detailed information visit \pkg{archivist} \code{wiki} on 
 #' \href{https://github.com/pbiecek/archivist/wiki}{Github}.
 #'
-#' @note 
-#' Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+#' @template roxlate-references
+#' @template roxlate-contact
 #'
 #' @section Blogging:
 #'  
 #' We have prepared history of blog posts and conference talks about \pkg{archivist} under this link 
-#' \href{http://pbiecek.github.io/archivist/Posts.html}{http://pbiecek.github.io/archivist/Posts.html}
+#' \href{http://pbiecek.github.io/archivist/articles/posts.html}{http://pbiecek.github.io/archivist/articles/posts.html}
 #'
 #' @author
 #' Przemyslaw Biecek [aut, cre] \email{przemyslaw.biecek@@gmail.com} \cr
@@ -48,6 +48,7 @@
 #' @import httr
 #' @importFrom DBI dbWriteTable
 #' @importFrom DBI dbGetQuery
+#' @importFrom DBI dbExecute
 #' @importFrom DBI dbDisconnect
 #' @importFrom DBI dbConnect
 #' @importFrom DBI dbReadTable

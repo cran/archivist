@@ -2,10 +2,13 @@
 % Please edit documentation in R/setRepo.R
 \name{setLocalRepo}
 \alias{setLocalRepo}
+\alias{setPostgresRepo}
 \alias{setRemoteRepo}
 \title{Set Repository's Global Path}
 \usage{
 setLocalRepo(repoDir)
+
+setPostgresRepo(repoDir, connector = NULL)
 
 setRemoteRepo(user, repo, branch = "master", subdir = "/",
   repoType = "github")
@@ -13,6 +16,12 @@ setRemoteRepo(user, repo, branch = "master", subdir = "/",
 \arguments{
 \item{repoDir}{A character denoting a directory of a Repository that we want to
 make dafault.}
+
+\item{connector}{If user want to use some external database instead of SQLite, then the \code{connector} shall be the function that create a \code{DBI} connection with the database.
+Within every transaction the connection is opened and closed, thus the \code{connector} function will be executed often and shall not be computationally heavy.
+See examples for \code{createLocalRepo} for some applications. 
+If \code{connector=NULL} then information about connectors to an external database will be removed.
+Note that it's an experimental feature.}
 
 \item{user}{While working with the Remote repository. A character containing
 a name of the Remote user that we want to make default.}
@@ -60,9 +69,13 @@ in the following function calls:
 \link{copyRemoteRepo}
 parameters \code{user}, \code{repo}, \code{branch}, \code{subdir}  may be omitted.
 }
-\note{
-Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+\section{Contact}{
+
+ 
+Bug reports and feature requests can be sent to 
+\href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
+
 \examples{
 \dontrun{
 ## Local version
@@ -114,10 +127,12 @@ searchInRemoteRepo( pattern=c("varname:Sepal.Width", "class:lm", "name:myplot123
                          intersect = FALSE )
 }
 }
-\author{
-Marcin Kosinski , \email{m.p.kosinski@gmail.com}
-
-Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
+\references{
+Biecek P and Kosinski M (2017). "archivist: An R Package for Managing,
+Recording and Restoring Data Analysis Results." _Journal of Statistical
+Software_, *82*(11), pp. 1-28. doi: 10.18637/jss.v082.i11 (URL:
+http://doi.org/10.18637/jss.v082.i11).
+URL https://github.com/pbiecek/archivist
 }
 \seealso{
 \href{https://github.com/pbiecek/archivist/wiki}{https://github.com/pbiecek/archivist/wiki}
@@ -127,16 +142,18 @@ Other archivist: \code{\link{Repository}},
   \code{\link{addHooksToPrint}}, \code{\link{addTagsRepo}},
   \code{\link{aformat}}, \code{\link{ahistory}},
   \code{\link{alink}}, \code{\link{aoptions}},
-  \code{\link{archivist-package}}, \code{\link{aread}},
-  \code{\link{asearch}}, \code{\link{asession}},
-  \code{\link{atrace}}, \code{\link{cache}},
-  \code{\link{copyLocalRepo}},
+  \code{\link{archivist-package}},
+  \code{\link{areadLocal}}, \code{\link{aread}},
+  \code{\link{asearchLocal}}, \code{\link{asearch}},
+  \code{\link{asession}}, \code{\link{atrace}},
+  \code{\link{cache}}, \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
   \code{\link{createMDGallery}},
   \code{\link{deleteLocalRepo}},
   \code{\link{getRemoteHook}}, \code{\link{getTagsLocal}},
   \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
-  \code{\link{restoreLibs}}, \code{\link{rmFromLocalRepo}},
+  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
+  \code{\link{rmFromLocalRepo}},
   \code{\link{saveToLocalRepo}},
   \code{\link{searchInLocalRepo}},
   \code{\link{shinySearchInLocalRepo}},
@@ -150,16 +167,43 @@ Other archivist: \code{\link{Repository}},
   \code{\link{addHooksToPrint}}, \code{\link{addTagsRepo}},
   \code{\link{aformat}}, \code{\link{ahistory}},
   \code{\link{alink}}, \code{\link{aoptions}},
-  \code{\link{archivist-package}}, \code{\link{aread}},
-  \code{\link{asearch}}, \code{\link{asession}},
-  \code{\link{atrace}}, \code{\link{cache}},
-  \code{\link{copyLocalRepo}},
+  \code{\link{archivist-package}},
+  \code{\link{areadLocal}}, \code{\link{aread}},
+  \code{\link{asearchLocal}}, \code{\link{asearch}},
+  \code{\link{asession}}, \code{\link{atrace}},
+  \code{\link{cache}}, \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
   \code{\link{createMDGallery}},
   \code{\link{deleteLocalRepo}},
   \code{\link{getRemoteHook}}, \code{\link{getTagsLocal}},
   \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
-  \code{\link{restoreLibs}}, \code{\link{rmFromLocalRepo}},
+  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
+  \code{\link{rmFromLocalRepo}},
+  \code{\link{saveToLocalRepo}},
+  \code{\link{searchInLocalRepo}},
+  \code{\link{shinySearchInLocalRepo}},
+  \code{\link{showLocalRepo}},
+  \code{\link{splitTagsLocal}},
+  \code{\link{summaryLocalRepo}},
+  \code{\link{zipLocalRepo}}
+
+Other archivist: \code{\link{Repository}},
+  \code{\link{Tags}}, \code{\link{\%a\%}},
+  \code{\link{addHooksToPrint}}, \code{\link{addTagsRepo}},
+  \code{\link{aformat}}, \code{\link{ahistory}},
+  \code{\link{alink}}, \code{\link{aoptions}},
+  \code{\link{archivist-package}},
+  \code{\link{areadLocal}}, \code{\link{aread}},
+  \code{\link{asearchLocal}}, \code{\link{asearch}},
+  \code{\link{asession}}, \code{\link{atrace}},
+  \code{\link{cache}}, \code{\link{copyLocalRepo}},
+  \code{\link{createLocalRepo}},
+  \code{\link{createMDGallery}},
+  \code{\link{deleteLocalRepo}},
+  \code{\link{getRemoteHook}}, \code{\link{getTagsLocal}},
+  \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
+  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
+  \code{\link{rmFromLocalRepo}},
   \code{\link{saveToLocalRepo}},
   \code{\link{searchInLocalRepo}},
   \code{\link{shinySearchInLocalRepo}},
@@ -168,4 +212,9 @@ Other archivist: \code{\link{Repository}},
   \code{\link{summaryLocalRepo}},
   \code{\link{zipLocalRepo}}
 }
+\author{
+Marcin Kosinski, \email{m.p.kosinski@gmail.com}
 
+Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
+}
+\concept{archivist}

@@ -32,19 +32,26 @@ Extensions of \pkg{archivist} are
 For more detailed information visit \pkg{archivist} \code{wiki} on 
 \href{https://github.com/pbiecek/archivist/wiki}{Github}.
 }
-\note{
-Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+\section{Contact}{
+
+ 
+Bug reports and feature requests can be sent to 
+\href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
+
 \section{Blogging}{
 
  
 We have prepared history of blog posts and conference talks about \pkg{archivist} under this link 
-\href{http://pbiecek.github.io/archivist/Posts.html}{http://pbiecek.github.io/archivist/Posts.html}
+\href{http://pbiecek.github.io/archivist/articles/posts.html}{http://pbiecek.github.io/archivist/articles/posts.html}
 }
-\author{
-Przemyslaw Biecek [aut, cre] \email{przemyslaw.biecek@gmail.com} \cr
-Marcin Kosinski [aut] \email{m.p.kosinski@gmail.com} \cr
-Witold Chodor [ctb] \email{witold.chodor@gmail.com}
+
+\references{
+Biecek P and Kosinski M (2017). "archivist: An R Package for Managing,
+Recording and Restoring Data Analysis Results." _Journal of Statistical
+Software_, *82*(11), pp. 1-28. doi: 10.18637/jss.v082.i11 (URL:
+http://doi.org/10.18637/jss.v082.i11).
+URL https://github.com/pbiecek/archivist
 }
 \seealso{
 Other archivist: \code{\link{Repository}},
@@ -52,7 +59,8 @@ Other archivist: \code{\link{Repository}},
   \code{\link{addHooksToPrint}}, \code{\link{addTagsRepo}},
   \code{\link{aformat}}, \code{\link{ahistory}},
   \code{\link{alink}}, \code{\link{aoptions}},
-  \code{\link{aread}}, \code{\link{asearch}},
+  \code{\link{areadLocal}}, \code{\link{aread}},
+  \code{\link{asearchLocal}}, \code{\link{asearch}},
   \code{\link{asession}}, \code{\link{atrace}},
   \code{\link{cache}}, \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
@@ -60,7 +68,8 @@ Other archivist: \code{\link{Repository}},
   \code{\link{deleteLocalRepo}},
   \code{\link{getRemoteHook}}, \code{\link{getTagsLocal}},
   \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
-  \code{\link{restoreLibs}}, \code{\link{rmFromLocalRepo}},
+  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
+  \code{\link{rmFromLocalRepo}},
   \code{\link{saveToLocalRepo}},
   \code{\link{searchInLocalRepo}},
   \code{\link{setLocalRepo}},
@@ -70,4 +79,9 @@ Other archivist: \code{\link{Repository}},
   \code{\link{summaryLocalRepo}},
   \code{\link{zipLocalRepo}}
 }
-
+\author{
+Przemyslaw Biecek [aut, cre] \email{przemyslaw.biecek@gmail.com} \cr
+Marcin Kosinski [aut] \email{m.p.kosinski@gmail.com} \cr
+Witold Chodor [ctb] \email{witold.chodor@gmail.com}
+}
+\concept{archivist}

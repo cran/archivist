@@ -42,6 +42,8 @@
 #' If the Repository is stored in the main folder on the remote repository, this should be set 
 #' to \code{FALSE} as default.
 #' 
+#' @template roxlate-references
+#' @template roxlate-contact
 #' @note
 #' If \code{repo} and \code{user} are set to \code{NULL} (as default) in remote mode then global parameters
 #' set in \link{setRemoteRepo} function are used. If one would like to copy whole Repository we suggest to 
@@ -50,8 +52,6 @@
 #' @author 
 #' Marcin Kosinski, \email{m.p.kosinski@@gmail.com}
 #'
-#' @note 
-#' Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 #'
 #' @examples
 #' \dontrun{
@@ -180,7 +180,7 @@ copyRepo <- function( repoFrom, repoTo, md5hashes, local = TRUE, user, repo, bra
                              "('", paste0( md5hashes, collapse="','"), "')" ) ) 
   
   apply( toInsertArtifactTable, 1, function(x){
-         executeSingleQuery( dir = repoTo, 
+    executeSingleSilentQuery( dir = repoTo, 
                               paste0( "INSERT INTO artifact (md5hash, name, createdDate) VALUES ('",
                               x[1], "','",
                               x[2], "','",
@@ -190,7 +190,7 @@ copyRepo <- function( repoFrom, repoTo, md5hashes, local = TRUE, user, repo, bra
                                                paste0( "SELECT DISTINCT * FROM tag WHERE artifact IN ",
                                                        "('", paste0( md5hashes, collapse="','"), "')" ) ) 
   apply( toInsertTagTable, 1, function(x){
-    executeSingleQuery( dir = repoTo, 
+    executeSingleSilentQuery( dir = repoTo, 
                         paste0( "INSERT INTO tag (artifact, tag, createdDate) VALUES ('",
                                 x[1], "','",
                                 x[2], "','",

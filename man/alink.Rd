@@ -44,9 +44,13 @@ To learn more about artifacts visit \link[archivist]{archivist-package}.
 \details{
 For more information about \code{md5hash} see \link{md5hash}.
 }
-\note{
-Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+\section{Contact}{
+
+ 
+Bug reports and feature requests can be sent to 
+\href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
+
 \examples{
 # link in markdown format
 alink('pbiecek/archivist/134ecbbe2a8814d98f0c2758000c408e')
@@ -61,16 +65,14 @@ alink(user = 'MarcinKosinski', repo = 'Museum',
 alink('pbiecek/graphGallery/f5185c458bff721f0faa8e1332f01e0f', rawLink = TRUE)  
 alink('pbiecek/graphgallerygit/02af4f99e440324b9e329faa293a9394', repoType='bitbucket')  
 }
-\author{
-Marcin Kosinski, \email{m.p.kosinski@gmail.com}
-}
 \seealso{
 Other archivist: \code{\link{Repository}},
   \code{\link{Tags}}, \code{\link{\%a\%}},
   \code{\link{addHooksToPrint}}, \code{\link{addTagsRepo}},
   \code{\link{aformat}}, \code{\link{ahistory}},
   \code{\link{aoptions}}, \code{\link{archivist-package}},
-  \code{\link{aread}}, \code{\link{asearch}},
+  \code{\link{areadLocal}}, \code{\link{aread}},
+  \code{\link{asearchLocal}}, \code{\link{asearch}},
   \code{\link{asession}}, \code{\link{atrace}},
   \code{\link{cache}}, \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
@@ -78,7 +80,8 @@ Other archivist: \code{\link{Repository}},
   \code{\link{deleteLocalRepo}},
   \code{\link{getRemoteHook}}, \code{\link{getTagsLocal}},
   \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
-  \code{\link{restoreLibs}}, \code{\link{rmFromLocalRepo}},
+  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
+  \code{\link{rmFromLocalRepo}},
   \code{\link{saveToLocalRepo}},
   \code{\link{searchInLocalRepo}},
   \code{\link{setLocalRepo}},
@@ -88,4 +91,7 @@ Other archivist: \code{\link{Repository}},
   \code{\link{summaryLocalRepo}},
   \code{\link{zipLocalRepo}}
 }
-
+\author{
+Marcin Kosinski, \email{m.p.kosinski@gmail.com}
+}
+\concept{archivist}

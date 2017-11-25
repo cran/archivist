@@ -31,19 +31,25 @@
 #' 
 #' @param repoDir A character that specifies the directory for the Repository which is to be made. 
 #'  
-#' @param force If \code{force = TRUE} and \code{repoDir} parameter specifies the directory that doesn't exist,
-#' then function call will force to create new \code{repoDir} directory.
-#' Default set to \code{force = TRUE}.
+#' @param force If \code{force = TRUE} and \code{repoDir} parameter specifies the directory that contains backpack.db file,
+#' then function call will force to recreate new \code{backpack.db}
+#' Default set to \code{force = FALSE}.
 #' 
 #' @param default If \code{default = TRUE} then \code{repoDir} is set as default Local Repository. 
+#' 
+#' @param connector If user want to use some external database instead of SQLite, then the \code{connector} shall be the function that create a \code{DBI} connection with the database.
+#' Within every transaction the connection is opened and closed, thus the \code{connector} function will be executed often and shall not be computationally heavy.
+#' See the Examples section for some examples.
+#' Note that it's an experimental feature.
 #' 
 #' @param ... All arguments are being passed to \code{createLocalRepo}.
 #' 
 #' @author 
 #' Marcin Kosinski, \email{m.p.kosinski@@gmail.com}
+#' Przemyslaw Biecek, \email{przemyslaw.biecek@@gmail.com}
 #'
-#' @note 
-#' Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+#' @template roxlate-references
+#' @template roxlate-contact
 #'
 #' @examples
 #' \dontrun{
@@ -54,18 +60,41 @@
 #' showLocalRepo()
 #' showLocalRepo(method = "tags")
 #' deleteLocalRepo( repoDir = exampleRepoDir, unset = TRUE, deleteRoot = TRUE)
+#' 
+#' # example with external database
+#' # create a connector
+#' require("RPostgreSQL")
+#' drv <- dbDriver("PostgreSQL")
+#' connector <- function() {
+#'   dbConnect(drv, dbname = "postgres",
+#'             host = "localhost", port = 5432,
+#'             user = "user", password = pw)
+#' }
+#' # Now you can create an empty repository with postgress database
+#' exampleRepoDir <- tempfile()
+#' createPostgresRepo( repoDir = exampleRepoDir, connector)
+#' data(iris)
+#' saveToLocalRepo(iris)
+#' showLocalRepo()
+#' showLocalRepo(method = "tags")
+#' deleteLocalRepo( repoDir = exampleRepoDir, unset = TRUE, deleteRoot = TRUE)
+#' 
 #' }
 #' @family archivist
 #' @rdname createEmptyRepo
 #' @export
-createLocalRepo <- function( repoDir, force = TRUE, default = FALSE ){
+createLocalRepo <- function( repoDir, force = FALSE, default = FALSE ){
   stopifnot( is.character( repoDir ), length( repoDir ) == 1 )
   stopifnot( is.logical( default ), length( default ) == 1 )
   
-  if ( !file.exists( repoDir ) & !force ) 
-    stop( paste0("Directory ", repoDir, " does not exist. Try with force=TRUE.") )
-  if ( !file.exists( repoDir ) & force ){
-    cat( paste0("Directory ", repoDir, " did not exist. Forced to create a new directory.") )
+  if ( file.exists( repoDir ) & file.exists( paste0(repoDir,"/backpack.db") ) & !force ){
+    message( paste0("Directory ", repoDir, " does exist and contain the backpack.db file. Use force=TRUE to reinitialize.") )
+    return(invisible( repoDir ))  
+  } 
+  if ( file.exists( repoDir ) & file.exists( paste0(repoDir,"/backpack.db") ) & force ){
+    message( paste0("Directory ", repoDir, " does exist and contain the backpack.db file. Reinitialized due to force=TRUE.") )
+  }
+  if ( !file.exists( repoDir ) ){
     dir.create( repoDir )
   }
   
@@ -88,8 +117,8 @@ createLocalRepo <- function( repoDir, force = TRUE, default = FALSE ){
   dbWriteTable( backpack, "tag", tag, overwrite = TRUE, row.names = FALSE )
   
   
-  dbGetQuery(backpack, "delete from artifact")
-  dbGetQuery(backpack, "delete from tag")
+  dbExecute(backpack, "delete from artifact")
+  dbExecute(backpack, "delete from tag")
   
   dbDisconnect( backpack )
   
@@ -107,6 +136,31 @@ createLocalRepo <- function( repoDir, force = TRUE, default = FALSE ){
 #' @family archivist
 #' @rdname createEmptyRepo
 #' @export
+createPostgresRepo <- function( repoDir, connector, force = FALSE, default = FALSE ){
+  stopifnot( is.character( repoDir ), length( repoDir ) == 1 )
+  stopifnot( is.logical( default ), length( default ) == 1 )
+  stopifnot( is.function( connector ))
+
+  if ( file.exists( repoDir ) & file.exists( paste0(repoDir,"/backpack.db") ) & !force ){
+    message( paste0("Directory ", repoDir, " does exist and contain the backpack.db file. Use force=TRUE to reinitialize.") )
+    return(invisible( repoDir ))  
+  } 
+  if ( file.exists( repoDir ) & file.exists( paste0(repoDir,"/backpack.db") ) & force ){
+    message( paste0("Directory ", repoDir, " does exist and contain the backpack.db file. Reinitialized due to force=TRUE.") )
+  }
+  if ( !file.exists( repoDir ) ){
+    dir.create( repoDir )
+  }
+
+  .ArchivistEnv$useExternalDatabase <- TRUE
+  .ArchivistEnv$externalConnector <- connector
+  
+  createLocalRepo( repoDir, force = force, default = default )
+}
+
+#' @family archivist
+#' @rdname createEmptyRepo
+#' @export
 createEmptyRepo <- function(...) {
   .Deprecated("createEmptyRepo is deprecated. Use createLocalRepo() instead.")
   createLocalRepo(...)
@@ -115,27 +169,40 @@ createEmptyRepo <- function(...) {
 addArtifact <- function( md5hash, name, dir ){
   # creates connection and driver
   # send insert
-  executeSingleQuery( dir,
+  executeSingleSilentQuery( dir,
               paste0( "insert into artifact (md5hash, name, createdDate) values",
                       "('", md5hash, "', '", name, "', '", as.character( now() ), "')" ) )
 }
 
 addTag <- function( tag, md5hash, createdDate = now(), dir ){
- executeSingleQuery( dir,
-              paste0("insert into tag (artifact, tag, createdDate) values ",
-                     "('", md5hash, "', '", gsub(tag, pattern="'", replacement=""), "', '", as.character( now() ), "')" ) )
+  executeSingleSilentQuery( dir,
+                            paste0("insert into tag (artifact, tag, createdDate) values ",
+                                   "('", md5hash, "', '", gsub(tag, pattern="'", replacement=""), "', '", as.character( now() ), "')" ) )
 }
 
 # realDBname was needed because Github version function uses temporary file as database
 # and they do not name this file as backpack.db in repoDir directory
 getConnectionToDB <- function( repoDir ){
-  dbConnect( get( "sqlite", envir = .ArchivistEnv ), file.path( repoDir, "backpack.db" ) )
+  useExternal <- get( "useExternalDatabase", envir = .ArchivistEnv )
+  if (!is.null(useExternal) & useExternal) {
+    externalConnector <- get( "externalConnector", envir = .ArchivistEnv )
+    externalConnector()
+  } else {
+    dbConnect( get( "sqlite", envir = .ArchivistEnv ), file.path( repoDir, "backpack.db" ) )
+  }
 }
   
 executeSingleQuery <- function( dir, query ) {
   conn <- getConnectionToDB( dir )
   on.exit( dbDisconnect( conn ) )
   res <- dbGetQuery( conn, query )
+  return( res )
+}
+
+executeSingleSilentQuery <- function( dir, query ) {
+  conn <- getConnectionToDB( dir )
+  on.exit( dbDisconnect( conn ) )
+  res <- dbExecute( conn, query )
   return( res )
 }
 

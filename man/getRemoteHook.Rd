@@ -26,9 +26,13 @@ to \code{subdir = "/"} as default.}
 \code{getRemoteHook} returns http adress of the remote \link{Repository}.
 Then it can be used to download artifacts from the remote \link{Repository}.
 }
-\note{
-Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+\section{Contact}{
+
+ 
+Bug reports and feature requests can be sent to 
+\href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
+
 \examples{
 
 \dontrun{
@@ -36,25 +40,24 @@ Bug reports and feature requests can be sent to \href{https://github.com/pbiecek
 getRemoteHook("graphGallery", "pbiecek")
 }
 }
-\author{
-Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
-}
 \seealso{
 Other archivist: \code{\link{Repository}},
   \code{\link{Tags}}, \code{\link{\%a\%}},
   \code{\link{addHooksToPrint}}, \code{\link{addTagsRepo}},
   \code{\link{aformat}}, \code{\link{ahistory}},
   \code{\link{alink}}, \code{\link{aoptions}},
-  \code{\link{archivist-package}}, \code{\link{aread}},
-  \code{\link{asearch}}, \code{\link{asession}},
-  \code{\link{atrace}}, \code{\link{cache}},
-  \code{\link{copyLocalRepo}},
+  \code{\link{archivist-package}},
+  \code{\link{areadLocal}}, \code{\link{aread}},
+  \code{\link{asearchLocal}}, \code{\link{asearch}},
+  \code{\link{asession}}, \code{\link{atrace}},
+  \code{\link{cache}}, \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
   \code{\link{createMDGallery}},
   \code{\link{deleteLocalRepo}},
   \code{\link{getTagsLocal}},
   \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
-  \code{\link{restoreLibs}}, \code{\link{rmFromLocalRepo}},
+  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
+  \code{\link{rmFromLocalRepo}},
   \code{\link{saveToLocalRepo}},
   \code{\link{searchInLocalRepo}},
   \code{\link{setLocalRepo}},
@@ -64,4 +67,7 @@ Other archivist: \code{\link{Repository}},
   \code{\link{summaryLocalRepo}},
   \code{\link{zipLocalRepo}}
 }
-
+\author{
+Przemyslaw Biecek, \email{przemyslaw.biecek@gmail.com}
+}
+\concept{archivist}

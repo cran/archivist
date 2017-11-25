@@ -202,9 +202,14 @@ It can be also done in a new, simpler way by using \code{userTags} parameter lik
    \item \code{saveToLocalRepo(model, repoDir, userTags = c("my_model", "do not delete"))}.
  }
  Specifing additional \code{Tags} by attributes can be beneficial when one uses \link{addHooksToPrint}.
-
-Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
+\section{Contact}{
+
+ 
+Bug reports and feature requests can be sent to 
+\href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+}
+
 \examples{
 
 \dontrun{
@@ -386,6 +391,13 @@ deleteLocalRepo( exampleRepoDir, TRUE)
 rm( exampleRepoDir )
 }
 }
+\references{
+Biecek P and Kosinski M (2017). "archivist: An R Package for Managing,
+Recording and Restoring Data Analysis Results." _Journal of Statistical
+Software_, *82*(11), pp. 1-28. doi: 10.18637/jss.v082.i11 (URL:
+http://doi.org/10.18637/jss.v082.i11).
+URL https://github.com/pbiecek/archivist
+}
 \seealso{
 Functions using \code{Tags} are:
  \itemize{
@@ -402,7 +414,8 @@ Other archivist: \code{\link{Repository}},
   \code{\link{addTagsRepo}}, \code{\link{aformat}},
   \code{\link{ahistory}}, \code{\link{alink}},
   \code{\link{aoptions}}, \code{\link{archivist-package}},
-  \code{\link{aread}}, \code{\link{asearch}},
+  \code{\link{areadLocal}}, \code{\link{aread}},
+  \code{\link{asearchLocal}}, \code{\link{asearch}},
   \code{\link{asession}}, \code{\link{atrace}},
   \code{\link{cache}}, \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
@@ -410,7 +423,8 @@ Other archivist: \code{\link{Repository}},
   \code{\link{deleteLocalRepo}},
   \code{\link{getRemoteHook}}, \code{\link{getTagsLocal}},
   \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
-  \code{\link{restoreLibs}}, \code{\link{rmFromLocalRepo}},
+  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
+  \code{\link{rmFromLocalRepo}},
   \code{\link{saveToLocalRepo}},
   \code{\link{searchInLocalRepo}},
   \code{\link{setLocalRepo}},
@@ -420,4 +434,4 @@ Other archivist: \code{\link{Repository}},
   \code{\link{summaryLocalRepo}},
   \code{\link{zipLocalRepo}}
 }
-
+\concept{archivist}

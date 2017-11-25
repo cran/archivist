@@ -8,10 +8,15 @@ setDefaultArchivistEnv <- function() {
   .ArchivistEnv$ascii <- FALSE
   .ArchivistEnv$branch <- "master"
   .ArchivistEnv$chain <- FALSE 
-  .ArchivistEnv$force <- TRUE
+  .ArchivistEnv$force <- FALSE
   .ArchivistEnv$subdir <- "/"
   .ArchivistEnv$repoType <- "github"
   .ArchivistEnv$silent <- TRUE
+  
+  # Starting from version: 2.1.4 
+  # archivist may use external database for local repository (e.g. Postgress)
+  .ArchivistEnv$useExternalDatabase <- FALSE
+  .ArchivistEnv$externalConnector <- NULL
 }
 
 .onAttach <- function(...) {

@@ -22,14 +22,19 @@ The extension works as follows, the result of \code{\%a\%} operator is archived 
 with lhs (as an artifact) and rhs (as a Tag). This allows to present a history of
 an artifact. This option works only if a default repository is set.
 }
-\note{
-Bug reports and feature requests can be sent to \href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
+\section{Contact}{
+
+ 
+Bug reports and feature requests can be sent to 
+\href{https://github.com/pbiecek/archivist/issues}{https://github.com/pbiecek/archivist/issues}
 }
+
 \section{Demonstration}{
 
 
 This function is well explained on this \href{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github}{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github} blog post.
 }
+
 \examples{
 \dontrun{
 
@@ -73,7 +78,8 @@ Other archivist: \code{\link{Repository}},
   \code{\link{addTagsRepo}}, \code{\link{aformat}},
   \code{\link{ahistory}}, \code{\link{alink}},
   \code{\link{aoptions}}, \code{\link{archivist-package}},
-  \code{\link{aread}}, \code{\link{asearch}},
+  \code{\link{areadLocal}}, \code{\link{aread}},
+  \code{\link{asearchLocal}}, \code{\link{asearch}},
   \code{\link{asession}}, \code{\link{atrace}},
   \code{\link{cache}}, \code{\link{copyLocalRepo}},
   \code{\link{createLocalRepo}},
@@ -81,7 +87,8 @@ Other archivist: \code{\link{Repository}},
   \code{\link{deleteLocalRepo}},
   \code{\link{getRemoteHook}}, \code{\link{getTagsLocal}},
   \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
-  \code{\link{restoreLibs}}, \code{\link{rmFromLocalRepo}},
+  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
+  \code{\link{rmFromLocalRepo}},
   \code{\link{saveToLocalRepo}},
   \code{\link{searchInLocalRepo}},
   \code{\link{setLocalRepo}},
@@ -91,4 +98,4 @@ Other archivist: \code{\link{Repository}},
   \code{\link{summaryLocalRepo}},
   \code{\link{zipLocalRepo}}
 }
-
+\concept{archivist}

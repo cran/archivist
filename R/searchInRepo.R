@@ -59,6 +59,8 @@
 #' 
 #' @param ... Used for old deprecated functions.
 #' 
+#' @template roxlate-references
+#' @template roxlate-contact
 #' @note
 #' If \code{repo}, \code{user}, \code{subdir} and \code{repoType} are not specified in the Remote mode then global parameters
 #' set in \link{setRemoteRepo} function are used.
