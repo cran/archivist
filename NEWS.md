@@ -1,8 +1,15 @@
+archivist 2.3
+----------------------------------------------------------------
+* Examples are changed to comply with CRAN Policy  ([#324](https://github.com/pbiecek/archivist/issues/324)).
+* `saveToLocalRepo()` and `saveToRepo()` have now additional parameter `use_flocks`. If set up to `TRUE` then `flock` package is use to synchronize access to database ([#322](https://github.com/pbiecek/archivist/issues/322)).
+
 archivist 2.2
 ----------------------------------------------------------------
 * Two new functions `asearchLocal()` and `areadLocal()` that work as `asearch()` and `aread()` for selected local repositories ([#298](https://github.com/pbiecek/archivist/issues/298)).
 * parameter `force` has now different meaning in `createLocalRepo()`. As suggested in ([#319](https://github.com/pbiecek/archivist/issues/319)) and ([#318](https://github.com/pbiecek/archivist/issues/318)) if forces to override existing backpack.db file.
 * Updated CITATION
+* New function `adigest()` allows to use different hash functions ([#323](https://github.com/pbiecek/archivist/issues/323))
+* New cheatsheet for archivist https://github.com/pbiecek/archivist/tree/master/cheatsheets ([#320](https://github.com/pbiecek/archivist/issues/320)).
 
 archivist 2.1.4
 ----------------------------------------------------------------

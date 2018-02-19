@@ -9,9 +9,11 @@ setDefaultArchivistEnv <- function() {
   .ArchivistEnv$branch <- "master"
   .ArchivistEnv$chain <- FALSE 
   .ArchivistEnv$force <- FALSE
+  .ArchivistEnv$use_flocks <- FALSE
   .ArchivistEnv$subdir <- "/"
   .ArchivistEnv$repoType <- "github"
   .ArchivistEnv$silent <- TRUE
+  .ArchivistEnv$hashFunction <- "md5"
   
   # Starting from version: 2.1.4 
   # archivist may use external database for local repository (e.g. Postgress)

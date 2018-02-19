@@ -123,15 +123,14 @@
 #' @param silent If TRUE produces no warnings.
 #'
 #' @param ascii A logical value. An \code{ascii} argument is passed to \link{save} function.
-#'
+#' 
 #' @param artifactName The name of the artifact with which it should be archived. If \code{NULL} then object's MD5 hash will be used instead.
-#'
 #'
 #' @author
 #' Marcin Kosinski , \email{m.p.kosinski@@gmail.com}
 #'
 #' @examples
-#' exampleRepoDir <- tempfile()
+#' exampleRepoDir <- tempfile(tmpdir = ".")
 #' createLocalRepo(repoDir = exampleRepoDir)
 #' data(swiss)
 #' saveToLocalRepo(swiss, repoDir=exampleRepoDir, archiveSessionInfo = TRUE)
@@ -163,7 +162,7 @@ saveToLocalRepo <- function(
   archiveSessionInfo = TRUE, 
   force = TRUE, 
   value = FALSE, ... , userTags = c(),
-  silent=aoptions("silent"), ascii = FALSE,
+  silent = aoptions("silent"), ascii = FALSE,
   artifactName = deparse(substitute(artifact))) {
   
   stopifnot(is.logical(c(archiveData, archiveTags, archiveMiniature, force,  
@@ -175,13 +174,13 @@ saveToLocalRepo <- function(
             length(archiveSessionInfo) == 1, length(force) == 1, 
             length(value) == 1, length(ascii) == 1, length(artifactName) <= 1)
 
-  md5hash <- digest( artifact )
+  md5hash <- adigest( artifact )
   if (is.null(artifactName)) {
     artifactName <- md5hash
   }
 
   repoDir <- checkDirectory( repoDir )
-
+  
   # check if that artifact might have been already archived
   check <- executeSingleQuery( dir = repoDir , 
                     paste0( "SELECT * from artifact WHERE md5hash ='", md5hash, "'") )[,1]
@@ -237,6 +236,7 @@ saveToLocalRepo <- function(
   # whether to archive miniature
   if ( archiveMiniature )
     extractMiniature( artifact, md5hash, parentDir = repoDir ,... )
+   
   # whether to return md5hash or an artifact if valueing code is used
   if ( !value ){
     return( md5hash )
