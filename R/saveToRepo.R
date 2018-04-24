@@ -124,12 +124,17 @@
 #'
 #' @param ascii A logical value. An \code{ascii} argument is passed to \link{save} function.
 #' 
+#' @param use_flocks A logical value. If \code{TRUE} then \code{flock} package is used to lock access to a database. By default it's \code{FALSE}.
+#'
 #' @param artifactName The name of the artifact with which it should be archived. If \code{NULL} then object's MD5 hash will be used instead.
+#'
+#' @import flock
 #'
 #' @author
 #' Marcin Kosinski , \email{m.p.kosinski@@gmail.com}
 #'
 #' @examples
+#' \dontrun{
 #' exampleRepoDir <- tempfile(tmpdir = ".")
 #' createLocalRepo(repoDir = exampleRepoDir)
 #' data(swiss)
@@ -149,6 +154,7 @@
 #' aoptions('repoDir', NULL, unset = TRUE)
 #' deleteLocalRepo(exampleRepoDir, TRUE)
 #' rm(exampleRepoDir)
+#' }
 #'
 #' @family archivist
 #' @rdname saveToRepo
@@ -162,6 +168,7 @@ saveToLocalRepo <- function(
   archiveSessionInfo = TRUE, 
   force = TRUE, 
   value = FALSE, ... , userTags = c(),
+  use_flocks = aoptions("use_flocks"), 
   silent = aoptions("silent"), ascii = FALSE,
   artifactName = deparse(substitute(artifact))) {
   
@@ -181,6 +188,13 @@ saveToLocalRepo <- function(
 
   repoDir <- checkDirectory( repoDir )
   
+  # check if locks are set up
+  if (isTRUE(use_flocks)) {
+    if (dir.exists(repoDir)) {
+      .archivist_locker <- flock::lock(paste0(repoDir, "/.archivist_database.flock"))
+    }
+  }
+
   # check if that artifact might have been already archived
   check <- executeSingleQuery( dir = repoDir , 
                     paste0( "SELECT * from artifact WHERE md5hash ='", md5hash, "'") )[,1]
@@ -202,13 +216,13 @@ saveToLocalRepo <- function(
   # whether to add regular Tags
   if ( archiveTags ) {
     extractedTags <- extractTags( artifact, objectNameX = artifactName )
-    sapply( extractedTags, addTag, md5hash = md5hash, dir = repoDir )
+    derivedTags <- attr( artifact, "tags" )
+    sapply( c(extractedTags, derivedTags), addTag, md5hash = md5hash, dir = repoDir )
     # attr( artifact, "tags" ) are Tags specified by a user
   }
   # whether to add user Tags
   if ( length(userTags) > 0 ) {
-    derivedTags <- attr( artifact, "tags" )
-    sapply( c( userTags, derivedTags), addTag, md5hash = md5hash, dir = repoDir )
+    sapply( userTags, addTag, md5hash = md5hash, dir = repoDir )
   }
    
   # whether to archive session_info
@@ -236,6 +250,14 @@ saveToLocalRepo <- function(
   # whether to archive miniature
   if ( archiveMiniature )
     extractMiniature( artifact, md5hash, parentDir = repoDir ,... )
+   
+   # check if locks are set up
+   if (isTRUE(use_flocks)) {
+       flock::unlock(.archivist_locker)
+   }
+   if (file.exists(paste0(repoDir, "/.archivist_database.flock"))) {
+     unlink(paste0(repoDir, "/.archivist_database.flock"))
+   }
    
   # whether to return md5hash or an artifact if valueing code is used
   if ( !value ){
