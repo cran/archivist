@@ -64,7 +64,7 @@ This function is well explained on this \href{http://r-bloggers.com/r-hero-saves
 }
 
 \examples{
-
+\donttest{
 createLocalRepo("ahistory_check", default = TRUE)
 library(dplyr)
 iris \%a\%
@@ -82,6 +82,7 @@ repo = "repo", user = "user")
 repoDir <- file.path(getwd(), "ahistory_check")
 deleteLocalRepo(repoDir, deleteRoot = TRUE)
 aoptions('repoDir', NULL, unset = TRUE)
+}
 
 }
 \references{

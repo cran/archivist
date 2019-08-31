@@ -49,7 +49,7 @@
 #' This function is well explained on this \href{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github}{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github} blog post.
 #' 
 #' @examples
-#' 
+#' \donttest{
 #' createLocalRepo("ahistory_check", default = TRUE)
 #' library(dplyr)
 #' iris %a%
@@ -67,6 +67,7 @@
 #' repoDir <- file.path(getwd(), "ahistory_check")
 #' deleteLocalRepo(repoDir, deleteRoot = TRUE)
 #' aoptions('repoDir', NULL, unset = TRUE)
+#' }
 #' 
 #' @family archivist
 #' @rdname ahistory

@@ -1,5 +1,5 @@
 Package: archivist
-Version: 2.3.2
+Version: 2.3.4
 Type: Package
 Title: Tools for Storing, Restoring and Searching for R Objects
 Authors@R: c(
@@ -35,9 +35,9 @@ BugReports: https://github.com/pbiecek/archivist/issues
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-01-02 10:07:56 UTC; pbiecek
+Packaged: 2019-08-31 09:36:22 UTC; hugo
 Author: Przemyslaw Biecek [aut, cre],
   Marcin Kosinski [aut],
   Witold Chodor [ctb]
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
-Date/Publication: 2019-01-02 11:30:09 UTC
+Date/Publication: 2019-08-31 10:50:06 UTC

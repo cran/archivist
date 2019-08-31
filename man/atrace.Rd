@@ -31,6 +31,7 @@ atrace("lm", "z")
 lm(Sepal.Length~Sepal.Width, data=iris)
 asearch("class:lm")
 untrace("lm")
+deleteLocalRepo("arepo_test", deleteRoot = TRUE)
 }
 \references{
 Biecek P and Kosinski M (2017). "archivist: An R Package for Managing,

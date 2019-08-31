@@ -21,11 +21,6 @@
 #'
 #' The list of main use cases is available here \href{https://github.com/pbiecek/archivist}{https://github.com/pbiecek/archivist}.
 #' 
-#' Extensions of \pkg{archivist} are
-#' \itemize{
-#'  \item Tools for Archiving, Managing and Sharing R Objects via GitHub: \link[archivist.github]{archive} \href{marcinkosinski.github.io/archivist.github/}{marcinkosinski.github.io/archivist.github/}
-#' }
-#'
 #' @details
 #' For more detailed information visit \pkg{archivist} \code{wiki} on 
 #' \href{https://github.com/pbiecek/archivist/wiki}{Github}.
