@@ -1,4 +1,4 @@
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  library(archivist)
 #  library(ggplot2)
 #  # objects of class ggplot for which the session_info was archvied
@@ -24,13 +24,13 @@
 #  	c(plots, ncol=round(sqrt(length(md5plots))))
 #  	)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  summaryRemoteRepo(
 #  	repo = "graphGallery",
 #  	user = "pbiecek"
 #  	)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  Number of archived artifacts in Repository:  53
 #  Number of archived datasets in Repository:  24
 #  Number of various classes archived in Repository:

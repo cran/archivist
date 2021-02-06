@@ -46,10 +46,10 @@
 #' 
 #' @section Demonstration:
 #'  
-#' This function is well explained on this \href{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github}{http://r-bloggers.com/r-hero-saves-backup-city-with-archivist-and-github} blog post.
+#' This function is well explained on this \href{https://www.r-bloggers.com/2016/06/r-hero-saves-backup-city-with-archivist-and-github/}{https://www.r-bloggers.com/2016/06/r-hero-saves-backup-city-with-archivist-and-github/} blog post.
 #' 
 #' @examples
-#' \donttest{
+#' 
 #' createLocalRepo("ahistory_check", default = TRUE)
 #' library(dplyr)
 #' iris %a%
@@ -67,7 +67,6 @@
 #' repoDir <- file.path(getwd(), "ahistory_check")
 #' deleteLocalRepo(repoDir, deleteRoot = TRUE)
 #' aoptions('repoDir', NULL, unset = TRUE)
-#' }
 #' 
 #' @family archivist
 #' @rdname ahistory

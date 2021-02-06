@@ -1,6 +1,6 @@
 archivist 2.3.4
 ----------------------------------------------------------------
-* Fixed examples in `atrace()`. 
+* (dirty) fix for TCL protocol in SSL for git on Windows ([#380](https://github.com/ModelOriented/DALEX/issues/380)). 
 
 archivist 2.3.3
 ----------------------------------------------------------------

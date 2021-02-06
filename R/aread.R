@@ -37,7 +37,7 @@
 #' # which 7f3453331910e3f321ef97d87adb5bad was created with the restoreLibs function.
 #' 
 #' # read the object from Remote
-#' pl <- aread("pbiecek/graphGallery/7f3453331910e3f321ef97d87adb5bad")
+#' # pl <- aread("pbiecek/graphGallery/7f3453331910e3f321ef97d87adb5bad")
 #' # To plot it remember to have ggplot2 in version 2.1.0
 #' # as this is stated in asession("pbiecek/graphGallery/7f3453331910e3f321ef97d87adb5bad") .
 #' # The state of R libraries can be restored to the same state in
@@ -47,6 +47,12 @@
 #' @export
 aread <- function(md5hash){
   stopifnot( is.character( md5hash ) )
+  
+  # fix for https://github.com/ModelOriented/DALEX/issues/380
+  if (all(grepl(md5hash, pattern = "pbiecek/models/")) & 
+      (length(md5hash) >= 1)) {
+    return(aread_for_ema(md5hash[1]))
+  }
 
   # work for vectors  
   res <- list()
@@ -73,6 +79,16 @@ aread <- function(md5hash){
     } 
   }
   if (length(res) == 1) return(res[[1]]) else res
+}
+
+aread_for_ema <- function(md5hash) {
+  # this one works only for hooks like pbiecek/models/ceb40
+  tmpobject <- RCurl::getBinaryURL(paste0("http://ema.drwhy.ai/models/",paste0(substr(md5hash, 16, 20)),".rda"))
+  tf <- tempfile()
+  writeBin(tmpobject, tf)
+  .nameEnv <- new.env()
+  load(file = tf, envir = .nameEnv)
+  as.list(.nameEnv)[[1]]
 }
 
 #' @title Read Artifacts Given as md5hashes from the Repository

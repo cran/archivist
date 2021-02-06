@@ -1,3 +1,5 @@
+##    archivist package for R
+##
 #' @title Save an Artifact into a Repository
 #'
 #' @description

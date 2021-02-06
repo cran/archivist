@@ -22,6 +22,11 @@ copy of the one that was produced some time ago.
 This might be useful either for testing or caching.
 
 The list of main use cases is available here \href{https://github.com/pbiecek/archivist}{https://github.com/pbiecek/archivist}.
+
+Extensions of \pkg{archivist} are
+\itemize{
+ \item Tools for Archiving, Managing and Sharing R Objects via GitHub: archivist.github
+}
 }
 \details{
 For more detailed information visit \pkg{archivist} \code{wiki} on 
@@ -49,30 +54,42 @@ http://doi.org/10.18637/jss.v082.i11).
 URL https://github.com/pbiecek/archivist
 }
 \seealso{
-Other archivist: \code{\link{Repository}},
-  \code{\link{Tags}}, \code{\link{\%a\%}},
-  \code{\link{addHooksToPrint}}, \code{\link{addTagsRepo}},
-  \code{\link{aformat}}, \code{\link{ahistory}},
-  \code{\link{alink}}, \code{\link{aoptions}},
-  \code{\link{areadLocal}}, \code{\link{aread}},
-  \code{\link{asearchLocal}}, \code{\link{asearch}},
-  \code{\link{asession}}, \code{\link{atrace}},
-  \code{\link{cache}}, \code{\link{copyLocalRepo}},
-  \code{\link{createLocalRepo}},
-  \code{\link{createMDGallery}},
-  \code{\link{deleteLocalRepo}},
-  \code{\link{getRemoteHook}}, \code{\link{getTagsLocal}},
-  \code{\link{loadFromLocalRepo}}, \code{\link{md5hash}},
-  \code{\link{removeTagsRepo}}, \code{\link{restoreLibs}},
-  \code{\link{rmFromLocalRepo}},
-  \code{\link{saveToLocalRepo}},
-  \code{\link{searchInLocalRepo}},
-  \code{\link{setLocalRepo}},
-  \code{\link{shinySearchInLocalRepo}},
-  \code{\link{showLocalRepo}},
-  \code{\link{splitTagsLocal}},
-  \code{\link{summaryLocalRepo}},
-  \code{\link{zipLocalRepo}}
+Other archivist: 
+\code{\link{Repository}},
+\code{\link{Tags}},
+\code{\link{\%a\%}()},
+\code{\link{addHooksToPrint}()},
+\code{\link{addTagsRepo}()},
+\code{\link{aformat}()},
+\code{\link{ahistory}()},
+\code{\link{alink}()},
+\code{\link{aoptions}()},
+\code{\link{areadLocal}()},
+\code{\link{aread}()},
+\code{\link{asearchLocal}()},
+\code{\link{asearch}()},
+\code{\link{asession}()},
+\code{\link{atrace}()},
+\code{\link{cache}()},
+\code{\link{copyLocalRepo}()},
+\code{\link{createLocalRepo}()},
+\code{\link{createMDGallery}()},
+\code{\link{deleteLocalRepo}()},
+\code{\link{getRemoteHook}()},
+\code{\link{getTagsLocal}()},
+\code{\link{loadFromLocalRepo}()},
+\code{\link{md5hash}},
+\code{\link{removeTagsRepo}()},
+\code{\link{restoreLibs}()},
+\code{\link{rmFromLocalRepo}()},
+\code{\link{saveToLocalRepo}()},
+\code{\link{searchInLocalRepo}()},
+\code{\link{setLocalRepo}()},
+\code{\link{shinySearchInLocalRepo}()},
+\code{\link{showLocalRepo}()},
+\code{\link{splitTagsLocal}()},
+\code{\link{summaryLocalRepo}()},
+\code{\link{zipLocalRepo}()}
 }
 \author{
 Przemyslaw Biecek [aut, cre] \email{przemyslaw.biecek@gmail.com} \cr
