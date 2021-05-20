@@ -1,4 +1,4 @@
-4d7d9ed227a849973ecfc6948be224fc *DESCRIPTION
+84592f5b478bdd1d360bf51969c934b2 *DESCRIPTION
 3ffc9e0b0d5882ecf60c41f633d8aa85 *NAMESPACE
 9a1aa7604cce03af830e6c2cb57fefe5 *NEWS.md
 6c5cf4338dceb2507a13530226bb49f2 *R/Repository.R
@@ -9,7 +9,7 @@ e4d38085713d9fcc02bd66350d047758 *R/ahistory.R
 70822f0f083faf6b872bbe4b1d4c7fa5 *R/alink.R
 bb1fb6a1ca87e96875b72c6ec24ecf7f *R/archivist-package.R
 299e2a45fee6949f93bc079415cf499f *R/archivistOptions.R
-5ae6401a25478952dca8ea448406f5df *R/aread.R
+6c128039a634cefa081959dd039a3054 *R/aread.R
 3f140d41c84a694604c6c3f7fc2064c5 *R/asearch.R
 951a079845e27632dd8574f44a315064 *R/asession.R
 42ac227a68910370c070887ad4105e38 *R/atags.R
@@ -20,7 +20,7 @@ bb1fb6a1ca87e96875b72c6ec24ecf7f *R/archivist-package.R
 964aec3e5a62ad935ac8b6527b925d3b *R/createMDGallery.R
 bc1d0a65b61f20f7b55464701b8376d3 *R/deleteRepo.R
 9676e7b702e83fa33c60a762997fb4d5 *R/extractData.R
-da6214105c8a890942e54d290b1f97da *R/extractMiniature.R
+73df1652feaadf05d8c6265e2927e840 *R/extractMiniature.R
 b4685e4f7569d23cf7361576237bdf10 *R/extractTags.R
 4197e79818eb1a0a5f8aa82d34db9140 *R/getRemoteHook.R
 800b67111785a28c0febc3c82da5025d *R/getTags.R
@@ -29,7 +29,7 @@ aa22f9b970ccd071e36b83e8b8dbf213 *R/magrittr.R
 6e7ec409cdbd80a511ed0fe1f01e849e *R/md5hash.R
 868905ff7a880698fa470c21921191e7 *R/restoreLibraries.R
 7b9bd13a0853958651586f34ca2051fd *R/rmFromRepo.R
-e1e900a256c711f757ff1ce7787f025a *R/saveToRepo.R
+9b163ff46a25cb1dc378a160399fa418 *R/saveToRepo.R
 5b48ff9fb09dadd2260e9b3c651b983f *R/searchInRepo.R
 0eeba6762e0fbe247811985de22a81dc *R/setRepo.R
 acf9e91170be6c250e4baf7434ba74c0 *R/shinySearchInLocalRepo.R
@@ -107,7 +107,7 @@ aa95c27fc6028d29b6d4bb4e211d34ba *man/magrittr.Rd
 eb7fcea79e77192ab48c9a3ced33f265 *man/removeTagsRepo.Rd
 6ee4fe7d92d2d093ad444d5009540334 *man/restoreLibs.Rd
 dc1d89d793f6dbc18fe25532f6963602 *man/rmFromLocalRepo.Rd
-a68571d5d5556d3080e35d8b1eb99fed *man/saveToRepo.Rd
+afb867666209de854af80efc528ff98e *man/saveToRepo.Rd
 272ae0214f588635b55ad30cd2a74a01 *man/searchInRepo.Rd
 1d2dc3263834ca9141d83d265f9321a8 *man/setRepo.Rd
 8537cc439d69c041e4160a0bf97f1ebc *man/shinySearchInRepo.Rd

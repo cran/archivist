@@ -1,5 +1,5 @@
 Package: archivist
-Version: 2.3.5
+Version: 2.3.6
 Type: Package
 Title: Tools for Storing, Restoring and Searching for R Objects
 Authors@R: c(
@@ -26,7 +26,6 @@ Description: Data exploration and modelling is a process in which a lot of data
 Repository: CRAN
 License: GPL-2
 LazyLoad: yes
-LazyData: yes
 Depends: R (>= 3.2.0)
 Imports: RCurl, digest, httr, DBI, lubridate, RSQLite, magrittr, flock
 Suggests: shiny, dplyr, testthat, ggplot2, devtools, knitr, markdown
@@ -35,9 +34,9 @@ BugReports: https://github.com/pbiecek/archivist/issues
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2021-02-05 22:52:35 UTC; pbiecek
+Packaged: 2021-05-20 13:55:15 UTC; pbiecek
 Author: Przemyslaw Biecek [aut, cre],
   Marcin Kosinski [aut],
   Witold Chodor [ctb]
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
-Date/Publication: 2021-02-06 05:50:07 UTC
+Date/Publication: 2021-05-20 14:40:02 UTC
