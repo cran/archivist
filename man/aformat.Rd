@@ -2,7 +2,7 @@
 % Please edit documentation in R/atags.R
 \name{aformat}
 \alias{aformat}
-\title{Show Artifact's List of Foramts}
+\title{Show Artifact's List of Formats}
 \usage{
 aformat(md5hash = NULL)
 }
@@ -55,11 +55,11 @@ Other archivist:
 \code{\link{ahistory}()},
 \code{\link{alink}()},
 \code{\link{aoptions}()},
-\code{\link{archivist-package}},
-\code{\link{areadLocal}()},
+\code{\link{archivistPackage}},
 \code{\link{aread}()},
-\code{\link{asearchLocal}()},
+\code{\link{areadLocal}()},
 \code{\link{asearch}()},
+\code{\link{asearchLocal}()},
 \code{\link{asession}()},
 \code{\link{atrace}()},
 \code{\link{cache}()},

@@ -1,6 +1,20 @@
+#' Internal function for extraction of tags from objects
+#'
+#' @param object for this object tags are to be 
+#' @param objectNameX name of the object
+#' @param ... other arguments
+#' 
+#' @rdname extractTags
+#' @export extractTags
 
 extractTags <- function ( object, objectNameX, ... )
   UseMethod("extractTags")
+
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags default
+#' @exportS3Method archivist::extractTags
 
 extractTags.default <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )
@@ -9,6 +23,12 @@ extractTags.default <- function( object, objectNameX, ... ) {
   return( c( name, class, date ) )
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags data.frame
+#' @exportS3Method archivist::extractTags
+
 extractTags.data.frame <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )
   class <- paste0( "class:", class( object ) )
@@ -16,6 +36,12 @@ extractTags.data.frame <- function( object, objectNameX, ... ) {
   date <- paste0( "date:", now() )
   return( c( name, class, var, date ) )
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags ggplot
+#' @exportS3Method archivist::extractTags
 
 extractTags.ggplot <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )
@@ -26,12 +52,24 @@ extractTags.ggplot <- function( object, objectNameX, ... ) {
   return( c( name, class, labx, laby, date ) )
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags trellis
+#' @exportS3Method archivist::extractTags
+
 extractTags.trellis <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )
   class <- paste0( "class:", class( object ) )
   date <- paste0( "date:", now() )
   return( c( name, class, date ) )
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags lm
+#' @exportS3Method archivist::extractTags
 
 extractTags.lm <- function( object, objectNameX, ... ) {  
     name <- paste0( "name:", objectNameX )
@@ -42,6 +80,12 @@ extractTags.lm <- function( object, objectNameX, ... ) {
     date <- paste0( "date:", now() )
     return( c( name, class, coefname, rank, df.residual, date ) )
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags summary.lm
+#' @exportS3Method archivist::extractTags
 
 extractTags.summary.lm <- function( object, objectNameX, ... ) {  
   name <- paste0( "name:", objectNameX )
@@ -57,6 +101,12 @@ extractTags.summary.lm <- function( object, objectNameX, ... ) {
   return( c( name, class, sigma, df, r.squared,
              adj.r.squared, fstatistic, fstatistic.df, date ) )
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags htest
+#' @exportS3Method archivist::extractTags
 
 extractTags.htest <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )
@@ -93,6 +143,12 @@ extractTags.htest <- function( object, objectNameX, ... ) {
              statistic, parameter, p.value, intervals, estimate, date ) )
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags lda
+#' @exportS3Method archivist::extractTags
+
 extractTags.lda <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )
   class <- paste0( "class:", class( object ) )
@@ -106,6 +162,12 @@ extractTags.lda <- function( object, objectNameX, ... ) {
   date <- paste0( "date:", now() )
   return( c( name, class, N, lev, counts, prior, svd, date ) )
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags qda
+#' @exportS3Method archivist::extractTags
 
 extractTags.qda <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )
@@ -123,6 +185,12 @@ extractTags.qda <- function( object, objectNameX, ... ) {
   return( c( name, class, N, lev, counts, prior, ldet, terms, date ) )
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags twins
+#' @exportS3Method archivist::extractTags
+
 extractTags.twins <- function( object, objectNameX, ... ) {
   ac <- paste0( "ac:", object$ac)
   class <- paste0( "class:", class( object ) )
@@ -130,6 +198,12 @@ extractTags.twins <- function( object, objectNameX, ... ) {
   date <- paste0( "date:", now() )
   return( c( name, class, date, ac ) )
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags partition
+#' @exportS3Method archivist::extractTags
 
 extractTags.partition <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )
@@ -148,6 +222,12 @@ extractTags.partition <- function( object, objectNameX, ... ) {
              objective, conv, clus.avg.widths, avg.width, date) )
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags glmnet
+#' @exportS3Method archivist::extractTags
+
 extractTags.glmnet <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )
   class <- paste0( "class:", class( object ) )  
@@ -159,6 +239,12 @@ extractTags.glmnet <- function( object, objectNameX, ... ) {
   date <- paste0( "date:", now() )
   return( c( name, class, dim, nulldev, npasses, offset, nobs, date ) )
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractTags
+#' @method extractTags survfit
+#' @exportS3Method archivist::extractTags
 
 extractTags.survfit <- function( object, objectNameX, ... ) {
   name <- paste0( "name:", objectNameX )

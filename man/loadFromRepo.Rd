@@ -24,7 +24,7 @@ loadFromRemoteRepo(
 
 \item{value}{If \code{FALSE} (default) then artifacts are loaded into the Global Environment with their original names, 
 if \code{TRUE} then artifacts are returned as a list of values (if there is more than one artifact)
-or as a single value (if there is only one arfifact that matches md5hash).}
+or as a single value (if there is only one artifact that matches md5hash).}
 
 \item{repo}{While working with a Remote repository. A character containing a name of a Remote repository on which the Repository is archived.
 By default set to \code{NULL} - see \code{Note}.}
@@ -44,7 +44,7 @@ to \code{subdir = "/"} as default.}
 \description{
 \code{loadFromLocalRepo} loads an artifact from a local \link{Repository} into the workspace.
 \code{loadFromRemoteRepo} loads an artifact from a github / git / mercurial \link{Repository} into the workspace.
-To learn more about artifacts visit \link[archivist]{archivist-package}.
+To learn more about artifacts visit \link[archivist]{archivistPackage}.
 }
 \details{
 Functions \code{loadFromLocalRepo} and \code{loadFromRemoteRepo} load artifacts from the archivist Repositories 
@@ -210,11 +210,11 @@ Other archivist:
 \code{\link{ahistory}()},
 \code{\link{alink}()},
 \code{\link{aoptions}()},
-\code{\link{archivist-package}},
-\code{\link{areadLocal}()},
+\code{\link{archivistPackage}},
 \code{\link{aread}()},
-\code{\link{asearchLocal}()},
+\code{\link{areadLocal}()},
 \code{\link{asearch}()},
+\code{\link{asearchLocal}()},
 \code{\link{asession}()},
 \code{\link{atrace}()},
 \code{\link{cache}()},

@@ -21,8 +21,8 @@ it uses the \code{repoDir} specified in \link{setLocalRepo}.}
 }
 \details{
 \code{removeTagsRepo} function removes all Tags from all listed objects.
-Note that some hashes are required for keeping erlations between objects in the repository.
-Be carefull what are you removing.
+Note that some hashes are required for keeping relations between objects in the repository.
+Be careful what are you removing.
 }
 \section{Contact}{
 
@@ -71,11 +71,11 @@ Other archivist:
 \code{\link{ahistory}()},
 \code{\link{alink}()},
 \code{\link{aoptions}()},
-\code{\link{archivist-package}},
-\code{\link{areadLocal}()},
+\code{\link{archivistPackage}},
 \code{\link{aread}()},
-\code{\link{asearchLocal}()},
+\code{\link{areadLocal}()},
 \code{\link{asearch}()},
+\code{\link{asearchLocal}()},
 \code{\link{asession}()},
 \code{\link{atrace}()},
 \code{\link{cache}()},

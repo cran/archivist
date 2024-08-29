@@ -49,7 +49,7 @@ A \code{data.frame} with 4 columns: \code{artifact}, \code{tagKey},
 \code{tagKey} and \code{tagValue}.
 }
 \details{
-\code{tag} column from \emph{tag} table has normally the follwing structure:
+\code{tag} column from \emph{tag} table has normally the following structure:
 \code{TagKey:TagValue}. \code{splitTagsLocal} and \code{splitTagsRemote} functions
 can be used to split \code{tag} column into two separate columns:
 \code{tagKey} and \code{tagValue}. As a result functions from \code{dplyr} package
@@ -111,11 +111,11 @@ Other archivist:
 \code{\link{ahistory}()},
 \code{\link{alink}()},
 \code{\link{aoptions}()},
-\code{\link{archivist-package}},
-\code{\link{areadLocal}()},
+\code{\link{archivistPackage}},
 \code{\link{aread}()},
-\code{\link{asearchLocal}()},
+\code{\link{areadLocal}()},
 \code{\link{asearch}()},
+\code{\link{asearchLocal}()},
 \code{\link{asession}()},
 \code{\link{atrace}()},
 \code{\link{cache}()},

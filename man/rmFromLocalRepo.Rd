@@ -26,10 +26,10 @@ md5hash will be a character vector.}
 artifact will be removed.}
 
 \item{removeData}{A logical value denoting whether to remove data along with
-the \code{artifact} specified by the \code{md5hash}. Defualt \code{FALSE}.}
+the \code{artifact} specified by the \code{md5hash}. Default \code{FALSE}.}
 
 \item{removeMiniature}{A logical value denoting whether to remove a miniature
-along with the \code{artifact} specified by the \code{md5hash}. Defualt \code{FALSE}.}
+along with the \code{artifact} specified by the \code{md5hash}. Default \code{FALSE}.}
 
 \item{force}{A logical value denoting whether to remove data related to more than one artifact.
 Defualt \code{FALSE}.}
@@ -43,7 +43,7 @@ to a \code{md5hash} parameter. It is not possible to use a vector of artifacts'
 }
 \description{
 \code{rmFromLocalRepo} removes an artifact given as a \code{md5hash} from the \link{Repository}.
-To learn more about artifacts visit \link[archivist]{archivist-package}.
+To learn more about artifacts visit \link[archivist]{archivistPackage}.
 }
 \details{
 \code{rmFromLocalRepo} removes an artifact given as a \link{md5hash} from the \link{Repository}.
@@ -349,11 +349,11 @@ Other archivist:
 \code{\link{ahistory}()},
 \code{\link{alink}()},
 \code{\link{aoptions}()},
-\code{\link{archivist-package}},
-\code{\link{areadLocal}()},
+\code{\link{archivistPackage}},
 \code{\link{aread}()},
-\code{\link{asearchLocal}()},
+\code{\link{areadLocal}()},
 \code{\link{asearch}()},
+\code{\link{asearchLocal}()},
 \code{\link{asession}()},
 \code{\link{atrace}()},
 \code{\link{cache}()},
@@ -386,11 +386,11 @@ Other archivist:
 \code{\link{ahistory}()},
 \code{\link{alink}()},
 \code{\link{aoptions}()},
-\code{\link{archivist-package}},
-\code{\link{areadLocal}()},
+\code{\link{archivistPackage}},
 \code{\link{aread}()},
-\code{\link{asearchLocal}()},
+\code{\link{areadLocal}()},
 \code{\link{asearch}()},
+\code{\link{asearchLocal}()},
 \code{\link{asession}()},
 \code{\link{atrace}()},
 \code{\link{cache}()},

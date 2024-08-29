@@ -1,9 +1,32 @@
+#' Internal function for extraction of data from objects
+#'
+#' @param object for this object data is to be extracted
+#' @param parrentMd5hash hash of the parent object
+#' @param parentDir parent dir
+#' @param isForce should the data extraction be forced
+#' @param ASCII shall it be written in ASCII friendly format
+#' 
+#' @rdname extractData
+#' @export extractData
+
 extractData <- function( object, parrentMd5hash, parentDir, isForce, ASCII )
   UseMethod( "extractData" )
+
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.default
+#' @exportS3Method archivist::extractData
 
 extractData.default <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.ggplot
+#' @exportS3Method archivist::extractData
 
 extractData.ggplot <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   extractedDF <- object$data
@@ -22,6 +45,12 @@ extractData.ggplot <- function( object, parrentMd5hash, parentDir, isForce, ASCI
   return( md5hashDF )
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.lm
+#' @exportS3Method archivist::extractData
+
 extractData.lm <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   extractedDF <- object$model
   # check if that artifact might have been already archived
@@ -38,6 +67,12 @@ extractData.lm <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   addTag( tag = paste0("relationWith:", parrentMd5hash), md5hash = md5hashDF, dir = parentDir )
   return( md5hashDF )
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.htest
+#' @exportS3Method archivist::extractData
 
 extractData.htest <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   if (exists(strsplit(object$data.name, " and ")[[1]][1], envir = parent.frame(1)) &
@@ -66,6 +101,12 @@ extractData.htest <- function( object, parrentMd5hash, parentDir, isForce, ASCII
   }
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.lda
+#' @exportS3Method archivist::extractData
+
 extractData.lda <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   if (exists(as.character( ( object$call ) )[3], envir = parent.frame(1) )){
     extractedDF <-  get( as.character( ( object$call ) )[3], envir = parent.frame(1) )
@@ -87,6 +128,12 @@ extractData.lda <- function( object, parrentMd5hash, parentDir, isForce, ASCII )
                    ". Dataset was not archived.")) 
   }
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.trellis
+#' @exportS3Method archivist::extractData
 
 extractData.trellis <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   if (exists(as.character( ( object$call ) )[3], envir = parent.frame(1) )){
@@ -110,6 +157,12 @@ extractData.trellis <- function( object, parrentMd5hash, parentDir, isForce, ASC
   }
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.twins
+#' @exportS3Method archivist::extractData
+
 extractData.twins <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   # agnes / diana / mona inherits after twins
   extractedDF <- object$data
@@ -128,6 +181,12 @@ extractData.twins <- function( object, parrentMd5hash, parentDir, isForce, ASCII
   return( md5hashDF )
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.partition
+#' @exportS3Method archivist::extractData
+
 extractData.partition <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   # pam / clara / fanny inherits after partition
   extractedDF <- object$data
@@ -145,6 +204,12 @@ extractData.partition <- function( object, parrentMd5hash, parentDir, isForce, A
   addTag( tag = paste0("relationWith:", parrentMd5hash), md5hash = md5hashDF, dir = parentDir )
   return( md5hashDF )
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.qda
+#' @exportS3Method archivist::extractData
 
 extractData.qda <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   if (exists(as.character( ( object$call ) )[2], envir = parent.frame(1) )){
@@ -168,6 +233,11 @@ extractData.qda <- function( object, parrentMd5hash, parentDir, isForce, ASCII )
   }
 }
 
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.glmnet
+#' @exportS3Method archivist::extractData
 
 extractData.glmnet <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   # elmet / lognet / multnet /foshnet /coxnet /mrelnet 
@@ -196,6 +266,12 @@ extractData.glmnet <- function( object, parrentMd5hash, parentDir, isForce, ASCI
                    ". Dataset was not archived.")) 
   }
 }
+
+#' @return \code{NULL}
+#'
+#' @rdname extractData
+#' @export extractData.survfit
+#' @exportS3Method archivist::extractData
 
 extractData.survfit <- function( object, parrentMd5hash, parentDir, isForce, ASCII ){
   if (exists(as.character( ( object$call ) )[3], envir = parent.frame(1) )){

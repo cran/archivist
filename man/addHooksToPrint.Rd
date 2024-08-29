@@ -27,7 +27,7 @@ If \code{repo = NULL} then hooks will be added to files in local directories.}
 \item{branch}{A character with a name of Remote-repository's branch on which the Repository is archived. 
 Default \code{branch} is \code{master}.}
 
-\item{subdir}{A character with a name of a subdirectory on a Remote repository 
+\item{subdir}{A character with a name of a sub directory on a Remote repository 
 on which the Repository is stored. If the Repository is stored in main folder on a Remote repository, this should be set 
 to \code{subdir = "/"} as default.}
 
@@ -36,12 +36,12 @@ to \code{subdir = "/"} as default.}
 \description{
 \code{addHooksToPrint} adds an overloaded version of the print function for objects of selected class. 
 The overloaded function will add all objects of selected class to the \link{Repository} and then will add hooks (to the Remote or Local Repository) 
-to the HTML report (generated in \pkg{rmarkdown}) for these objects (\code{artifacts} - \link{archivist-package}).
-The great example can be seen in this blogpost \href{https://www.r-bloggers.com/2016/02/why-should-you-backup-your-r-objects/}{https://www.r-bloggers.com/2016/02/why-should-you-backup-your-r-objects/}.
+to the HTML report (generated in \pkg{rmarkdown}) for these objects (\code{artifacts} - \link{archivistPackage}).
+The great example can be seen in this blogpost.
 }
 \note{
 One can specify \code{userTags} as in \link{saveToLocalRepo} for artifacts by adding \code{"tags"} attribute.
-See note secion about that in \link{saveToLocalRepo}.
+See note section about that in \link{saveToLocalRepo}.
 }
 \section{Contact}{
 
@@ -78,11 +78,11 @@ Other archivist:
 \code{\link{ahistory}()},
 \code{\link{alink}()},
 \code{\link{aoptions}()},
-\code{\link{archivist-package}},
-\code{\link{areadLocal}()},
+\code{\link{archivistPackage}},
 \code{\link{aread}()},
-\code{\link{asearchLocal}()},
+\code{\link{areadLocal}()},
 \code{\link{asearch}()},
+\code{\link{asearchLocal}()},
 \code{\link{asession}()},
 \code{\link{atrace}()},
 \code{\link{cache}()},

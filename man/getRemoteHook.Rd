@@ -27,7 +27,7 @@ to \code{subdir = "/"} as default.}
 \item{repoType}{A character containing a type of the remote repository. Currently it can be 'github' or 'bitbucket'.}
 }
 \description{
-\code{getRemoteHook} returns http adress of the remote \link{Repository}.
+\code{getRemoteHook} returns http address of the remote \link{Repository}.
 Then it can be used to download artifacts from the remote \link{Repository}.
 }
 \section{Contact}{
@@ -55,11 +55,11 @@ Other archivist:
 \code{\link{ahistory}()},
 \code{\link{alink}()},
 \code{\link{aoptions}()},
-\code{\link{archivist-package}},
-\code{\link{areadLocal}()},
+\code{\link{archivistPackage}},
 \code{\link{aread}()},
-\code{\link{asearchLocal}()},
+\code{\link{areadLocal}()},
 \code{\link{asearch}()},
+\code{\link{asearchLocal}()},
 \code{\link{asession}()},
 \code{\link{atrace}()},
 \code{\link{cache}()},
